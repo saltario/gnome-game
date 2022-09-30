@@ -1,5 +1,7 @@
 #include "conio.h"
-#include <iostream>
+#include "Functions.h"
+#include "Hero.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -7,9 +9,10 @@ int main()
 {
 	setlocale(LC_ALL, "Rus");
 
-	cout << "Hello world" << endl;
+	Hero hero = getHero(1);
+	Hero Luse = getHero(2); 
 
-
+	printHero(Luse);
 	_getch();
 	return 0;
 }
