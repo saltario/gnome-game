@@ -1,8 +1,10 @@
 #include "Player.h"
 
-Player::Player()
+Player::Player(string Name)
 {
-
+	this->Name = Name;
+	this->Level = 0;
+	this->Stars = 0;
 }
 
 Player::~Player()
@@ -39,4 +41,9 @@ string Player::getName()
 void Player::setName(string Name)
 {
 	this->Name = Name;
+}
+
+void Player::printPlayer()
+{
+	cout << "Player: " << getName() << endl;
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <iostream>
 #include <string>
 
@@ -15,7 +14,7 @@ private:
 
 public:
 
-	Player();
+	Player(string Name);
 	~Player();
 
 	int getLevel();
@@ -26,4 +25,7 @@ public:
 
 	string getName();
 	void setName(string Name);
+
+	void printPlayer();
+
 };

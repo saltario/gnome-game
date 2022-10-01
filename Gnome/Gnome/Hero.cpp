@@ -19,7 +19,6 @@ Hero::~Hero()
 {
 }
 
-
 int Hero::getHealth()
 {
 	return Health;
@@ -62,3 +61,88 @@ void Hero::setPrice(int Price)
 	if (Price != 0) this->Price = Price;
 	else cout << "Price is NULL";
 }
+
+void Hero::setupHero(int choice)
+{
+	switch (choice)
+	{
+		// хп макс 300
+		// дамаг макс 25
+		// цена макс 200
+
+	case 1:
+		this->Damage = 7;
+		this->Health = 300;
+		this->Name = "Азагхал";
+		this->Price = 10;
+		break;
+
+	case 2:
+		this->Damage = 25;
+		this->Health = 110;
+		this->Name = "Балин";
+		this->Price = 200;
+		break;
+
+	case 3:
+		this->Damage = 200;
+		this->Health = 12;
+		this->Name = "Бифур";
+		this->Price = 150;
+		break;
+
+	case 4:
+		this->Damage = 16;
+		this->Health = 180;
+		this->Name = "Гроин";
+		this->Price = 100;
+		break;
+
+	case 5:
+		this->Damage = 19;
+		this->Health = 150;
+		this->Name = "Дис";
+		this->Price = 10;
+		break;
+
+	case 6:
+		this->Damage = 21;
+		this->Health = 135;
+		this->Name = "Телхар";
+		this->Price = 50;
+		break;
+		
+	default:
+		this->Damage = 0;
+		this->Health = 0;
+		this->Name = "Test";
+		this->Price = 0;
+		break;
+	}
+}
+
+void Hero::printHero()
+{
+	// Печатаем разделить 
+	printSeparator();
+
+	// Уставливаем текст консоли в зеленый
+	SetConsoleTextAttribute(hConsole, greenTextColor);
+
+	cout.fill(' ');
+	cout.width(heroTextWidth);
+
+	cout << "Имя: " << getName() << endl;
+
+	cout.width(heroTextWidth);
+	cout << "Здоровье: " << to_string(getHealth()) << endl;
+
+	cout.width(heroTextWidth);
+	cout << "Урон: " << to_string(getDamage()) << endl;
+
+	cout.width(heroTextWidth);
+	cout << "Цена: " << to_string(getPrice()) << endl;
+
+	printSeparator();
+}
+

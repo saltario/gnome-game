@@ -2,15 +2,13 @@
 
 #include <iostream>
 #include <iomanip>
-#include <stdlib.h>
-#include <windows.h>  
-
 #include "Hero.h"
+#include "Player.h"
+#include "Constants.h"
 
 using namespace std;
-
-Hero getHero(int choice);
-
-void printHero(Hero hero);
+using namespace constants;
 
 void printSeparator();
+void printEmptySeparator();
+void printSeparatorForBattle();
