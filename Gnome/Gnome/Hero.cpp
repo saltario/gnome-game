@@ -123,25 +123,60 @@ void Hero::setupHero(int choice)
 
 void Hero::printHero()
 {
-	// Печатаем разделить 
 	printSeparator();
 
-	// Уставливаем текст консоли в зеленый
-	SetConsoleTextAttribute(hConsole, greenTextColor);
+	string str1;
+	string str2 = " |";
 
 	cout.fill(' ');
-	cout.width(heroTextWidth);
+	SetConsoleTextAttribute(hConsole, lightGreenTextColor);
 
-	cout << "Имя: " << getName() << endl;
-
+	////////////////////////////////
+	str1 = "| Имя: ";
 	cout.width(heroTextWidth);
-	cout << "Здоровье: " << to_string(getHealth()) << endl;
+	cout << str1;
 
-	cout.width(heroTextWidth);
-	cout << "Урон: " << to_string(getDamage()) << endl;
+	cout.width(heroTextWidth - str2.length());
+	cout << getName();
 
+	cout.width(str2.length());
+	cout << str2 << endl;
+
+	////////////////////////////////
+
+	str1 = "| Здоровье: ";
 	cout.width(heroTextWidth);
-	cout << "Цена: " << to_string(getPrice()) << endl;
+	cout << str1;
+
+	cout.width(heroTextWidth - str2.length());
+	cout << to_string(getHealth());
+
+	cout.width(str2.length());
+	cout << str2 << endl;
+
+	////////////////////////////////
+
+	str1 = "| Урон: ";
+	cout.width(heroTextWidth);
+	cout << str1;
+
+	cout.width(heroTextWidth - str2.length());
+	cout << to_string(getDamage());
+
+	cout.width(str2.length());
+	cout << str2 << endl;
+
+	////////////////////////////////
+
+	str1 = "| Цена: ";
+	cout.width(heroTextWidth);
+	cout << str1;
+
+	cout.width(heroTextWidth - str2.length());
+	cout << to_string(getPrice());
+
+	cout.width(str2.length());
+	cout << str2 << endl;
 
 	printSeparator();
 }

@@ -23,8 +23,10 @@ namespace constants {
 	const int yellowTextColor = 14;
 	const int lightWhiteTextColor = 10;
 
-	const int separatorTextWidth = 20;
+	const int separatorTextWidth = 24;
 	const int SeparatorWidth = 20;
-	const int heroTextWidth = 10;
+	const int heroTextWidth = 12;
+	const int heroValueWidth = 5;
+	const int playerTextWidth = 8;
 
 }

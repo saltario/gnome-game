@@ -19,13 +19,18 @@
 [Xx]86/
 [Bb]uild/
 bld/
-[Bb]in/
+#[Bb]in/
 [Oo]bj/
+db.lock
+*.VC.db
 
 # Visual Studio 2015 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
+
+# Folder with full resources
+Gnome\Gnome.VC.db
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -240,3 +245,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+Gnome/Gnome.VC.db

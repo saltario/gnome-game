@@ -3,7 +3,11 @@
 #include <iostream>
 #include <string>
 
+#include "Functions.h"
+#include "Constants.h"
+
 using namespace std;
+using namespace constants;
 
 class Player
 {
@@ -14,6 +18,7 @@ private:
 
 public:
 
+	Player();
 	Player(string Name);
 	~Player();
 

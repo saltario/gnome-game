@@ -6,19 +6,25 @@
 
 using namespace std;
 
-int main()
-{
-	setlocale(LC_ALL, "Rus");
+Game game = Game();
+
+Player player = Player();
+Player enemy = Player();
+
+Hero playerHero = Hero();
+Hero enemyHero = Hero();
+
+void initPlayer() {
 
 	string playerName = "player";
-	string enemyName = "enemy";
-
-	Hero playerHero = Hero();
-	Hero enemyHero = Hero();
 
 	cout << "¬ведите им€: ";
 	cin >> playerName;
-	Player player(playerName);
+	player.setName(playerName);
+
+}
+
+void initPlayerHero() {
 
 	int heroChoice;
 
@@ -43,11 +49,32 @@ int main()
 
 	system("cls");
 
-	Player enemy(enemyName);
+}
+
+void initEnemy() {
+
+	string enemyName = "enemy";
+	enemy.setName(enemyName);
 	enemyHero.setupHero(2);
 
-	Game game = Game();
+}
+
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+
+	//initPlayer();
+	//initPlayerHero();
+	//initEnemy();
+
+	
+
+	playerHero.setupHero(5);
+	enemyHero.setupHero(1);
+
 	game.printBattle(player, playerHero, enemy, enemyHero);
+	player.printPlayer();
+	playerHero.printHero();
 
 	_getch();
 	return 0;

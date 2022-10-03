@@ -1,5 +1,12 @@
 #include "Player.h"
 
+Player::Player()
+{
+	this->Name = "Player";
+	this->Level = 0;
+	this->Stars = 0;
+}
+
 Player::Player(string Name)
 {
 	this->Name = Name;
@@ -45,5 +52,20 @@ void Player::setName(string Name)
 
 void Player::printPlayer()
 {
-	cout << "Player: " << getName() << endl;
+	string str1 = "| Игрок: ";
+	string str2 = " |";
+
+	printSeparator();
+
+	SetConsoleTextAttribute(hConsole, yellowTextColor);
+	cout.fill(' ');
+
+	cout.width(heroTextWidth);
+	cout << str1;
+
+	cout.width(heroTextWidth - str2.length());
+	cout << getName();
+
+	cout.width(str2.length());
+	cout << str2 << endl;
 }
