@@ -24,9 +24,12 @@ namespace constants {
 	const int lightWhiteTextColor = 10;
 
 	const int separatorTextWidth = 24;
-	const int SeparatorWidth = 20;
+	const int SeparatorWidth = 21;
 	const int heroTextWidth = 12;
 	const int heroValueWidth = 5;
 	const int playerTextWidth = 8;
+
+	const int windowWidth = 800;
+	const int windowHeight = 600;
 
 }

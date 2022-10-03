@@ -38,3 +38,17 @@ void printSeparatorForBattle() {
 	cout.fill('=');
 	cout << "=" << endl;
 }
+
+void printLogo()
+{
+	SetConsoleTextAttribute(hConsole, redTextColor);
+
+	cout << R"(
+  ________                                  
+ /  _____/   ____    ____    _____    ____  
+/   \  ___  /    \  /  _ \  /     \ _/ __ \ 
+\    \_\  \|   |  \(  <_> )|  Y Y  \\  ___/ 
+ \______  /|___|  / \____/ |__|_|  / \___  >
+        \/      \/               \/      \/ 
+)" << '\n';
+}

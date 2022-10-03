@@ -59,9 +59,22 @@ void initEnemy() {
 
 }
 
+void setWindow() {
+
+	HWND consoleWindow = GetConsoleWindow();
+	RECT rect;
+
+	GetWindowRect(consoleWindow, &rect);
+	MoveWindow(consoleWindow, rect.left, rect.top, windowHeight, windowWidth, TRUE);
+}
+
 int main()
 {
 	setlocale(LC_ALL, "Rus");
+
+	
+	setWindow();
+	printLogo();
 
 	//initPlayer();
 	//initPlayerHero();

@@ -12,3 +12,5 @@ using namespace constants;
 void printSeparator();
 void printEmptySeparator();
 void printSeparatorForBattle();
+
+void printLogo();
