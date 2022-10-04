@@ -16,9 +16,11 @@ void printSeparatorForBattle();
 
 void printLogo();
 void printBattle();
+void printSeparatorForShop();
 void printShop();
 void printSettings();
 
 void coutCentered(string text);
 void showConsoleCursor(bool showFlag);
 void setWindowAttribute();
+void setConsoleColor(int textColor);

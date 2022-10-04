@@ -45,9 +45,26 @@ void printSeparatorForBattle() {
 	cout << "=" << endl;
 }
 
+void printSeparatorForShop() {
+
+	SetConsoleTextAttribute(hConsole, blueTextColor);
+
+	cout.setf(ios::left);
+	cout.width(separatorTextWidth);
+	cout.fill('=');
+	cout << "=";
+
+	printEmptySeparator();
+
+	cout.setf(ios::left);
+	cout.width(separatorTextWidth);
+	cout.fill('=');
+	cout << "=" << endl;
+}
+
 void printLogo()
 {
-	SetConsoleTextAttribute(hConsole, redTextColor);
+	setConsoleColor(redTextColor);
 
 	cout << R"(
 	      ________                                  
@@ -61,7 +78,7 @@ void printLogo()
 
 void printBattle()
 {
-	SetConsoleTextAttribute(hConsole, redTextColor);
+	setConsoleColor(redTextColor);
 
 	cout << R"(
 	      __________         __    __  .__          
@@ -75,7 +92,7 @@ void printBattle()
 
 void printShop()
 {
-	SetConsoleTextAttribute(hConsole, redTextColor);
+	setConsoleColor(redTextColor);
 
 	cout << R"(
 		     _________.__                   
@@ -89,7 +106,7 @@ void printShop()
 
 void printSettings()
 {
-	SetConsoleTextAttribute(hConsole, redTextColor);
+	setConsoleColor(redTextColor);
 
 	cout << R"(
 	  _________       __    __  .__                      
@@ -131,3 +148,10 @@ void setWindowAttribute() {
 	GetWindowRect(consoleWindow, &rect);
 	MoveWindow(consoleWindow, rect.left, rect.top, windowHeight, windowWidth, TRUE);
 }
+
+void setConsoleColor(int textColor) {
+
+	SetConsoleTextAttribute(hConsole, textColor);
+}
+
+
