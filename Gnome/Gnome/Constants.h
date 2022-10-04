@@ -25,6 +25,7 @@ namespace constants {
 
 	const int separatorTextWidth = 24;
 	const int SeparatorWidth = 21;
+	const int SeparatorMenuWidth = 10;
 	const int heroTextWidth = 12;
 	const int heroValueWidth = 5;
 	const int playerTextWidth = 8;

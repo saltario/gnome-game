@@ -59,35 +59,96 @@ void initEnemy() {
 
 }
 
-void setWindow() {
+void startGame()
+{
+	printBattle();
+	game.printBattle(player, playerHero, enemy, enemyHero);
+}
 
-	HWND consoleWindow = GetConsoleWindow();
-	RECT rect;
+void shop()
+{
+	printShop();
+}
 
-	GetWindowRect(consoleWindow, &rect);
-	MoveWindow(consoleWindow, rect.left, rect.top, windowHeight, windowWidth, TRUE);
+void settings()
+{
+	printSettings();
+}
+
+void exit()
+{
+	
+}
+
+void menu() {
+
+	SetConsoleTextAttribute(hConsole, purpleTextColor);
+	cout.fill(' ');
+
+	string menuSeparator = "-----------";
+
+	coutCentered("Старт");
+	coutCentered(menuSeparator);
+
+	coutCentered("Магазин");
+	coutCentered(menuSeparator);
+
+	coutCentered("Настройки");
+	coutCentered(menuSeparator);
+
+	coutCentered("Выход");
+
+	bool isMenu = true;
+
+	showConsoleCursor(false);
+
+	while (isMenu)
+	{
+		if (GetAsyncKeyState(VK_NUMPAD1))
+		{
+			system("cls");
+			startGame();
+		}
+
+		if (GetAsyncKeyState(VK_NUMPAD2))
+		{
+			system("cls");
+			shop();
+		}
+
+		if (GetAsyncKeyState(VK_NUMPAD3))
+		{
+			system("cls");
+			settings();
+		}
+
+		if (GetAsyncKeyState(VK_NUMPAD4))
+		{
+			system("cls");
+			exit();
+			isMenu = false;
+		}
+
+		Sleep(100);
+	}
 }
 
 int main()
 {
 	setlocale(LC_ALL, "Rus");
 
-	
-	setWindow();
+	setWindowAttribute();
 	printLogo();
 
 	//initPlayer();
 	//initPlayerHero();
 	//initEnemy();
-
 	
-
 	playerHero.setupHero(5);
 	enemyHero.setupHero(1);
 
-	game.printBattle(player, playerHero, enemy, enemyHero);
-	player.printPlayer();
-	playerHero.printHero();
+	
+	menu();
 
 	_getch();
 	return 0;
