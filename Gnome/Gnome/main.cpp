@@ -4,7 +4,6 @@
 using namespace std;
 
 Game game = Game();
-void menu();
 
 void printTwoHero(Hero hero1, Hero hero2)
 {
@@ -141,7 +140,7 @@ void initPlayerHero() {
 		Sleep(100);
 	}
 
-	menu();
+	game.menu();
 }
 
 void initEnemy() {
@@ -151,121 +150,9 @@ void initEnemy() {
 	game.getEnemy().setPlayerHero(3);
 }
 
-void startGame()
-{
-	system("cls");
-	printBattle();
-	game.printBattle();
-
-	while (true)
-	{
-		if (GetAsyncKeyState(VK_ESCAPE) & 1)
-		{
-			menu();
-			break;
-		}
-
-		Sleep(100);
-	}
-}
-
-void shop()
-{
-	printShop();
-
-	while (true)
-	{
-		if (GetAsyncKeyState(VK_ESCAPE) & 1)
-		{
-			menu();
-			break;
-		}
-
-		Sleep(100);
-	}
-}
-
-void settings()
-{
-	printSettings();
-
-	while (true)
-	{
-		if (GetAsyncKeyState(VK_ESCAPE) & 1)
-		{
-			menu();
-			break;
-		}
-
-		Sleep(100);
-	}
-}
-
-void exit()
-{
-	
-}
-
-void menu() {
-
-	system("cls");
-
-	printLogo();
-
-	setConsoleColor(purpleTextColor);
-	cout.fill(' ');
-
-	string menuSeparator = "-----------";
-
-	coutCentered("Старт");
-	coutCentered(menuSeparator);
-
-	coutCentered("Магазин");
-	coutCentered(menuSeparator);
-
-	coutCentered("Настройки");
-	coutCentered(menuSeparator);
-
-	coutCentered("Выход");
-
-	bool isMenu = true;
-
-	showConsoleCursor(false);
-
-	while (isMenu)
-	{
-		if (GetAsyncKeyState(VK_NUMPAD1) & 1)
-		{
-			system("cls");
-			startGame();
-		}
-
-		if (GetAsyncKeyState(VK_NUMPAD2) & 1)
-		{
-			system("cls");
-			shop();
-		}
-
-		if (GetAsyncKeyState(VK_NUMPAD3) & 1)
-		{
-			system("cls");
-			settings();
-		}
-
-		if (GetAsyncKeyState(VK_NUMPAD4) & 1)
-		{
-			system("cls");
-			exit();
-			isMenu = false;
-		}
-
-		Sleep(100);
-	}
-}
-
 void initGame() {
 
-	printLogo();
+	game.printGameLogo();
 
 	initPlayer();
 	initEnemy();

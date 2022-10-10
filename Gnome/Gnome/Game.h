@@ -24,6 +24,17 @@ public:
 	Player getEnemy();
 	void setEnemy(Player enemy);
 
+	void menu();
+	void startGame();
+	void shop();
+	void settings();
+	void exit();
+
+	void printBattleLogo();
+	void printGameLogo();
+	void printShopLogo();
+	void printSettingsLogo();
+
 	void printBattle();
 };
 
