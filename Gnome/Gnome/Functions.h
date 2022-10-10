@@ -1,9 +1,8 @@
 ﻿#pragma once
 
+#include <string>
 #include <iostream>
 #include <iomanip>
-#include "Hero.h"
-#include "Player.h"
 #include "Constants.h"
 
 using namespace std;

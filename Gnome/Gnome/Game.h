@@ -9,10 +9,21 @@ using namespace constants;
 
 class Game
 {
+private:
+	Player player;
+	Player enemy;
+
 public:
+
 	Game();
 	~Game();
 
-	void printBattle(Player player, Hero playerHero, Player enemy, Hero enemyHero);
+	Player getPlayer();
+	void setPlayer(Player player);
+
+	Player getEnemy();
+	void setEnemy(Player enemy);
+
+	void printBattle();
 };
 

@@ -2,125 +2,96 @@
 
 Hero::Hero() {
 
-	this->Health = 0;
-	this->Damage = 0;
-	this->Name = "Name";
-	this->Price = 0;
+	this->health = 0;
+	this->damage = 0;
+	this->name = "Name";
+	this->price = 0;
 
 }
 Hero::Hero(int Health, int Damage, string Name, int Price)
 {
-	this->Health = Health;
-	this->Damage = Damage;
-	this->Name = Name;
-	this->Price = Price;
+	this->health = Health;
+	this->damage = Damage;
+	this->name = Name;
+	this->price = Price;
 }
-Hero::~Hero()
+Hero::Hero(int heroId)
 {
-}
-
-int Hero::getHealth()
-{
-	return Health;
-}
-
-void Hero::setHealth(int Health)
-{
-	if (Health != 0) this->Health = Health;
-	else cout << "Health is NULL";
-}
-
-int Hero::getDamage()
-{
-	return Damage;
-}
-
-void Hero::setDamage(int Damage)
-{
-	if (Damage != 0) this->Damage = Damage;
-	else cout << "Damage is NULL";
-}
-
-string Hero::getName()
-{
-	return Name;
-}
-
-void Hero::setName(string Name)
-{
-	this->Name = Name;
-}
-
-int Hero::getPrice()
-{
-	return Price;
-}
-
-void Hero::setPrice(int Price)
-{
-	if (Price != 0) this->Price = Price;
-	else cout << "Price is NULL";
-}
-
-void Hero::setupHero(int choice)
-{
-	switch (choice)
+	switch (heroId)
 	{
 		// хп макс 300
 		// дамаг макс 25
 		// цена макс 200
 
 	case 1:
-		this->Damage = 7;
-		this->Health = 300;
-		this->Name = "Азагхал";
-		this->Price = 10;
+		this->damage = 7;
+		this->health = 300;
+		this->name = "Азагхал";
+		this->price = 10;
 		break;
 
 	case 2:
-		this->Damage = 25;
-		this->Health = 110;
-		this->Name = "Балин";
-		this->Price = 200;
+		this->damage = 25;
+		this->health = 110;
+		this->name = "Балин";
+		this->price = 200;
 		break;
 
 	case 3:
-		this->Damage = 200;
-		this->Health = 12;
-		this->Name = "Бифур";
-		this->Price = 150;
+		this->damage = 200;
+		this->health = 12;
+		this->name = "Бифур";
+		this->price = 150;
 		break;
 
 	case 4:
-		this->Damage = 16;
-		this->Health = 180;
-		this->Name = "Гроин";
-		this->Price = 100;
+		this->damage = 16;
+		this->health = 180;
+		this->name = "Гроин";
+		this->price = 100;
 		break;
 
 	case 5:
-		this->Damage = 19;
-		this->Health = 150;
-		this->Name = "Дис";
-		this->Price = 10;
+		this->damage = 19;
+		this->health = 150;
+		this->name = "Дис";
+		this->price = 10;
 		break;
 
 	case 6:
-		this->Damage = 21;
-		this->Health = 135;
-		this->Name = "Телхар";
-		this->Price = 50;
+		this->damage = 21;
+		this->health = 135;
+		this->name = "Телхар";
+		this->price = 50;
 		break;
-		
+
 	default:
-		this->Damage = 0;
-		this->Health = 0;
-		this->Name = "Test";
-		this->Price = 0;
+		this->damage = 0;
+		this->health = 0;
+		this->name = "Test";
+		this->price = 0;
 		break;
 	}
 }
 
+Hero::~Hero() {}
+
+int Hero::getHealth() { return health; }
+void Hero::setHealth(int Health) { this->health = Health; }
+
+int Hero::getDamage() { return damage; }
+void Hero::setDamage(int Damage) { this->damage = Damage; }
+
+string Hero::getName() { return name; }
+void Hero::setName(string Name) { this->name = Name; }
+
+int Hero::getPrice() { return price; }
+void Hero::setPrice(int Price) { this->price = Price; }
+
+Hero Hero::getHeroById(int heroId)
+{
+	return Hero(heroId);
+}
 void Hero::printHero()
 {
 	printSeparator();
@@ -180,4 +151,3 @@ void Hero::printHero()
 
 	printSeparator();
 }
-

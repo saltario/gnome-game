@@ -1,15 +1,15 @@
 #include "Game.h"
 
-Game::Game()
-{
-}
+Game::Game() {}
+Game::~Game() {}
 
+Player Game::getPlayer() { return player; }
+void Game::setPlayer(Player player) { this->player = player; }
 
-Game::~Game()
-{
-}
+Player Game::getEnemy() { return enemy; }
+void Game::setEnemy(Player enemy) { this->enemy = enemy; }
 
-void Game::printBattle(Player player, Hero playerHero, Player enemy, Hero enemyHero)
+void Game::printBattle()
 {
 	printSeparatorForBattle();
 
@@ -53,7 +53,7 @@ void Game::printBattle(Player player, Hero playerHero, Player enemy, Hero enemyH
 	cout << str1;
 
 	cout.width(heroTextWidth - str2.length());
-	cout << playerHero.getName();
+	cout << player.getPlayerHero().getName();
 
 	cout.width(str2.length());
 	cout << str2;
@@ -65,7 +65,7 @@ void Game::printBattle(Player player, Hero playerHero, Player enemy, Hero enemyH
 	cout << str1;
 
 	cout.width(heroTextWidth - str2.length());
-	cout << enemyHero.getName();
+	cout << enemy.getPlayerHero().getName();
 
 	cout.width(str2.length());
 	cout << str2 << endl;
@@ -77,7 +77,7 @@ void Game::printBattle(Player player, Hero playerHero, Player enemy, Hero enemyH
 	cout << str1;
 
 	cout.width(heroTextWidth - str2.length());
-	cout << to_string(playerHero.getHealth());
+	cout << to_string(player.getPlayerHero().getHealth());
 
 	cout.width(str2.length());
 	cout << str2;
@@ -89,7 +89,7 @@ void Game::printBattle(Player player, Hero playerHero, Player enemy, Hero enemyH
 	cout << str1;
 
 	cout.width(heroTextWidth - str2.length());
-	cout << to_string(enemyHero.getHealth());
+	cout << to_string(enemy.getPlayerHero().getHealth());
 
 	cout.width(str2.length());
 	cout << str2 << endl;
@@ -101,7 +101,7 @@ void Game::printBattle(Player player, Hero playerHero, Player enemy, Hero enemyH
 	cout << str1;
 
 	cout.width(heroTextWidth - str2.length());
-	cout << to_string(playerHero.getDamage());
+	cout << to_string(player.getPlayerHero().getDamage());
 
 	cout.width(str2.length());
 	cout << str2;
@@ -113,7 +113,7 @@ void Game::printBattle(Player player, Hero playerHero, Player enemy, Hero enemyH
 	cout << str1;
 
 	cout.width(heroTextWidth - str2.length());
-	cout << to_string(enemyHero.getDamage());
+	cout << to_string(enemy.getPlayerHero().getDamage());
 
 	cout.width(str2.length());
 	cout << str2 << endl;

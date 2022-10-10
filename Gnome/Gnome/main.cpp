@@ -1,19 +1,9 @@
 #include "conio.h"
-
 #include "Game.h"
-#include "Hero.h"
-#include "Player.h"
 
 using namespace std;
 
 Game game = Game();
-
-Player player = Player();
-Player enemy = Player();
-
-Hero playerHero = Hero();
-Hero enemyHero = Hero();
-
 void menu();
 
 void printTwoHero(Hero hero1, Hero hero2)
@@ -102,24 +92,31 @@ void printTwoHero(Hero hero1, Hero hero2)
 
 void initPlayer() {
 
-	printLogo();
+	Player player = Player();
 
 	string playerName = "player";
 	string separator = "			  ";
 
 	cout << separator << "¬ведите им€: ";
 	cin >> playerName;
+
 	player.setName(playerName);
+	game.setPlayer(player);
 }
 
 void initPlayerHero() {
 
 	string separator = "			  ";
-	int heroChoice;
 
-	playerHero.setupHero(1);
+	Hero tmp1 = Hero();
+	tmp1 = tmp1.getHeroById(1);
 
-	printTwoHero(playerHero, playerHero);
+	Hero tmp2 = Hero();
+	tmp2 = tmp2.getHeroById(5);
+
+	Player player = game.getPlayer();
+
+	printTwoHero(tmp1, tmp2);
 
 	setConsoleColor(redTextColor);
 	showConsoleCursor(false);
@@ -129,13 +126,15 @@ void initPlayerHero() {
 	{
 		if (GetAsyncKeyState(VK_NUMPAD1) & 1)
 		{
-			playerHero.setupHero(1);
+			player.setPlayerHero(1);
+			game.setPlayer(player);
 			break;
 		}
 
 		if (GetAsyncKeyState(VK_NUMPAD2) & 1)
 		{
-			playerHero.setupHero(5);
+			player.setPlayerHero(5);
+			game.setPlayer(player);
 			break;
 		}
 
@@ -148,15 +147,15 @@ void initPlayerHero() {
 void initEnemy() {
 
 	string enemyName = "enemy";
-	enemy.setName(enemyName);
-	enemyHero.setupHero(2);
-
+	game.getEnemy().setName(enemyName);
+	game.getEnemy().setPlayerHero(3);
 }
 
 void startGame()
 {
+	system("cls");
 	printBattle();
-	game.printBattle(player, playerHero, enemy, enemyHero);
+	game.printBattle();
 
 	while (true)
 	{
@@ -264,15 +263,21 @@ void menu() {
 	}
 }
 
+void initGame() {
+
+	printLogo();
+
+	initPlayer();
+	initEnemy();
+	initPlayerHero();
+}
+
 int main()
 {
 	setlocale(LC_ALL, "Rus");
 
 	setWindowAttribute();
-
-	initPlayer();
-	initPlayerHero();
-	initEnemy();
+	initGame();
 
 	_getch();
 	return 0;

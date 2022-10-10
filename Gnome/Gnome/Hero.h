@@ -11,16 +11,20 @@ using namespace constants;
 class Hero
 {
 private:
-	int Health;
-	int Damage;
-	string Name;
-	int Price;
+	int health;
+	int damage;
+	string name;
+	int price;
 
 public:
 
 	Hero();
 	Hero(int Health, int Damage, string Name, int Price);
+	Hero(int heroId);
 	~Hero();
+
+	Hero getHeroById(int heroId);
+	void printHero();
 
 	int getHealth();
 	void setHealth(int Health);
@@ -33,7 +37,4 @@ public:
 
 	int getPrice();
 	void setPrice(int Price);
-
-	void setupHero(int choice);
-	void printHero();
 };

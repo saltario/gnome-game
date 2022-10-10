@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 
+#include "Hero.h"
 #include "Functions.h"
 #include "Constants.h"
 
@@ -12,24 +13,28 @@ using namespace constants;
 class Player
 {
 private:
-	int Level;
-	int Stars;
-	string Name;
+	int level;
+	int stars;
+	string name;
+	Hero hero;
 
 public:
 
 	Player();
-	Player(string Name);
 	~Player();
 
 	int getLevel();
-	void setLevel(int Level);
+	void setLevel(int level);
 
 	int getStars();
-	void setStars(int Stars);
+	void setStars(int stars);
 
 	string getName();
-	void setName(string Name);
+	void setName(string name);
+
+	Hero getPlayerHero();
+	void setPlayerHero(int heroId);
+	void setPlayerHero(Hero hero);
 
 	void printPlayer();
 
