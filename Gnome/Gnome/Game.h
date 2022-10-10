@@ -30,6 +30,13 @@ public:
 	void settings();
 	void exit();
 
+	void initGame();
+	void initEnemy();
+	void initPlayerHero();
+	void initPlayer();
+
+	void printTwoHero(Hero hero1, Hero hero2);
+
 	void printBattleLogo();
 	void printGameLogo();
 	void printShopLogo();
