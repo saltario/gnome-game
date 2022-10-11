@@ -87,15 +87,29 @@ void showConsoleCursor(bool showFlag)
 void setWindowAttribute() {
 
 	HWND consoleWindow = GetConsoleWindow();
-	RECT rect;
+	RECT rect1;
+	GetWindowRect(consoleWindow, &rect1);
+	MoveWindow(consoleWindow, rect1.left, rect1.top, 600, 800, TRUE);
 
-	GetWindowRect(consoleWindow, &rect);
-	MoveWindow(consoleWindow, rect.left, rect.top, windowHeight, windowWidth, TRUE);
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SMALL_RECT rect = { 0, 0, windowWidth, windowHeight };
+	SetConsoleWindowInfo(hConsole, TRUE, &rect);
 }
 
 void setConsoleColor(int textColor) {
 
 	SetConsoleTextAttribute(hConsole, textColor);
+}
+
+void setConsoleCursorPosition(int column, int line)
+{
+	COORD coord;
+	coord.X = column;
+	coord.Y = line;
+	SetConsoleCursorPosition(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		coord
+	);
 }
 
 

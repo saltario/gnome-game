@@ -13,6 +13,10 @@ private:
 	Player player;
 	Player enemy;
 
+	void initEnemy();
+	void initPlayerHero();
+	void initPlayer();
+
 public:
 
 	Game();
@@ -24,24 +28,19 @@ public:
 	Player getEnemy();
 	void setEnemy(Player enemy);
 
-	void menu();
 	void startGame();
+	void menu();
 	void shop();
 	void settings();
 	void exit();
 
 	void initGame();
-	void initEnemy();
-	void initPlayerHero();
-	void initPlayer();
-
+	void printBattle();
 	void printTwoHero(Hero hero1, Hero hero2);
 
 	void printBattleLogo();
 	void printGameLogo();
 	void printShopLogo();
 	void printSettingsLogo();
-
-	void printBattle();
 };
 

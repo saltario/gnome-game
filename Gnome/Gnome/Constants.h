@@ -30,7 +30,7 @@ namespace constants {
 	const int heroValueWidth = 5;
 	const int playerTextWidth = 8;
 
-	const int windowWidth = 800;
-	const int windowHeight = 600;
+	const int windowWidth = 69;
+	const int windowHeight = 40;
 
 }

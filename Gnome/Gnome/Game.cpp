@@ -47,20 +47,18 @@ void Game::initPlayerHero() {
 		{
 			player.setPlayerHero(1);
 			setPlayer(player);
-			break;
+			menu();
 		}
 
 		if (GetAsyncKeyState(VK_NUMPAD2) & 1)
 		{
 			player.setPlayerHero(5);
 			setPlayer(player);
-			break;
+			menu();
 		}
-
-		Sleep(100);
 	}
 
-	menu();
+	
 }
 
 void Game::initEnemy() {
@@ -288,8 +286,6 @@ void Game::startGame()
 			menu();
 			break;
 		}
-
-		Sleep(100);
 	}
 }
 
@@ -304,8 +300,6 @@ void Game::shop()
 			menu();
 			break;
 		}
-
-		Sleep(100);
 	}
 }
 
@@ -320,8 +314,6 @@ void Game::settings()
 			menu();
 			break;
 		}
-
-		Sleep(100);
 	}
 }
 
@@ -332,58 +324,128 @@ void Game::exit()
 
 void Game::menu() {
 
-	system("cls");
-
-	printGameLogo();
-
-	setConsoleColor(purpleTextColor);
-	cout.fill(' ');
-
 	string menuSeparator = "-----------";
 
-	coutCentered("Старт");
-	coutCentered(menuSeparator);
-
-	coutCentered("Магазин");
-	coutCentered(menuSeparator);
-
-	coutCentered("Настройки");
-	coutCentered(menuSeparator);
-
-	coutCentered("Выход");
-
 	bool isMenu = true;
+	bool refreshMenu = true;
 
+	int menuChoice = 0;
+	int menuIndex = 0;
+
+	cout.fill(' ');
 	showConsoleCursor(false);
 
 	while (isMenu)
 	{
-		if (GetAsyncKeyState(VK_NUMPAD1) & 1)
+		if ((GetAsyncKeyState(VK_UP) & 1) || (GetAsyncKeyState(0x57) & 1))
 		{
-			system("cls");
-			startGame();
+			if (menuIndex == 0) { menuChoice = 0; menuIndex = 0; refreshMenu = true; }
+			if (menuIndex == 1) { menuChoice = 0; menuIndex = 0; refreshMenu = true; }
+			if (menuIndex == 2) { menuChoice = 1; menuIndex = 1; refreshMenu = true; }
+			if (menuIndex == 3) { menuChoice = 2; menuIndex = 2; refreshMenu = true; }
 		}
 
-		if (GetAsyncKeyState(VK_NUMPAD2) & 1)
+		if ((GetAsyncKeyState(VK_DOWN) & 1) || (GetAsyncKeyState(0x53) & 1))
 		{
-			system("cls");
-			shop();
+			if (menuIndex == 3) { menuChoice = 3; menuIndex = 3; refreshMenu = true; }
+			if (menuIndex == 2) { menuChoice = 3; menuIndex = 3; refreshMenu = true; }
+			if (menuIndex == 1) { menuChoice = 2; menuIndex = 2; refreshMenu = true; }
+			if (menuIndex == 0) { menuChoice = 1; menuIndex = 1; refreshMenu = true; }
 		}
 
-		if (GetAsyncKeyState(VK_NUMPAD3) & 1)
+		if (menuChoice == 0 && refreshMenu)
 		{
+			refreshMenu = false;
+
 			system("cls");
-			settings();
+			printGameLogo();
+			setConsoleColor(purpleTextColor);
+
+			coutCentered("> Старт <");
+			coutCentered(menuSeparator);
+
+			coutCentered("Магазин");
+			coutCentered(menuSeparator);
+
+			coutCentered("Настройки");
+			coutCentered(menuSeparator);
+
+			coutCentered("Выход");
+
+			setConsoleCursorPosition(0, windowHeight);
+			cout << "hello ";
 		}
 
-		if (GetAsyncKeyState(VK_NUMPAD4) & 1)
+		if (menuChoice == 1 && refreshMenu)
 		{
+			refreshMenu = false;
+
 			system("cls");
-			exit();
-			isMenu = false;
+			printGameLogo();
+			setConsoleColor(purpleTextColor);
+
+			coutCentered("Старт");
+			coutCentered(menuSeparator);
+
+			coutCentered("> Магазин <");
+			coutCentered(menuSeparator);
+
+			coutCentered("Настройки");
+			coutCentered(menuSeparator);
+
+			coutCentered("Выход");
 		}
 
-		Sleep(100);
+		if (menuChoice == 2 && refreshMenu)
+		{
+			refreshMenu = false;
+
+			system("cls");
+			printGameLogo();
+			setConsoleColor(purpleTextColor);
+
+			coutCentered("Старт");
+			coutCentered(menuSeparator);
+
+			coutCentered("Магазин");
+			coutCentered(menuSeparator);
+
+			coutCentered("> Настройки <");
+			coutCentered(menuSeparator);
+
+			coutCentered("Выход");
+		}
+
+		if (menuChoice == 3 && refreshMenu)
+		{
+			refreshMenu = false;
+
+			system("cls");
+			printGameLogo();
+			setConsoleColor(purpleTextColor);
+
+			coutCentered("Старт");
+			coutCentered(menuSeparator);
+
+			coutCentered("Магазин");
+			coutCentered(menuSeparator);
+
+			coutCentered("Настройки");
+			coutCentered(menuSeparator);
+
+			coutCentered("> Выход <");
+		}
+
+		if (GetAsyncKeyState(VK_SPACE) & 1)
+		{
+			system("cls");
+
+			if (menuChoice == 0) { startGame(); }
+			if (menuChoice == 1) { shop(); }
+			if (menuChoice == 2) { settings(); }
+			if (menuChoice == 3) { exit(); isMenu = false; }
+		}
+
 	}
 }
 
@@ -442,3 +504,4 @@ void Game::printSettingsLogo()
 	        \/     \/                   \//_____/     \/   
 )" << '\n';
 }
+
