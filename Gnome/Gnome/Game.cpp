@@ -372,7 +372,7 @@ void Game::menu() {
 
 			coutCentered("Выход");
 
-			setConsoleCursorPosition(0, windowHeight);
+			setConsoleCursorPosition(0, consoleHeight);
 			cout << "hello ";
 		}
 

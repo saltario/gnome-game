@@ -4,10 +4,8 @@
 
 namespace constants {
 
-	// Получаем окно консоли
 	const HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	// Цвета текста для стандартизации
 	const int deepBlueTextColor = 1;
 	const int greenTextColor = 2;
 	const int redTextColor = 4;
@@ -30,7 +28,10 @@ namespace constants {
 	const int heroValueWidth = 5;
 	const int playerTextWidth = 8;
 
-	const int windowWidth = 69;
-	const int windowHeight = 40;
+	const int windowWidth = 600;
+	const int windowHeight = 800;
+
+	const int consoleWidth = 69;
+	const int consoleHeight = 40;
 
 }

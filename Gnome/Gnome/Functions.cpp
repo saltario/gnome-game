@@ -89,10 +89,10 @@ void setWindowAttribute() {
 	HWND consoleWindow = GetConsoleWindow();
 	RECT rect1;
 	GetWindowRect(consoleWindow, &rect1);
-	MoveWindow(consoleWindow, rect1.left, rect1.top, 600, 800, TRUE);
+	MoveWindow(consoleWindow, rect1.left, rect1.top, windowWidth, windowHeight, TRUE);
 
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SMALL_RECT rect = { 0, 0, windowWidth, windowHeight };
+	SMALL_RECT rect = { 0, 0, consoleWidth, consoleHeight };
 	SetConsoleWindowInfo(hConsole, TRUE, &rect);
 }
 
@@ -110,6 +110,28 @@ void setConsoleCursorPosition(int column, int line)
 		GetStdHandle(STD_OUTPUT_HANDLE),
 		coord
 	);
+}
+
+int wherex()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	if (!GetConsoleScreenBufferInfo(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		&csbi
+	))
+		return -1;
+	return csbi.dwCursorPosition.X;
+}
+
+int wherey()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	if (!GetConsoleScreenBufferInfo(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		&csbi
+	))
+		return -1;
+	return csbi.dwCursorPosition.Y;
 }
 
 
