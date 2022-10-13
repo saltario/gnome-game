@@ -6,49 +6,21 @@ Player::Player()
 	this->Level = 0;
 	this->Stars = 0;
 }
+Player::~Player() {}
 
-Player::Player(string Name)
-{
-	this->Name = Name;
-	this->Level = 0;
-	this->Stars = 0;
-}
+int Player::getLevel() {return Level; }
+void Player::setLevel(int Level) { this->Level = Level; }
 
-Player::~Player()
-{
-}
+int Player::getStars() { return Stars; }
+void Player::setStars(int Stars) { this->Stars = Stars; }
 
-int Player::getLevel()
-{
-	return Level;
-}
+string Player::getName() { return Name; }
+void Player::setName(string Name) { this->Name = Name; }
 
-void Player::setLevel(int Level)
-{
-	if (Level != 0) this->Level = Level;
-	else cout << "Level is NULL";
-}
+Hero Player::getPlayerHero() { return hero; }
 
-int Player::getStars()
-{
-	return Stars;
-}
-
-void Player::setStars(int Stars)
-{
-	if (Stars != 0) this->Stars = Stars;
-	else cout << "Stars is NULL";
-}
-
-string Player::getName()
-{
-	return Name;
-}
-
-void Player::setName(string Name)
-{
-	this->Name = Name;
-}
+void Player::setPlayerHero(int heroId) { this->hero = Hero(heroId); }
+void Player::setPlayerHero(Hero hero) { this->hero = hero; }
 
 void Player::printPlayer()
 {

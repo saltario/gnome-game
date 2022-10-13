@@ -2,8 +2,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include "Hero.h"
-#include "Player.h"
+#include <string>
 #include "Constants.h"
 
 using namespace std;

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 
+#include "Hero.h"
 #include "Functions.h"
 #include "Constants.h"
 
@@ -15,11 +16,11 @@ private:
 	int Level;
 	int Stars;
 	string Name;
+	Hero hero;
 
 public:
 
 	Player();
-	Player(string Name);
 	~Player();
 
 	int getLevel();
@@ -30,6 +31,10 @@ public:
 
 	string getName();
 	void setName(string Name);
+
+	Hero getPlayerHero();
+	void setPlayerHero(int heroId);
+	void setPlayerHero(Hero hero);
 
 	void printPlayer();
 

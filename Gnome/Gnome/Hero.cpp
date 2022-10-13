@@ -15,56 +15,9 @@ Hero::Hero(int Health, int Damage, string Name, int Price)
 	this->Name = Name;
 	this->Price = Price;
 }
-Hero::~Hero()
+Hero::Hero(int heroId)
 {
-}
-
-int Hero::getHealth()
-{
-	return Health;
-}
-
-void Hero::setHealth(int Health)
-{
-	if (Health != 0) this->Health = Health;
-	else cout << "Health is NULL";
-}
-
-int Hero::getDamage()
-{
-	return Damage;
-}
-
-void Hero::setDamage(int Damage)
-{
-	if (Damage != 0) this->Damage = Damage;
-	else cout << "Damage is NULL";
-}
-
-string Hero::getName()
-{
-	return Name;
-}
-
-void Hero::setName(string Name)
-{
-	this->Name = Name;
-}
-
-int Hero::getPrice()
-{
-	return Price;
-}
-
-void Hero::setPrice(int Price)
-{
-	if (Price != 0) this->Price = Price;
-	else cout << "Price is NULL";
-}
-
-void Hero::setupHero(int choice)
-{
-	switch (choice)
+	switch (heroId)
 	{
 		// хп макс 300
 		// дамаг макс 25
@@ -111,7 +64,7 @@ void Hero::setupHero(int choice)
 		this->Name = "Телхар";
 		this->Price = 50;
 		break;
-		
+
 	default:
 		this->Damage = 0;
 		this->Health = 0;
@@ -120,7 +73,24 @@ void Hero::setupHero(int choice)
 		break;
 	}
 }
+Hero::~Hero() {}
 
+int Hero::getHealth() { return Health; }
+void Hero::setHealth(int Health) { this->Health = Health; }
+
+int Hero::getDamage() { return Damage; }
+void Hero::setDamage(int Damage) { this->Damage = Damage; }
+
+string Hero::getName() { return Name; }
+void Hero::setName(string Name) { this->Name = Name; }
+
+int Hero::getPrice() { return Price; }
+void Hero::setPrice(int Price) { this->Price = Price; }
+
+Hero Hero::getHeroById(int heroId)
+{
+	return Hero(heroId);
+}
 void Hero::printHero()
 {
 	printSeparator();
