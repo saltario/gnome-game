@@ -3,6 +3,7 @@
 
 # User-specific files
 *.suo
+*.opendb
 *.user
 *.userosscache
 *.sln.docstates

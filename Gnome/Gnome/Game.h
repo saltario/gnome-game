@@ -31,5 +31,17 @@ public:
 	
 	void printBattle();
 	void printTwoHero(Hero hero1, Hero hero2);
+
+	void menu();
+
+	void startGame();
+	void shop();
+	void settings();
+	void exit();
+
+	void printGameLogo();
+	void printGameBattle();
+	void printGameShop();
+	void printGameSettings();
 };
 
