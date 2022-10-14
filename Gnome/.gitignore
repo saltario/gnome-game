@@ -3,6 +3,7 @@
 
 # User-specific files
 *.suo
+*.opendb
 *.user
 *.userosscache
 *.sln.docstates
@@ -207,6 +208,9 @@ UpgradeLog*.htm
 # SQL Server files
 *.mdf
 *.ldf
+*.db
+*.suo
+
 
 # Business Intelligence projects
 *.rdl.data
@@ -243,7 +247,5 @@ ModelManifest.xml
 # Paket dependency manager
 .paket/paket.exe
 
-# FAKE - F# Make
-.fake/
-Gnome/Gnome.VC.db
-*.db
+Gnome.VC.db
+.vs\Gnome/v14/.suo
