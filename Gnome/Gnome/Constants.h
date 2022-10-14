@@ -32,8 +32,11 @@ namespace constants {
 
 	////////////////// WINDOW //////////////////
 
-	const int windowWidth = 800;
-	const int windowHeight = 600;
+	const int windowWidth = 600;
+	const int windowHeight = 800;
+
+	const int consoleWidth = 69;
+	const int consoleHeight = 46;
 
 	////////////////// END WINDOW //////////////////
 

@@ -18,3 +18,4 @@ void coutCentered(string text);
 void showConsoleCursor(bool showFlag);
 void setWindowAttribute();
 void setConsoleColor(int textColor);
+void setCursorPosition(int line, int column);

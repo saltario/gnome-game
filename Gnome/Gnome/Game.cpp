@@ -172,6 +172,9 @@ void Game::menu() {
 			coutCentered(menuSeparator);
 
 			coutCentered("Выход");
+
+			setCursorPosition(consoleHeight, 0);
+			cout << "Нажмите пробел для выбора";
 		}
 
 		if (menuChoice == 1 && refreshMenu)
@@ -191,6 +194,9 @@ void Game::menu() {
 			coutCentered(menuSeparator);
 
 			coutCentered("Выход");
+
+			setCursorPosition(consoleHeight, 0);
+			cout << "Нажмите пробел для выбора";
 		}
 
 		if (menuChoice == 2 && refreshMenu)
@@ -210,6 +216,9 @@ void Game::menu() {
 			coutCentered(menuSeparator);
 
 			coutCentered("Выход");
+
+			setCursorPosition(consoleHeight, 0);
+			cout << "Нажмите пробел для выбора";
 		}
 
 		if (menuChoice == 3 && refreshMenu)
@@ -229,6 +238,9 @@ void Game::menu() {
 			coutCentered(menuSeparator);
 
 			coutCentered("> Выход <");
+
+			setCursorPosition(consoleHeight, 0);
+			cout << "Нажмите пробел для выбора";
 		}
 
 	}
