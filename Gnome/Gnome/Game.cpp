@@ -306,10 +306,40 @@ void Game::printGameSettings()
 )" << '\n';
 }
 
+void Game::printGameWin()
+{
+	setConsoleColor(redTextColor);
+
+	cout << R"(
+			 __      __.__      ._.
+			/  \    /  \__| ____| |
+			\   \/\/   /  |/    \ |
+			 \        /|  |   |  \|
+			  \__/\  / |__|___|  /_
+			       \/          \/\/
+)" << '\n';
+}
+
+void Game::printGameLose()
+{
+	setConsoleColor(redTextColor);
+
+	cout << R"(
+		.____                      ._.
+		|    |    ____  ______ ____| |
+		|    |   /  _ \/  ___// __ \ |
+		|    |__(  <_> )___ \\  ___/\|
+		|_______ \____/____  >\___  >_
+		        \/         \/     \/\/
+)" << '\n';
+}
+
 ////////////////// END PRINT HEAD //////////////////
 
-void Game::printBattle()
+void Game::printBattle(bool showLogo)
 {
+	if (showLogo) { setCursorPosition(0, 0); printGameBattle(); }
+
 	printSeparatorForBattle();
 
 	string str1;
@@ -418,6 +448,53 @@ void Game::printBattle()
 	cout << str2 << endl;
 
 	printSeparatorForBattle();
+
+	if (showLogo) { setCursorPosition(consoleHeight, 0); cout << "Q - Атака, W - Лечение"; }
+}
+
+void Game::battle()
+{
+	printBattle(true);
+
+	while (true)
+	{
+		if (GetAsyncKeyState('Q') & 1) { system("cls"); attack(); }
+	}
+}
+
+void Game::attack()
+{
+	// 1 - Я атакую
+	// 0 - Атакует соперник
+	bool whoAttack = 1;
+
+	Hero playerHero = Hero();
+	playerHero = player.getPlayerHero();
+
+	Hero enemyHero = Hero();
+	enemyHero = enemy.getPlayerHero();
+
+	if (whoAttack == 1) {
+
+		enemyHero.setHealth(enemyHero.getHealth() - playerHero.getDamage());
+		enemy.setPlayerHero(enemyHero);
+
+		if (enemyHero.getHealth() <= 0) { printGameWin(); printBattle(false); }
+		else { whoAttack = 0; }
+
+		Sleep(1000);
+
+	}
+	if (whoAttack == 0) {
+
+		playerHero.setHealth(playerHero.getHealth() - enemyHero.getDamage());
+		player.setPlayerHero(playerHero);
+
+		if (playerHero.getHealth() <= 0) { printGameLose(); printBattle(false); }
+		else { printBattle(1); }
+
+		Sleep(1000);
+	}
 }
 
 void Game::printTwoHero(Hero hero1, Hero hero2)
@@ -506,17 +583,10 @@ void Game::printTwoHero(Hero hero1, Hero hero2)
 
 void Game::startGame()
 {
-	printGameBattle();
-	printBattle();
+	battle();
 
 	while (true)
 	{
-		if (GetAsyncKeyState(VK_ESCAPE) & 1)
-		{
-			menu();
-			break;
-		}
-
-		Sleep(100);
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
 	}
 }

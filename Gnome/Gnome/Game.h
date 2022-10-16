@@ -29,7 +29,9 @@ public:
 
 	void initGame();
 	
-	void printBattle();
+	void printBattle(bool showLogo);
+	void battle();
+	void attack();
 	void printTwoHero(Hero hero1, Hero hero2);
 
 	void menu();
@@ -43,5 +45,8 @@ public:
 	void printGameBattle();
 	void printGameShop();
 	void printGameSettings();
+
+	void printGameWin();
+	void printGameLose();
 };
 
