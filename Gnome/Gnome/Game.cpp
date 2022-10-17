@@ -25,8 +25,15 @@ void Game::initPlayer() {
 	string playerName = "player";
 	string separator = "			  ";
 
-	cout << separator << "Введите имя: ";
+	int x, y;
+
+	coutCentered("Введите имя:      ", false);
+	x = 39;
+	y = cursorY();
+
+	setCursorPosition(y, x);
 	cin >> playerName;
+
 	player.setName(playerName);
 }
 
@@ -83,13 +90,7 @@ void Game::shop()
 
 	while (true)
 	{
-		if (GetAsyncKeyState(VK_ESCAPE) & 1)
-		{
-			menu();
-			break;
-		}
-
-		Sleep(100);
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
 	}
 }
 
@@ -99,13 +100,7 @@ void Game::settings()
 
 	while (true)
 	{
-		if (GetAsyncKeyState(VK_ESCAPE) & 1)
-		{
-			menu();
-			break;
-		}
-
-		Sleep(100);
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
 	}
 }
 
@@ -173,8 +168,7 @@ void Game::menu() {
 
 			coutCentered("Выход");
 
-			setCursorPosition(consoleHeight, 0);
-			cout << "Нажмите пробел для выбора";
+			showHelp("Нажмите пробел для выбора");
 		}
 
 		if (menuChoice == 1 && refreshMenu)
@@ -195,8 +189,7 @@ void Game::menu() {
 
 			coutCentered("Выход");
 
-			setCursorPosition(consoleHeight, 0);
-			cout << "Нажмите пробел для выбора";
+			showHelp("Нажмите пробел для выбора");
 		}
 
 		if (menuChoice == 2 && refreshMenu)
@@ -217,8 +210,7 @@ void Game::menu() {
 
 			coutCentered("Выход");
 
-			setCursorPosition(consoleHeight, 0);
-			cout << "Нажмите пробел для выбора";
+			showHelp("Нажмите пробел для выбора");
 		}
 
 		if (menuChoice == 3 && refreshMenu)
@@ -239,8 +231,7 @@ void Game::menu() {
 
 			coutCentered("> Выход <");
 
-			setCursorPosition(consoleHeight, 0);
-			cout << "Нажмите пробел для выбора";
+			showHelp("Нажмите пробел для выбора");
 		}
 
 	}
@@ -449,16 +440,33 @@ void Game::printBattle(bool showLogo)
 
 	printSeparatorForBattle();
 
-	if (showLogo) { setCursorPosition(consoleHeight, 0); cout << "Q - Атака, W - Лечение"; }
+	if (showLogo) { showHelp("Q - Атака, W - Лечение"); }
 }
 
 void Game::battle()
 {
 	printBattle(true);
+	gameOver = false;
+
+	Hero playerHero = Hero();
+	playerHero = player.getPlayerHero();
+
+	Hero enemyHero = Hero();
+	enemyHero = enemy.getPlayerHero();
 
 	while (true)
 	{
-		if (GetAsyncKeyState('Q') & 1) { system("cls"); attack(); }
+		if ((GetAsyncKeyState('Q') & 1) && (gameOver == false)) { system("cls"); attack(); }
+
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
+
+		if (gameOver) 
+		{ 
+			player.setPlayerHero(playerHero);
+			enemy.setPlayerHero(enemyHero);
+
+			if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
+		}
 	}
 }
 
@@ -479,10 +487,10 @@ void Game::attack()
 		enemyHero.setHealth(enemyHero.getHealth() - playerHero.getDamage());
 		enemy.setPlayerHero(enemyHero);
 
-		if (enemyHero.getHealth() <= 0) { printGameWin(); printBattle(false); }
+		if (enemyHero.getHealth() <= 0) { printGameWin(); printBattle(false); gameOver = true; }
 		else { whoAttack = 0; }
 
-		Sleep(1000);
+		Sleep(100);
 
 	}
 	if (whoAttack == 0) {
@@ -490,10 +498,8 @@ void Game::attack()
 		playerHero.setHealth(playerHero.getHealth() - enemyHero.getDamage());
 		player.setPlayerHero(playerHero);
 
-		if (playerHero.getHealth() <= 0) { printGameLose(); printBattle(false); }
-		else { printBattle(1); }
-
-		Sleep(1000);
+		if (playerHero.getHealth() <= 0) { printGameLose(); printBattle(false); gameOver = true; }
+		else { printBattle(1); gameOver = false; }
 	}
 }
 
@@ -589,4 +595,11 @@ void Game::startGame()
 	{
 		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
 	}
+}
+
+void Game::showHelp(string helpText)
+{
+	setConsoleColor(yellowTextColor);
+	setCursorPosition(consoleHeight, 0);
+	coutCentered(helpText, 0);
 }

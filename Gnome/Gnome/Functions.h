@@ -14,8 +14,11 @@ void printEmptySeparator();
 void printSeparatorForBattle();
 void printSeparatorForShop();
 
-void coutCentered(string text);
+void coutCentered(string text, bool isNewLine = true);
 void showConsoleCursor(bool showFlag);
 void setWindowAttribute();
 void setConsoleColor(int textColor);
 void setCursorPosition(int line, int column);
+
+int cursorX();
+int cursorY();

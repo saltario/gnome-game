@@ -66,7 +66,7 @@ void printSeparatorForShop() {
 
 ////////////////// END SEPARATORS //////////////////
 
-void coutCentered(string text) 
+void coutCentered(string text, bool isNewLine)
 {
 	PCONSOLE_SCREEN_BUFFER_INFO lpScreenInfo = new CONSOLE_SCREEN_BUFFER_INFO();
 	GetConsoleScreenBufferInfo(hConsole, lpScreenInfo);
@@ -76,7 +76,9 @@ void coutCentered(string text)
 		int newpos = ((NewSBSize.X - text.size()) / 2);
 		for (int i = 0; i < newpos; i++) cout << " ";
 	}
-	cout << text << endl;
+
+	if (isNewLine) { cout << text << endl; }
+	else { cout << text; }
 }
 
 void showConsoleCursor(bool showFlag)
@@ -117,4 +119,22 @@ void setCursorPosition(int line, int column)
 	SetConsoleCursorPosition(hConsole, coord);
 }
 
+int cursorX()
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	
+	if (!GetConsoleScreenBufferInfo(hConsole, &csbi)) return -1;
 
+	return csbi.dwCursorPosition.X;
+}
+
+int cursorY()
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+	if (!GetConsoleScreenBufferInfo(hConsole, &csbi)) return -1;
+
+	return csbi.dwCursorPosition.Y;
+}

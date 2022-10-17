@@ -10,6 +10,7 @@ using namespace constants;
 class Game
 {
 private:
+	bool gameOver;
 	Player player;
 	Player enemy;
 
@@ -48,5 +49,7 @@ public:
 
 	void printGameWin();
 	void printGameLose();
+
+	void showHelp(string helpText);
 };
 
