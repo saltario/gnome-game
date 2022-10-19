@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "Constants.h"
 
+#include <ctime>
+
 using namespace std;
 using namespace constants;
 
@@ -28,8 +30,9 @@ private:
 
 	void battle();
 	void attack();
+	void choiceEnemy();
 	void endBattle();
-	void printBattle(bool showLogo);
+	void printBattle(bool showLogo, bool nextEnemy);
 
 	inline void printGameWin();
 	inline void printGameLose();

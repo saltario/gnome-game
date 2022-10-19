@@ -278,7 +278,7 @@ void Game::menu() {
 
 ////////////////// BATTLE //////////////////
 
-void Game::printBattle(bool showLogo)
+void Game::printBattle(bool showLogo, bool nextEnemy = true)
 {
 	if (showLogo) { setCursorPosition(0, 0); printGameBattle(); }
 
@@ -392,12 +392,14 @@ void Game::printBattle(bool showLogo)
 	printSeparatorForBattle();
 
 	if (showLogo) { showHelp("Q - Атака, W - Лечение"); }
+	if (showLogo && nextEnemy) { showHelp("Q - Атака, W - Лечение, R - Следующий"); }
 }
 
 void Game::battle()
 {
 	printBattle(true);
 	gameOver = false;
+	bool nextEnemy = true;
 
 	Hero playerHero = Hero();
 	playerHero = player.getPlayerHero();
@@ -407,7 +409,9 @@ void Game::battle()
 
 	while (true)
 	{
-		if ((GetAsyncKeyState('Q') & 1) && (gameOver == false)) { system("cls"); attack(); }
+		if ((GetAsyncKeyState('Q') & 1) && (gameOver == false)) { nextEnemy = false; system("cls"); attack(); }
+
+		if ((GetAsyncKeyState('R') & 1) && nextEnemy) { system("cls"); choiceEnemy(); }
 
 		if (GetAsyncKeyState(VK_ESCAPE) & 1) { endBattle(); menu(); break; }
 
@@ -444,8 +448,17 @@ void Game::attack()
 		player.setPlayerHero(playerHero);
 
 		if (playerHero.getHealth() <= 0) { printGameLose(); printBattle(false); gameOver = true; }
-		else { printBattle(1); gameOver = false; }
+		else { printBattle(1, 0); gameOver = false; }
 	}
+}
+
+void Game::choiceEnemy()
+{
+	srand(time(0));
+	int random = 1 + rand() % 6;
+	enemy.setPlayerHero(random);
+	setEnemy(enemy);
+	printBattle(1, 1);
 }
 
 void Game::endBattle()
