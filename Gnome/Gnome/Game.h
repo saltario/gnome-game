@@ -30,6 +30,7 @@ private:
 	inline void printGameBattle();
 	inline void printGameShop();
 	inline void printGameSettings();
+	inline void printGameProfile();
 
 public:
 	Game();
@@ -47,6 +48,7 @@ public:
 	void printBattle(bool showLogo);
 	void battle();
 	void attack();
+	void endBattle();
 
 	void printTwoHero(Hero hero1, Hero hero2);
 };

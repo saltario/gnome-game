@@ -37,10 +37,8 @@ void Game::initPlayer() {
 	player.setName(playerName);
 }
 
-void Game::initPlayerHero() {
-
-	string separator = "			  ";
-
+void Game::initPlayerHero() 
+{
 	Hero tmp1 = Hero();
 	tmp1 = tmp1.getHeroById(1);
 
@@ -57,8 +55,8 @@ void Game::initPlayerHero() {
 
 	while (true)
 	{
-		if (GetAsyncKeyState(VK_NUMPAD1) & 1) { player.setPlayerHero(tmp1); break; }
-		if (GetAsyncKeyState(VK_NUMPAD2) & 1) { player.setPlayerHero(tmp2); break; }
+		if (GetAsyncKeyState(VK_NUMPAD1) & 1) { player.setPlayerHero(1); break; }
+		if (GetAsyncKeyState(VK_NUMPAD2) & 1) { player.setPlayerHero(5); break; }
 	}
 
 	setPlayer(player);
@@ -73,7 +71,7 @@ void Game::initEnemy() {
 	Hero tmp = getEnemy().getPlayerHero();
 	tmp = tmp.getHeroById(3);
 
-	enemy.setPlayerHero(tmp);
+	enemy.setPlayerHero(3);
 	enemy.setName(enemyName);
 
 	setEnemy(enemy);
@@ -96,6 +94,11 @@ void Game::shop()
 
 void Game::profile()
 {
+	printGameProfile();
+
+	player.printProfile();
+	player.getPlayerHero().printHero();
+
 	while (true)
 	{
 		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
@@ -328,15 +331,9 @@ void Game::battle()
 	{
 		if ((GetAsyncKeyState('Q') & 1) && (gameOver == false)) { system("cls"); attack(); }
 
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { endBattle(); menu(); break; }
 
-		if (gameOver)
-		{
-			player.setPlayerHero(playerHero);
-			enemy.setPlayerHero(enemyHero);
-
-			if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
-		}
+		if (gameOver) { endBattle(); }
 	}
 }
 
@@ -371,6 +368,12 @@ void Game::attack()
 		if (playerHero.getHealth() <= 0) { printGameLose(); printBattle(false); gameOver = true; }
 		else { printBattle(1); gameOver = false; }
 	}
+}
+
+void Game::endBattle()
+{
+	player.setPlayerHero(player.getHeroId());
+	enemy.setPlayerHero(enemy.getHeroId());
 }
 
 ////////////////// END BATTLE //////////////////
@@ -430,6 +433,20 @@ inline void Game::printGameSettings()
 	 /        \  ___/|  |  |  | |  |   |  \/ /_/  >___ \ 
 	/_______  /\___  >__|  |__| |__|___|  /\___  /____  >
 	        \/     \/                   \//_____/     \/   
+)" << '\n';
+}
+
+inline void Game::printGameProfile()
+{
+	setConsoleColor(redTextColor);
+	    
+	cout << R"(
+	  __________                _____.__.__          
+	  \______   \_______  _____/ ____\__|  |   ____  
+	  |     ___/\_  __ \/  _ \   __\|  |  | _/ __ \ 
+	  |    |     |  | \(  <_> )  |  |  |  |_\  ___/ 
+	  |____|     |__|   \____/|__|  |__|____/\___  >
+	                                              \/   
 )" << '\n';
 }
 
