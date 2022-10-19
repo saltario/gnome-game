@@ -10,7 +10,8 @@ int main()
 	setWindowAttribute();
 
 	Game game = Game();
-	game.initGame();
+
+	game.startMenu();
 	game.menu();
 
 	_getch();

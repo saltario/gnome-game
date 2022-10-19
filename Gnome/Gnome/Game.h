@@ -14,6 +14,9 @@ private:
 	Player player;
 	Player enemy;
 
+	void newGame();
+	void loadGame();
+
 	void initPlayer();
 	void initPlayerHero();
 	void initEnemy();
@@ -22,6 +25,11 @@ private:
 	void shop();
 	void settings();
 	void exit();
+
+	void battle();
+	void attack();
+	void endBattle();
+	void printBattle(bool showLogo);
 
 	inline void printGameWin();
 	inline void printGameLose();
@@ -42,13 +50,8 @@ public:
 	Player getEnemy();
 	void setEnemy(Player enemy);
 
-	void initGame();
+	void startMenu();
 	void menu();
-	
-	void printBattle(bool showLogo);
-	void battle();
-	void attack();
-	void endBattle();
 
 	void printTwoHero(Hero hero1, Hero hero2);
 };

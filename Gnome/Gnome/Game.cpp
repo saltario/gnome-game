@@ -9,9 +9,72 @@ void Game::setPlayer(Player player) { this->player = player; }
 Player Game::getEnemy() { return enemy; }
 void Game::setEnemy(Player enemy) { this->enemy = enemy; }
 
-////////////////// INIT //////////////////
+////////////////// START //////////////////
 
-void Game::initGame()
+void Game::startMenu()
+{
+	printGameLogo();
+
+	cout.fill(' ');
+	showConsoleCursor(false);
+
+	string menuSeparator = "-----------";
+
+	bool isMenu = true;
+	bool refreshMenu = true;
+
+	int menuIndex = 0;
+	int menuChoice = 0;
+
+	while (isMenu)
+	{
+		if ((GetAsyncKeyState(VK_UP) & 1) || (GetAsyncKeyState('W') & 1))
+		{
+			refreshMenu = true;
+
+			// Самый верхний элемент меню
+			if (menuIndex == 0) { menuChoice = menuIndex; }
+			else { menuIndex -= 1; menuChoice = menuIndex; }
+		}
+
+		if ((GetAsyncKeyState(VK_DOWN) & 1) || (GetAsyncKeyState('S') & 1))
+		{
+			refreshMenu = true;
+
+			// Самый нижний элемент меню
+			if (menuIndex == 1) { menuChoice = menuIndex; }
+			else { menuIndex += 1; menuChoice = menuIndex; }
+		}
+
+		if (GetAsyncKeyState(VK_SPACE) & 1)
+		{
+			system("cls");
+			if (menuChoice == 0) { newGame(); break; }
+			if (menuChoice == 1) { loadGame(); break; }
+		}
+
+		if (refreshMenu)
+		{
+			refreshMenu = false;
+			system("cls");
+			printGameLogo();
+			setConsoleColor(purpleTextColor);
+
+			if (menuChoice == 0) { coutCentered("> Старт <"); }
+			else { coutCentered("Старт"); }
+			coutCentered(menuSeparator);
+
+			if (menuChoice == 1) { coutCentered("> Загрузить <"); }
+			else { coutCentered("Загрузить"); }
+
+			showHelp("Нажмите пробел для выбора");
+		}
+
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { exit(); break; }
+	}
+}
+
+void Game::newGame()
 {
 	printGameLogo();
 
@@ -20,8 +83,24 @@ void Game::initGame()
 	initEnemy();
 }
 
+void Game::loadGame()
+{
+	player.setName("player");
+	player.setPlayerHero(1);
+	setPlayer(player);
+
+	enemy.setPlayerHero(3);
+	enemy.setName("enemy");
+	setEnemy(enemy);
+}
+
+////////////////// END START //////////////////
+
+////////////////// INIT //////////////////
+
 void Game::initPlayer() {
 
+	showConsoleCursor(true);
 	string playerName = "player";
 	string separator = "			  ";
 
@@ -75,7 +154,6 @@ void Game::initEnemy() {
 	enemy.setName(enemyName);
 
 	setEnemy(enemy);
-
 }
 
 ////////////////// END INIT //////////////////
