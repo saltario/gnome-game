@@ -3,14 +3,13 @@
 
 using namespace std;
 
-Game game = Game();
-
 int main()
 {
 	setlocale(LC_ALL, "Rus");
 
 	setWindowAttribute();
 
+	Game game = Game();
 	game.initGame();
 	game.menu();
 

@@ -22,3 +22,5 @@ void setCursorPosition(int line, int column);
 
 int cursorX();
 int cursorY();
+
+void showHelp(string helpText);

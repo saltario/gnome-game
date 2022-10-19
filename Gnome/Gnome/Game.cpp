@@ -94,6 +94,14 @@ void Game::shop()
 	}
 }
 
+void Game::profile()
+{
+	while (true)
+	{
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
+	}
+}
+
 void Game::settings()
 {
 	printGameSettings();
@@ -124,208 +132,70 @@ void Game::menu() {
 
 	while (isMenu)
 	{
-		if ((GetAsyncKeyState(VK_UP) & 1) || (GetAsyncKeyState(0x57) & 1))
+		if ((GetAsyncKeyState(VK_UP) & 1) || (GetAsyncKeyState('W') & 1))
 		{
-			if (menuIndex == 0) { menuChoice = 0; menuIndex = 0; refreshMenu = true; }
-			if (menuIndex == 1) { menuChoice = 1; menuIndex = 0; refreshMenu = true; }
-			if (menuIndex == 2) { menuChoice = 2; menuIndex = 1; refreshMenu = true; }
-			if (menuIndex == 3) { menuChoice = 3; menuIndex = 2; refreshMenu = true; }
+			refreshMenu = true;
 
+			// Самый верхний элемент меню
+			if (menuIndex == 0) { menuChoice = menuIndex; }
+			else { menuIndex -= 1; menuChoice = menuIndex; }
 		}
 
-		if ((GetAsyncKeyState(VK_DOWN) & 1) || (GetAsyncKeyState(0x53) & 1))
+		if ((GetAsyncKeyState(VK_DOWN) & 1) || (GetAsyncKeyState('S') & 1))
 		{
-			if (menuIndex == 3) { menuChoice = 3; menuIndex = 3; refreshMenu = true; }
-			if (menuIndex == 2) { menuChoice = 3; menuIndex = 3; refreshMenu = true; }
-			if (menuIndex == 1) { menuChoice = 2; menuIndex = 2; refreshMenu = true; }
-			if (menuIndex == 0) { menuChoice = 1; menuIndex = 1; refreshMenu = true; }
+			refreshMenu = true;
+
+			// Самый нижний элемент меню
+			if (menuIndex == 4) { menuChoice = menuIndex; }
+			else { menuIndex += 1; menuChoice = menuIndex; }
 		}
 
 		if (GetAsyncKeyState(VK_SPACE) & 1)
 		{
 			system("cls");
-			if (menuChoice == 0) { startGame(); }
-			if (menuChoice == 1) { shop(); }
-			if (menuChoice == 2) { settings(); }
-			if (menuChoice == 3) { exit(); }
+			if (menuChoice == 0) { battle(); }
+			if (menuChoice == 1) { profile(); }
+			if (menuChoice == 2) { shop(); }
+			if (menuChoice == 3) { settings(); }
+			if (menuChoice == 4) { exit(); }
 		}
 
-		if (menuChoice == 0 && refreshMenu)
+		if (refreshMenu)
 		{
 			refreshMenu = false;
 			system("cls");
 			printGameLogo();
 			setConsoleColor(purpleTextColor);
 
-			coutCentered("> Старт <");
+			if (menuChoice == 0) { coutCentered("> Старт <"); }
+			else { coutCentered("Старт"); }
 			coutCentered(menuSeparator);
 
-			coutCentered("Магазин");
+			if (menuChoice == 1) { coutCentered("> Профиль <"); }
+			else { coutCentered("Профиль"); }
 			coutCentered(menuSeparator);
 
-			coutCentered("Настройки");
+			if (menuChoice == 2) { coutCentered("> Магазин <"); }
+			else { coutCentered("Магазин"); }
 			coutCentered(menuSeparator);
 
-			coutCentered("Выход");
+			if (menuChoice == 3) { coutCentered("> Настройки <"); }
+			else { coutCentered("Настройки"); }
+			coutCentered(menuSeparator);
 
+			if (menuChoice == 4) { coutCentered("> Выход <"); }
+			else { coutCentered("Выход"); }
+			
 			showHelp("Нажмите пробел для выбора");
 		}
 
-		if (menuChoice == 1 && refreshMenu)
-		{
-			refreshMenu = false;
-			system("cls");
-			printGameLogo();
-			setConsoleColor(purpleTextColor);
-
-			coutCentered("Старт");
-			coutCentered(menuSeparator);
-
-			coutCentered("> Магазин <");
-			coutCentered(menuSeparator);
-
-			coutCentered("Настройки");
-			coutCentered(menuSeparator);
-
-			coutCentered("Выход");
-
-			showHelp("Нажмите пробел для выбора");
-		}
-
-		if (menuChoice == 2 && refreshMenu)
-		{
-			refreshMenu = false;
-			system("cls");
-			printGameLogo();
-			setConsoleColor(purpleTextColor);
-
-			coutCentered("Старт");
-			coutCentered(menuSeparator);
-
-			coutCentered("Магазин");
-			coutCentered(menuSeparator);
-
-			coutCentered("> Настройки <");
-			coutCentered(menuSeparator);
-
-			coutCentered("Выход");
-
-			showHelp("Нажмите пробел для выбора");
-		}
-
-		if (menuChoice == 3 && refreshMenu)
-		{
-			refreshMenu = false;
-			system("cls");
-			printGameLogo();
-			setConsoleColor(purpleTextColor);
-
-			coutCentered("Старт");
-			coutCentered(menuSeparator);
-
-			coutCentered("Магазин");
-			coutCentered(menuSeparator);
-
-			coutCentered("Настройки");
-			coutCentered(menuSeparator);
-
-			coutCentered("> Выход <");
-
-			showHelp("Нажмите пробел для выбора");
-		}
-
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { exit(); break; }
 	}
 }
 
 ////////////////// END MENU //////////////////
 
-////////////////// PRINT HEAD //////////////////
-
-void Game::printGameLogo()
-{
-	setConsoleColor(redTextColor);
-
-	cout << R"(
-	      ________                                  
-	     /  _____/   ____    ____    _____    ____  
-	    /   \  ___  /    \  /  _ \  /     \ _/ __ \ 
-	    \    \_\  \|   |  \(  <_> )|  Y Y  \\  ___/ 
-	     \______  /|___|  / \____/ |__|_|  / \___  >
-	            \/      \/               \/      \/ 
-)" << '\n';
-}
-
-void Game::printGameBattle()
-{
-	setConsoleColor(redTextColor);
-
-	cout << R"(
-	      __________         __    __  .__          
-	      \______   \_____ _/  |__/  |_|  |   ____  
-	       |    |  _/\__  \\   __\   __\  | _/ __ \ 
-	       |    |   \ / __ \|  |  |  | |  |_\  ___/ 
-	       |______  /(____  /__|  |__| |____/\___  >
-	              \/      \/                     \/ 
-)" << '\n';
-}
-
-void Game::printGameShop()
-{
-	setConsoleColor(redTextColor);
-
-	cout << R"(
-		     _________.__                   
-		    /   _____/|  |__   ____ ______  
-		    \_____  \ |  |  \ /  _ \\____ \ 
-		    /        \|   Y  (  <_> )  |_> >
-		   /_______  /|___|  /\____/|   __/ 
-		           \/      \/       |__|    
-)" << '\n';
-}
-
-void Game::printGameSettings()
-{
-	setConsoleColor(redTextColor);
-
-	cout << R"(
-	  _________       __    __  .__                      
-	 /   _____/ _____/  |__/  |_|__| ____    ____  ______
-	 \_____  \_/ __ \   __\   __\  |/    \  / ___\/  ___/
-	 /        \  ___/|  |  |  | |  |   |  \/ /_/  >___ \ 
-	/_______  /\___  >__|  |__| |__|___|  /\___  /____  >
-	        \/     \/                   \//_____/     \/   
-)" << '\n';
-}
-
-void Game::printGameWin()
-{
-	setConsoleColor(redTextColor);
-
-	cout << R"(
-			 __      __.__      ._.
-			/  \    /  \__| ____| |
-			\   \/\/   /  |/    \ |
-			 \        /|  |   |  \|
-			  \__/\  / |__|___|  /_
-			       \/          \/\/
-)" << '\n';
-}
-
-void Game::printGameLose()
-{
-	setConsoleColor(redTextColor);
-
-	cout << R"(
-		.____                      ._.
-		|    |    ____  ______ ____| |
-		|    |   /  _ \/  ___// __ \ |
-		|    |__(  <_> )___ \\  ___/\|
-		|_______ \____/____  >\___  >_
-		        \/         \/     \/\/
-)" << '\n';
-}
-
-////////////////// END PRINT HEAD //////////////////
+////////////////// BATTLE //////////////////
 
 void Game::printBattle(bool showLogo)
 {
@@ -460,8 +330,8 @@ void Game::battle()
 
 		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
 
-		if (gameOver) 
-		{ 
+		if (gameOver)
+		{
 			player.setPlayerHero(playerHero);
 			enemy.setPlayerHero(enemyHero);
 
@@ -502,6 +372,96 @@ void Game::attack()
 		else { printBattle(1); gameOver = false; }
 	}
 }
+
+////////////////// END BATTLE //////////////////
+
+////////////////// PRINT HEAD //////////////////
+
+inline void Game::printGameLogo()
+{
+	setConsoleColor(redTextColor);
+
+	cout << R"(
+	      ________                                  
+	     /  _____/   ____    ____    _____    ____  
+	    /   \  ___  /    \  /  _ \  /     \ _/ __ \ 
+	    \    \_\  \|   |  \(  <_> )|  Y Y  \\  ___/ 
+	     \______  /|___|  / \____/ |__|_|  / \___  >
+	            \/      \/               \/      \/ 
+)" << '\n';
+}
+
+inline void Game::printGameBattle()
+{
+	setConsoleColor(redTextColor);
+
+	cout << R"(
+	      __________         __    __  .__          
+	      \______   \_____ _/  |__/  |_|  |   ____  
+	       |    |  _/\__  \\   __\   __\  | _/ __ \ 
+	       |    |   \ / __ \|  |  |  | |  |_\  ___/ 
+	       |______  /(____  /__|  |__| |____/\___  >
+	              \/      \/                     \/ 
+)" << '\n';
+}
+
+inline void Game::printGameShop()
+{
+	setConsoleColor(redTextColor);
+
+	cout << R"(
+		     _________.__                   
+		    /   _____/|  |__   ____ ______  
+		    \_____  \ |  |  \ /  _ \\____ \ 
+		    /        \|   Y  (  <_> )  |_> >
+		   /_______  /|___|  /\____/|   __/ 
+		           \/      \/       |__|    
+)" << '\n';
+}
+
+inline void Game::printGameSettings()
+{
+	setConsoleColor(redTextColor);
+
+	cout << R"(
+	  _________       __    __  .__                      
+	 /   _____/ _____/  |__/  |_|__| ____    ____  ______
+	 \_____  \_/ __ \   __\   __\  |/    \  / ___\/  ___/
+	 /        \  ___/|  |  |  | |  |   |  \/ /_/  >___ \ 
+	/_______  /\___  >__|  |__| |__|___|  /\___  /____  >
+	        \/     \/                   \//_____/     \/   
+)" << '\n';
+}
+
+inline void Game::printGameWin()
+{
+	setConsoleColor(redTextColor);
+
+	cout << R"(
+			 __      __.__      ._.
+			/  \    /  \__| ____| |
+			\   \/\/   /  |/    \ |
+			 \        /|  |   |  \|
+			  \__/\  / |__|___|  /_
+			       \/          \/\/
+)" << '\n';
+}
+
+inline void Game::printGameLose()
+{
+	setConsoleColor(redTextColor);
+
+	cout << R"(
+		.____                      ._.
+		|    |    ____  ______ ____| |
+		|    |   /  _ \/  ___// __ \ |
+		|    |__(  <_> )___ \\  ___/\|
+		|_______ \____/____  >\___  >_
+		        \/         \/     \/\/
+)" << '\n';
+}
+
+////////////////// END PRINT HEAD //////////////////
 
 void Game::printTwoHero(Hero hero1, Hero hero2)
 {
@@ -585,21 +545,4 @@ void Game::printTwoHero(Hero hero1, Hero hero2)
 	cout << str2 << endl;
 
 	printSeparatorForShop();
-}
-
-void Game::startGame()
-{
-	battle();
-
-	while (true)
-	{
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
-	}
-}
-
-void Game::showHelp(string helpText)
-{
-	setConsoleColor(yellowTextColor);
-	setCursorPosition(consoleHeight, 0);
-	coutCentered(helpText, 0);
 }
