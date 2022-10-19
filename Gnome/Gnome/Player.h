@@ -15,6 +15,7 @@ class Player
 private:
 	int Level;
 	int Stars;
+	int heroId;
 	string Name;
 	Hero hero;
 
@@ -25,6 +26,9 @@ public:
 
 	int getLevel();
 	void setLevel(int Level);
+
+	int getHeroId();
+	void setHeroId(int heroId);
 
 	int getStars();
 	void setStars(int Stars);
@@ -37,5 +41,6 @@ public:
 	void setPlayerHero(Hero hero);
 
 	void printPlayer();
+	void printProfile();
 
 };

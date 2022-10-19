@@ -4,18 +4,44 @@
 #include "Player.h"
 #include "Constants.h"
 
+#include <ctime>
+
 using namespace std;
 using namespace constants;
 
 class Game
 {
 private:
+	bool gameOver;
 	Player player;
 	Player enemy;
+
+	void newGame();
+	void loadGame();
 
 	void initPlayer();
 	void initPlayerHero();
 	void initEnemy();
+
+	void profile();
+	void shop();
+	void settings();
+	void exit();
+
+	void battle();
+	void attack();
+	void choiceEnemy();
+	void endBattle();
+	void printBattle(bool showLogo, bool nextEnemy);
+
+	inline void printGameWin();
+	inline void printGameLose();
+
+	inline void printGameLogo();
+	inline void printGameBattle();
+	inline void printGameShop();
+	inline void printGameSettings();
+	inline void printGameProfile();
 
 public:
 	Game();
@@ -27,26 +53,9 @@ public:
 	Player getEnemy();
 	void setEnemy(Player enemy);
 
-	void initGame();
-	
-	void printBattle(bool showLogo);
-	void battle();
-	void attack();
-	void printTwoHero(Hero hero1, Hero hero2);
-
+	void startMenu();
 	void menu();
 
-	void startGame();
-	void shop();
-	void settings();
-	void exit();
-
-	void printGameLogo();
-	void printGameBattle();
-	void printGameShop();
-	void printGameSettings();
-
-	void printGameWin();
-	void printGameLose();
+	void printTwoHero(Hero hero1, Hero hero2);
 };
 

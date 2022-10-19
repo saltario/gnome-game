@@ -3,15 +3,15 @@
 
 using namespace std;
 
-Game game = Game();
-
 int main()
 {
 	setlocale(LC_ALL, "Rus");
 
 	setWindowAttribute();
 
-	game.initGame();
+	Game game = Game();
+
+	game.startMenu();
 	game.menu();
 
 	_getch();
