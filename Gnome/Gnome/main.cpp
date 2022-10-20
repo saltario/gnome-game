@@ -1,5 +1,6 @@
 #include "conio.h"
 #include "Game.h"
+#include "Resources.h"
 
 using namespace std;
 

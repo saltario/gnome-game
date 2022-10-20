@@ -45,5 +45,4 @@ namespace constants {
 	const int heroTextWidth = 12;
 	const int heroValueWidth = 5;
 	const int playerTextWidth = 8;
-
 }
