@@ -101,6 +101,8 @@ void setWindowAttribute() {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SMALL_RECT rect2 = { 0, 0, consoleWidth, consoleHeight };
 	SetConsoleWindowInfo(hConsole, TRUE, &rect2);
+
+	SetConsoleTitleW(L"Gnome Game");
 }
 
 void setConsoleColor(int textColor) {
