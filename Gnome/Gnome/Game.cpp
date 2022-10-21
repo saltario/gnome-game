@@ -278,14 +278,15 @@ void Game::menu() {
 
 ////////////////// BATTLE //////////////////
 
-void Game::printBattle(bool showLogo, bool nextEnemy = true, bool isAttack = false)
+void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAttack = false)
 {
+	string str1;
+	string str2 = " |";
+	string str3;
+
 	if (showLogo) { setCursorPosition(0, 0); printGameBattle(); }
 
 	printSeparatorForBattle();
-
-	string str1;
-	string str2 = " |";
 
 	////////////////////////////////
 	str1 = "| Игрок: ";
@@ -365,7 +366,7 @@ void Game::printBattle(bool showLogo, bool nextEnemy = true, bool isAttack = fal
 	printSeparatorForBattle();
 
 	cout.fill(' ');
-	SetConsoleTextAttribute(hConsole, lightGreenTextColor);
+	setConsoleColor(lightGreenTextColor);
 
 	////////////////////////////////
 	str1 = "| Имя: ";
@@ -404,15 +405,37 @@ void Game::printBattle(bool showLogo, bool nextEnemy = true, bool isAttack = fal
 
 	printEmptySeparator();
 
-	str1 = "| Здоровье: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	if (isHeroAttack) 
+	{
+		setConsoleColor(redTextColor);
+		str3 = to_string(enemy.getPlayerHero().getHealth()) + " - (" + to_string(player.getPlayerHero().getDamage()) + ")";
 
-	cout.width(heroTextWidth - str2.length());
-	cout << to_string(enemy.getPlayerHero().getHealth());
+		str1 = "| Здоровье: ";
+		cout.width(heroTextWidth);
+		cout << str1;
 
-	cout.width(str2.length());
-	cout << str2 << endl;
+		cout.width(heroTextWidth - str2.length());
+		cout << str3;
+
+		cout.width(str2.length());
+		cout << str2 << endl;
+
+		setConsoleColor(lightGreenTextColor);
+	}
+	else
+	{
+		str1 = "| Здоровье: ";
+		cout.width(heroTextWidth);
+		cout << str1;
+
+		cout.width(heroTextWidth - str2.length());
+		cout << to_string(enemy.getPlayerHero().getHealth());
+
+		cout.width(str2.length());
+		cout << str2 << endl;
+	}
+
+	
 
 	////////////////////////////////
 
@@ -439,10 +462,6 @@ void Game::printBattle(bool showLogo, bool nextEnemy = true, bool isAttack = fal
 	cout << str2 << endl;
 
 	printSeparatorForBattle();
-
-	//if (showLogo) { showHelp("Q - Атака, W - Лечение"); }
-	//if (showLogo && nextEnemy) { showHelp("Q - Атака, W - Лечение, R - Следующий"); }
-	//if (!showLogo && !nextEnemy) { showHelp("Нажмите ESC чтобы продолжить"); }
 }
 
 void Game::battle()
@@ -500,7 +519,7 @@ void Game::battle()
 			refreshMenu = false;
 			setConsoleColor(purpleTextColor);
 
-			if (menuChoice == 0) { coutCentered("> Атака <"); }
+			if (menuChoice == 0) { printBattle(1, 1, 0); setConsoleColor(purpleTextColor); coutCentered("> Атака <"); }
 			else { coutCentered("Атака"); }
 			coutCentered(menuSeparator);
 
@@ -550,7 +569,7 @@ void Game::attack()
 		player.setPlayerHero(playerHero);
 
 		if (playerHero.getHealth() <= 0) { printGameLose(); printBattle(false); gameOver = true; }
-		else { printBattle(1, 0); gameOver = false; }
+		else { printBattle(1, 1, 0); gameOver = false; }
 	}
 }
 
