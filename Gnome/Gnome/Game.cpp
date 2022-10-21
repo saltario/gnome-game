@@ -291,7 +291,7 @@ void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAtt
 	////////////////////////////////
 	str1 = "| Игрок: ";
 
-	SetConsoleTextAttribute(hConsole, yellowTextColor);
+	setConsoleColor(yellowTextColor);
 	cout.fill(' ');
 
 	cout.width(heroTextWidth);
@@ -393,17 +393,39 @@ void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAtt
 
 	////////////////////////////////
 
-	str1 = "| Здоровье: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	if (isEnemyAttack)
+	{
+		setConsoleColor(redTextColor);
+		str3 = to_string(player.getPlayerHero().getHealth()) + " - (" + to_string(enemy.getPlayerHero().getDamage()) + ")";
 
-	cout.width(heroTextWidth - str2.length());
-	cout << to_string(player.getPlayerHero().getHealth());
+		str1 = "| Здоровье: ";
+		cout.width(heroTextWidth);
+		cout << str1;
 
-	cout.width(str2.length());
-	cout << str2;
+		cout.width(heroTextWidth - str2.length());
+		cout << str3;
 
-	printEmptySeparator();
+		cout.width(str2.length());
+		cout << str2;
+
+		printEmptySeparator();
+		setConsoleColor(lightGreenTextColor);
+	}
+
+	else
+	{
+		str1 = "| Здоровье: ";
+		cout.width(heroTextWidth);
+		cout << str1;
+
+		cout.width(heroTextWidth - str2.length());
+		cout << to_string(player.getPlayerHero().getHealth());
+
+		cout.width(str2.length());
+		cout << str2;
+
+		printEmptySeparator();
+	}
 
 	if (isHeroAttack) 
 	{
@@ -435,8 +457,6 @@ void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAtt
 		cout << str2 << endl;
 	}
 
-	
-
 	////////////////////////////////
 
 	str1 = "| Урон: ";
@@ -462,6 +482,8 @@ void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAtt
 	cout << str2 << endl;
 
 	printSeparatorForBattle();
+
+	if (!showLogo) { showHelp("Нажмите ESC, чтобы продолжить"); }
 }
 
 void Game::battle()
@@ -479,6 +501,7 @@ void Game::battle()
 
 	bool isMenu = true;
 	bool refreshMenu = true;
+	bool shortChoice = false;
 
 	int menuIndex = 0;
 	int menuChoice = 0;
@@ -503,11 +526,15 @@ void Game::battle()
 			else { menuIndex += 1; menuChoice = menuIndex; }
 		}
 
-		if (GetAsyncKeyState(VK_SPACE) & 1)
+		if (GetAsyncKeyState('Q') & 1) { shortChoice = true; menuChoice = 0; }
+		if (GetAsyncKeyState('W') & 1) { shortChoice = true; menuChoice = 1; }
+		if (GetAsyncKeyState('R') & 1) { shortChoice = true; menuChoice = 2; }
+
+		if ((GetAsyncKeyState(VK_SPACE) & 1) || shortChoice)
 		{
-			if ((menuChoice == 0) && (gameOver == false)) { nextEnemy = false; refreshMenu = true; attack(); }
-			if ((menuChoice == 1) && (nextEnemy)) {  }
-			if ((menuChoice == 2) && (nextEnemy)) { refreshMenu = true; choiceEnemy(); }
+			if ((menuChoice == 0) && (gameOver == false)) { shortChoice = false; nextEnemy = false; refreshMenu = true; attack(); }
+			if ((menuChoice == 1) && (nextEnemy)) { shortChoice = false; }
+			if ((menuChoice == 2) && (nextEnemy)) { shortChoice = false; refreshMenu = true; choiceEnemy(); }
 		}
 
 		if (gameOver) { refreshMenu = false; endBattle(); }
@@ -559,17 +586,15 @@ void Game::attack()
 
 		if (enemyHero.getHealth() <= 0) { printGameWin(); printBattle(false); gameOver = true; }
 		else { whoAttack = 0; }
-
-		Sleep(100);
-
 	}
+
 	if (whoAttack == 0) {
 
 		playerHero.setHealth(playerHero.getHealth() - enemyHero.getDamage());
 		player.setPlayerHero(playerHero);
 
 		if (playerHero.getHealth() <= 0) { printGameLose(); printBattle(false); gameOver = true; }
-		else { printBattle(1, 1, 0); gameOver = false; }
+		else { printBattle(1, 0, 1); Sleep(1000); gameOver = false; }
 	}
 }
 
@@ -579,7 +604,7 @@ void Game::choiceEnemy()
 	int random = 1 + rand() % 6;
 	enemy.setPlayerHero(random);
 	setEnemy(enemy);
-	printBattle(1, 1);
+	printBattle(1, 0, 0);
 }
 
 void Game::endBattle()
