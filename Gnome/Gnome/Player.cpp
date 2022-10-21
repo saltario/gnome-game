@@ -96,3 +96,23 @@ void Player::printProfile()
 	////////////////////////////////
 
 }
+
+void Player::savePlayer()
+{
+	ofstream fin;
+	string path = "../Resources/data.txt";
+
+	fin.open(path, ios::out);
+	fin << this->Name << endl;
+	fin << this->Level << endl;
+	fin << this->Stars << endl;
+	fin << this->heroId;
+	fin.close();
+}
+
+void Player::loadPlayer()
+{
+	ifstream file("../Resources/data.txt");
+
+	while (file >> this->Name >> this->Level >> this->Stars >> this->heroId);
+}

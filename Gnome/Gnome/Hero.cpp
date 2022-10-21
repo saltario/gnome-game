@@ -38,7 +38,7 @@ Hero::Hero(int heroId)
 		break;
 
 	case 3:
-		this->Damage = 200;
+		this->Damage = 20;
 		this->Health = 12;
 		this->Name = "Áèôóð";
 		this->Price = 150;

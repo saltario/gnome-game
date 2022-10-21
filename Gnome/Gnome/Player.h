@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <fstream>
 
 #include "Hero.h"
 #include "Functions.h"
@@ -42,5 +44,8 @@ public:
 
 	void printPlayer();
 	void printProfile();
+
+	void savePlayer();
+	void loadPlayer();
 
 };

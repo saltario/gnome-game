@@ -32,7 +32,7 @@ private:
 	void attack();
 	void choiceEnemy();
 	void endBattle();
-	void printBattle(bool showLogo, bool nextEnemy, bool isAttack);
+	void printBattle(bool showLogo, bool isHeroAttack, bool isEnemyAttack);
 
 	inline void printGameWin();
 	inline void printGameLose();
