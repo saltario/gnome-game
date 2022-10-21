@@ -19,9 +19,10 @@ void showConsoleCursor(bool showFlag);
 void setWindowAttribute();
 void setConsoleColor(int textColor);
 void setCursorPosition(int line, int column);
-void setTitle(string title);
 
 int cursorX();
 int cursorY();
 
 void showHelp(string helpText);
+
+

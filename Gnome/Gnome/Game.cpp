@@ -81,17 +81,19 @@ void Game::newGame()
 	initPlayer();
 	initPlayerHero();
 	initEnemy();
+
+	player.savePlayer();
 }
 
 void Game::loadGame()
 {
-	player.setName("player");
-	player.setPlayerHero(1);
-	setPlayer(player);
-
 	enemy.setPlayerHero(3);
 	enemy.setName("enemy");
 	setEnemy(enemy);
+
+	player.loadPlayer();
+	player.setPlayerHero(player.getHeroId());
+	setPlayer(player);
 }
 
 ////////////////// END START //////////////////
