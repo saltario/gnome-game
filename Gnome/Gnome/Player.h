@@ -48,4 +48,6 @@ public:
 	void savePlayer();
 	void loadPlayer();
 
+	void setEnemy();
+
 };

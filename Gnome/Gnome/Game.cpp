@@ -80,17 +80,12 @@ void Game::newGame()
 
 	initPlayer();
 	initPlayerHero();
-	initEnemy();
 
 	player.savePlayer();
 }
 
 void Game::loadGame()
 {
-	enemy.setPlayerHero(3);
-	enemy.setName("enemy");
-	setEnemy(enemy);
-
 	player.loadPlayer();
 	player.setPlayerHero(player.getHeroId());
 	setPlayer(player);
@@ -141,21 +136,6 @@ void Game::initPlayerHero()
 	}
 
 	setPlayer(player);
-}
-
-void Game::initEnemy() {
-
-	string enemyName = "enemy";
-
-	Player enemy = getPlayer();
-
-	Hero tmp = getEnemy().getPlayerHero();
-	tmp = tmp.getHeroById(3);
-
-	enemy.setPlayerHero(3);
-	enemy.setName(enemyName);
-
-	setEnemy(enemy);
 }
 
 ////////////////// END INIT //////////////////
@@ -510,6 +490,8 @@ void Game::battle()
 	int menuIndex = 0;
 	int menuChoice = 0;
 
+	choiceEnemy();
+
 	while (isMenu)
 	{
 		if ((GetAsyncKeyState(VK_UP) & 1) || (GetAsyncKeyState('W') & 1))
@@ -634,7 +616,10 @@ void Game::choiceEnemy()
 {
 	srand(time(0));
 	int random = 1 + rand() % 6;
+
+	enemy.setEnemy();
 	enemy.setPlayerHero(random);
+
 	setEnemy(enemy);
 	printBattle(1, 0, 0);
 }

@@ -116,3 +116,54 @@ void Player::loadPlayer()
 
 	while (file >> this->Name >> this->Level >> this->Stars >> this->heroId);
 }
+
+void Player::setEnemy()
+{
+	srand(time(0));
+	int nameId = 1 + rand() % 6;
+
+	switch (nameId)
+	{
+	case 1:
+		this->Name = "Толкин";
+		this->Level = 10;
+		this->Stars = 120;
+		break;
+
+	case 2:
+		this->Name = "Жмуркин";
+		this->Level = 15;
+		this->Stars = 10;
+		break;
+
+	case 3:
+		this->Name = "Димон";
+		this->Level = 2;
+		this->Stars = 10;
+		break;
+
+	case 4:
+		this->Name = "Никитос";
+		this->Level = 7;
+		this->Stars = 150;
+		break;
+
+	case 5:
+		this->Name = "Хуелкин";
+		this->Level = 80;
+		this->Stars = 1000;
+		break;
+
+	case 6:
+		this->Name = "Кашеварин";
+		this->Level = 1;
+		this->Stars = 10;
+		break;
+
+	default:
+		this->Name = "Стандартный";
+		this->Level = 10;
+		this->Stars = 120;
+		break;
+	}
+}

@@ -21,7 +21,6 @@ private:
 
 	void initPlayer();
 	void initPlayerHero();
-	void initEnemy();
 
 	void profile();
 	void shop();
