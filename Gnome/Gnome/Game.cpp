@@ -488,6 +488,8 @@ void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAtt
 	if (!showLogo) { showHelp("Нажмите ESC, чтобы продолжить"); }
 }
 
+
+
 void Game::battle()
 {
 	gameOver = false;
@@ -539,8 +541,10 @@ void Game::battle()
 			if ((menuChoice == 2) && (nextEnemy)) { shortChoice = false; refreshMenu = true; choiceEnemy(); }
 		}
 
-		if (gameOver) { refreshMenu = false; endBattle(); }
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
 
+		if (gameOver) { refreshMenu = false; }
+		
 		if (refreshMenu)
 		{
 			system("cls");
@@ -564,8 +568,6 @@ void Game::battle()
 
 			showHelp("Нажмите пробел для выбора");
 		}
-
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { endBattle(); menu(); break; }
 	}
 }
 
@@ -586,7 +588,7 @@ void Game::attack()
 		enemyHero.setHealth(enemyHero.getHealth() - playerHero.getDamage());
 		enemy.setPlayerHero(enemyHero);
 
-		if (enemyHero.getHealth() <= 0) { printGameWin(); printBattle(false); gameOver = true; }
+		if (enemyHero.getHealth() <= 0) { gameWin(); }
 		else { whoAttack = 0; }
 	}
 
@@ -595,9 +597,37 @@ void Game::attack()
 		playerHero.setHealth(playerHero.getHealth() - enemyHero.getDamage());
 		player.setPlayerHero(playerHero);
 
-		if (playerHero.getHealth() <= 0) { printGameLose(); printBattle(false); gameOver = true; }
+		if (playerHero.getHealth() <= 0) { gameLose(); }
 		else { printBattle(1, 0, 1); Sleep(1000); gameOver = false; }
 	}
+}
+
+void Game::gameWin()
+{
+	gameOver = true;
+
+	player.setLevel(player.getLevel() + 1);
+	player.setStars(player.getStars() + 10);
+	player.savePlayer();
+
+	printGameWin(); 
+	printBattle(false);
+
+	endBattle();
+}
+
+void Game::gameLose()
+{
+	gameOver = true;
+
+	player.setLevel(player.getLevel() - 1);
+	player.setStars(player.getStars() - 10);
+	player.savePlayer();
+
+	printGameLose(); 
+	printBattle(false);
+
+	endBattle();
 }
 
 void Game::choiceEnemy()

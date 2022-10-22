@@ -34,6 +34,9 @@ private:
 	void endBattle();
 	void printBattle(bool showLogo, bool isHeroAttack, bool isEnemyAttack);
 
+	void gameWin();
+	void gameLose();
+
 	inline void printGameWin();
 	inline void printGameLose();
 
