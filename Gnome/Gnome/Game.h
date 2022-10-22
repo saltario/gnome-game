@@ -21,7 +21,6 @@ private:
 
 	void initPlayer();
 	void initPlayerHero();
-	void initEnemy();
 
 	void profile();
 	void shop();
@@ -33,6 +32,9 @@ private:
 	void choiceEnemy();
 	void endBattle();
 	void printBattle(bool showLogo, bool isHeroAttack, bool isEnemyAttack);
+
+	void gameWin();
+	void gameLose();
 
 	inline void printGameWin();
 	inline void printGameLose();

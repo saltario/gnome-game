@@ -80,17 +80,12 @@ void Game::newGame()
 
 	initPlayer();
 	initPlayerHero();
-	initEnemy();
 
 	player.savePlayer();
 }
 
 void Game::loadGame()
 {
-	enemy.setPlayerHero(3);
-	enemy.setName("enemy");
-	setEnemy(enemy);
-
 	player.loadPlayer();
 	player.setPlayerHero(player.getHeroId());
 	setPlayer(player);
@@ -141,21 +136,6 @@ void Game::initPlayerHero()
 	}
 
 	setPlayer(player);
-}
-
-void Game::initEnemy() {
-
-	string enemyName = "enemy";
-
-	Player enemy = getPlayer();
-
-	Hero tmp = getEnemy().getPlayerHero();
-	tmp = tmp.getHeroById(3);
-
-	enemy.setPlayerHero(3);
-	enemy.setName(enemyName);
-
-	setEnemy(enemy);
 }
 
 ////////////////// END INIT //////////////////
@@ -488,6 +468,8 @@ void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAtt
 	if (!showLogo) { showHelp("Нажмите ESC, чтобы продолжить"); }
 }
 
+
+
 void Game::battle()
 {
 	gameOver = false;
@@ -507,6 +489,8 @@ void Game::battle()
 
 	int menuIndex = 0;
 	int menuChoice = 0;
+
+	choiceEnemy();
 
 	while (isMenu)
 	{
@@ -539,8 +523,10 @@ void Game::battle()
 			if ((menuChoice == 2) && (nextEnemy)) { shortChoice = false; refreshMenu = true; choiceEnemy(); }
 		}
 
-		if (gameOver) { refreshMenu = false; endBattle(); }
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
 
+		if (gameOver) { refreshMenu = false; }
+		
 		if (refreshMenu)
 		{
 			system("cls");
@@ -564,8 +550,6 @@ void Game::battle()
 
 			showHelp("Нажмите пробел для выбора");
 		}
-
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { endBattle(); menu(); break; }
 	}
 }
 
@@ -586,7 +570,7 @@ void Game::attack()
 		enemyHero.setHealth(enemyHero.getHealth() - playerHero.getDamage());
 		enemy.setPlayerHero(enemyHero);
 
-		if (enemyHero.getHealth() <= 0) { printGameWin(); printBattle(false); gameOver = true; }
+		if (enemyHero.getHealth() <= 0) { gameWin(); }
 		else { whoAttack = 0; }
 	}
 
@@ -595,16 +579,47 @@ void Game::attack()
 		playerHero.setHealth(playerHero.getHealth() - enemyHero.getDamage());
 		player.setPlayerHero(playerHero);
 
-		if (playerHero.getHealth() <= 0) { printGameLose(); printBattle(false); gameOver = true; }
+		if (playerHero.getHealth() <= 0) { gameLose(); }
 		else { printBattle(1, 0, 1); Sleep(1000); gameOver = false; }
 	}
+}
+
+void Game::gameWin()
+{
+	gameOver = true;
+
+	player.setLevel(player.getLevel() + 1);
+	player.setStars(player.getStars() + 10);
+	player.savePlayer();
+
+	printGameWin(); 
+	printBattle(false);
+
+	endBattle();
+}
+
+void Game::gameLose()
+{
+	gameOver = true;
+
+	player.setLevel(player.getLevel() - 1);
+	player.setStars(player.getStars() - 10);
+	player.savePlayer();
+
+	printGameLose(); 
+	printBattle(false);
+
+	endBattle();
 }
 
 void Game::choiceEnemy()
 {
 	srand(time(0));
 	int random = 1 + rand() % 6;
+
+	enemy.setEnemy();
 	enemy.setPlayerHero(random);
+
 	setEnemy(enemy);
 	printBattle(1, 0, 0);
 }
