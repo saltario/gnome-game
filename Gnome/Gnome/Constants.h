@@ -20,6 +20,12 @@ namespace constants {
 	const int yellowTextColor = 14;
 	const int lightWhiteTextColor = 10;
 
+	const int playerColor = yellowTextColor;
+	const int heroColor = yellowTextColor;
+
+	const int playerFrameColor = pinkTextColor;
+	const int enemyFrameColor = deppYellowTextColor;
+
 	////////////////// END COLORS //////////////////
 
 	////////////////// SEPARATOR //////////////////

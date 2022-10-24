@@ -262,213 +262,282 @@ void Game::menu() {
 
 void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAttack = false)
 {
-	string str1;
-	string str2 = " |";
-	string str3;
+	string strOpen = "| ";
+	string strClose = " |";
+
+	int strOpenLenght = strOpen.length();
+	int strCloseLenght = strClose.length();
+
+	string strPres;
+	string strValue;
+
+	int strColor;
 
 	if (showLogo) { setCursorPosition(0, 0); printGameBattle(); }
 
 	printSeparatorForBattle();
 
 	////////////////////////////////
-	str1 = "| Игрок: ";
 
-	setConsoleColor(yellowTextColor);
-	cout.fill(' ');
+	strPres = "Игрок: ";
+	strValue = player.getName();
 
-	cout.width(heroTextWidth);
-	cout << str1;
+	setConsoleColor(playerFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
 
-	cout.width(heroTextWidth - str2.length());
-	cout << player.getName();
+	setConsoleColor(heroColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
 
-	cout.width(str2.length());
-	cout << str2;
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
+
+	setConsoleColor(playerFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose;
 
 	printEmptySeparator();
 
-	cout.width(heroTextWidth);
-	cout << str1;
+	strValue = enemy.getName();
 
-	cout.width(heroTextWidth - str2.length());
-	cout << enemy.getName();
+	setConsoleColor(enemyFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
 
-	cout.width(str2.length());
-	cout << str2 << endl;
+	setConsoleColor(playerColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
+
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
+
+	setConsoleColor(enemyFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose << endl;
 
 	////////////////////////////////
 
-	str1 = "| Уровень: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	strPres = "Уровень: ";
+	strValue = to_string(player.getLevel());
 
-	cout.width(heroTextWidth - str2.length());
-	cout << player.getLevel();
+	setConsoleColor(playerFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
 
-	cout.width(str2.length());
-	cout << str2;
+	setConsoleColor(heroColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
+
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
+
+	setConsoleColor(playerFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose;
 
 	printEmptySeparator();
 
-	str1 = "| Уровень: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	strValue = to_string(enemy.getLevel());
 
-	cout.width(heroTextWidth - str2.length());
-	cout << enemy.getLevel();
+	setConsoleColor(enemyFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
 
-	cout.width(str2.length());
-	cout << str2 << endl;
+	setConsoleColor(playerColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
+
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
+
+	setConsoleColor(enemyFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose << endl;
 
 	////////////////////////////////
 
-	str1 = "| Звезды: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	strPres = "Звезды: ";
+	strValue = to_string(player.getStars());
 
-	cout.width(heroTextWidth - str2.length());
-	cout << player.getStars();
+	setConsoleColor(playerFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
 
-	cout.width(str2.length());
-	cout << str2;
+	setConsoleColor(heroColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
+
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
+
+	setConsoleColor(playerFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose;
 
 	printEmptySeparator();
 
-	str1 = "| Звезды: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	strValue = to_string(enemy.getStars());
 
-	cout.width(heroTextWidth - str2.length());
-	cout << enemy.getStars();
+	setConsoleColor(enemyFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
 
-	cout.width(str2.length());
-	cout << str2 << endl;
+	setConsoleColor(playerColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
+
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
+
+	setConsoleColor(enemyFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose << endl;
 
 	////////////////////////////////
 	printSeparatorForBattle();
-
-	cout.fill(' ');
-	setConsoleColor(lightGreenTextColor);
-
 	////////////////////////////////
-	str1 = "| Имя: ";
-	cout.width(heroTextWidth);
-	cout << str1;
 
-	cout.width(heroTextWidth - str2.length());
-	cout << player.getPlayerHero().getName();
+	strPres = "Имя: ";
+	strValue = player.getPlayerHero().getName();
 
-	cout.width(str2.length());
-	cout << str2;
+	setConsoleColor(playerFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
+
+	setConsoleColor(heroColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
+
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
+
+	setConsoleColor(playerFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose;
 
 	printEmptySeparator();
 
-	str1 = "| Имя: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	strValue = enemy.getPlayerHero().getName();
 
-	cout.width(heroTextWidth - str2.length());
-	cout << enemy.getPlayerHero().getName();
+	setConsoleColor(enemyFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
 
-	cout.width(str2.length());
-	cout << str2 << endl;
+	setConsoleColor(playerColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
+
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
+
+	setConsoleColor(enemyFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose << endl;
 
 	////////////////////////////////
+
+	strPres = "Здоровье: ";
 
 	if (isEnemyAttack)
 	{
-		setConsoleColor(redTextColor);
-		str3 = to_string(player.getPlayerHero().getHealth()) + " - (" + to_string(enemy.getPlayerHero().getDamage()) + ")";
-
-		str1 = "| Здоровье: ";
-		cout.width(heroTextWidth);
-		cout << str1;
-
-		cout.width(heroTextWidth - str2.length());
-		cout << str3;
-
-		cout.width(str2.length());
-		cout << str2;
-
-		printEmptySeparator();
-		setConsoleColor(lightGreenTextColor);
+		strColor = redTextColor;
+		strValue = to_string(player.getPlayerHero().getHealth()) + " - (" + to_string(enemy.getPlayerHero().getDamage()) + ")";
 	}
 
 	else
 	{
-		str1 = "| Здоровье: ";
-		cout.width(heroTextWidth);
-		cout << str1;
-
-		cout.width(heroTextWidth - str2.length());
-		cout << to_string(player.getPlayerHero().getHealth());
-
-		cout.width(str2.length());
-		cout << str2;
-
-		printEmptySeparator();
+		strColor = heroColor;
+		strValue = to_string(player.getPlayerHero().getHealth());
 	}
 
-	if (isHeroAttack) 
-	{
-		setConsoleColor(redTextColor);
-		str3 = to_string(enemy.getPlayerHero().getHealth()) + " - (" + to_string(player.getPlayerHero().getDamage()) + ")";
+	setConsoleColor(playerFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
 
-		str1 = "| Здоровье: ";
-		cout.width(heroTextWidth);
-		cout << str1;
+	setConsoleColor(strColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
 
-		cout.width(heroTextWidth - str2.length());
-		cout << str3;
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
 
-		cout.width(str2.length());
-		cout << str2 << endl;
-
-		setConsoleColor(lightGreenTextColor);
-	}
-	else
-	{
-		str1 = "| Здоровье: ";
-		cout.width(heroTextWidth);
-		cout << str1;
-
-		cout.width(heroTextWidth - str2.length());
-		cout << to_string(enemy.getPlayerHero().getHealth());
-
-		cout.width(str2.length());
-		cout << str2 << endl;
-	}
-
-	////////////////////////////////
-
-	str1 = "| Урон: ";
-	cout.width(heroTextWidth);
-	cout << str1;
-
-	cout.width(heroTextWidth - str2.length());
-	cout << to_string(player.getPlayerHero().getDamage());
-
-	cout.width(str2.length());
-	cout << str2;
+	setConsoleColor(playerFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose;
 
 	printEmptySeparator();
 
-	str1 = "| Урон: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	if (isHeroAttack)
+	{
+		strColor = redTextColor;
+		strValue = to_string(enemy.getPlayerHero().getHealth()) + " - (" + to_string(player.getPlayerHero().getDamage()) + ")";
+	}
 
-	cout.width(heroTextWidth - str2.length());
-	cout << to_string(enemy.getPlayerHero().getDamage());
+	else
+	{
+		strColor = heroColor;
+		strValue = to_string(enemy.getPlayerHero().getHealth());
+	}
 
-	cout.width(str2.length());
-	cout << str2 << endl;
+	setConsoleColor(enemyFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
+
+	setConsoleColor(strColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
+
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
+
+	setConsoleColor(enemyFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose << endl;
+
+	////////////////////////////////
+
+	strPres = "Урон: ";
+	strValue = to_string(player.getPlayerHero().getDamage());
+
+	setConsoleColor(playerFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
+
+	setConsoleColor(heroColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
+
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
+
+	setConsoleColor(playerFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose;
+
+	printEmptySeparator();
+
+	strValue = to_string(enemy.getPlayerHero().getDamage());
+
+	setConsoleColor(enemyFrameColor);
+	cout.width(strOpenLenght);
+	cout << strOpen;
+
+	setConsoleColor(playerColor);
+	cout.width(heroTextWidth - strOpenLenght);
+	cout << strPres;
+
+	cout.width(heroTextWidth - strCloseLenght);
+	cout << strValue;
+
+	setConsoleColor(enemyFrameColor);
+	cout.width(strCloseLenght);
+	cout << strClose << endl;
 
 	printSeparatorForBattle();
 
 	if (!showLogo) { showHelp("Нажмите ESC, чтобы продолжить"); }
 }
-
-
 
 void Game::battle()
 {

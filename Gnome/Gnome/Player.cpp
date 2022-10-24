@@ -32,7 +32,7 @@ void Player::printPlayer()
 
 	printSeparator();
 
-	SetConsoleTextAttribute(hConsole, yellowTextColor);
+	setConsoleColor(yellowTextColor);
 	cout.fill(' ');
 
 	cout.width(heroTextWidth);

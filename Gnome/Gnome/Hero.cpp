@@ -99,7 +99,7 @@ void Hero::printHero()
 	string str2 = " |";
 
 	cout.fill(' ');
-	SetConsoleTextAttribute(hConsole, lightGreenTextColor);
+	setConsoleColor(yellowTextColor);
 
 	////////////////////////////////
 	str1 = "| Èìÿ: ";

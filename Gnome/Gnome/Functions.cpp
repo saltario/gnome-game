@@ -30,7 +30,7 @@ void printEmptySeparator()
 
 void printSeparatorForBattle() {
 
-	SetConsoleTextAttribute(hConsole, blueTextColor);
+	setConsoleColor(playerFrameColor);
 
 	cout.setf(ios::left);
 	cout.width(separatorTextWidth);
@@ -39,12 +39,14 @@ void printSeparatorForBattle() {
 
 	printEmptySeparator();
 
-	SetConsoleTextAttribute(hConsole, cyanTextColor);
+	setConsoleColor(enemyFrameColor);
 
 	cout.setf(ios::left);
 	cout.width(separatorTextWidth);
 	cout.fill('=');
 	cout << "=" << endl;
+
+	cout.fill(' ');
 }
 
 void printSeparatorForShop() {
