@@ -25,7 +25,7 @@ Hero::Hero(int heroId)
 
 	case 1:
 		this->Damage = 7;
-		this->Health = 30;
+		this->Health = 100;
 		this->Name = "Азагхал";
 		this->Price = 10;
 		break;
