@@ -13,6 +13,7 @@ class Game
 {
 private:
 	bool gameOver;
+	bool whoAttack = 1;
 	Player player;
 	Player enemy;
 
@@ -28,10 +29,16 @@ private:
 	void exit();
 
 	void battle();
-	void attack();
+	void enemyStep(bool attack, bool healing);
+	void playerStep(bool attack, bool healing);
+
 	void choiceEnemy();
 	void endBattle();
-	void printBattle(bool showLogo, bool isHeroAttack, bool isEnemyAttack);
+	void exitBattle();
+	void printBattle(
+		bool showLogo,
+		bool isHeroAttack, bool isEnemyAttack,
+		bool isHeroHealing, bool isEnemyHealing);
 
 	void gameWin();
 	void gameLose();

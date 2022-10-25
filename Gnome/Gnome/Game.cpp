@@ -260,7 +260,10 @@ void Game::menu() {
 
 ////////////////// BATTLE //////////////////
 
-void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAttack = false)
+void Game::printBattle(
+	bool showLogo, 
+	bool isHeroAttack = false, bool isEnemyAttack = false, 
+	bool isHeroHealing = false, bool isEnemyHealing = false)
 {
 	string strOpen = "| ";
 	string strClose = " |";
@@ -445,6 +448,12 @@ void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAtt
 		strValue = to_string(player.getPlayerHero().getHealth()) + " - (" + to_string(enemy.getPlayerHero().getDamage()) + ")";
 	}
 
+	else if (isHeroHealing)
+	{
+		strColor = greenTextColor;
+		strValue = to_string(player.getPlayerHero().getHealth()) + " + (" + to_string(5) + ")";
+	}
+
 	else
 	{
 		strColor = heroColor;
@@ -472,6 +481,12 @@ void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAtt
 	{
 		strColor = redTextColor;
 		strValue = to_string(enemy.getPlayerHero().getHealth()) + " - (" + to_string(player.getPlayerHero().getDamage()) + ")";
+	}
+
+	else if (isEnemyHealing)
+	{
+		strColor = greenTextColor;
+		strValue = to_string(enemy.getPlayerHero().getHealth()) + " + (" + to_string(5) + ")";
 	}
 
 	else
@@ -542,6 +557,7 @@ void Game::printBattle(bool showLogo, bool isHeroAttack = false, bool isEnemyAtt
 void Game::battle()
 {
 	gameOver = false;
+	whoAttack = 1;
 	bool nextEnemy = true;
 
 	Hero playerHero = Hero();
@@ -552,7 +568,6 @@ void Game::battle()
 
 	string menuSeparator = "-----------";
 
-	bool isMenu = true;
 	bool refreshMenu = true;
 	bool shortChoice = false;
 
@@ -561,7 +576,7 @@ void Game::battle()
 
 	choiceEnemy();
 
-	while (isMenu)
+	while (true)
 	{
 		if ((GetAsyncKeyState(VK_UP) & 1) || (GetAsyncKeyState('W') & 1))
 		{
@@ -582,17 +597,20 @@ void Game::battle()
 		}
 
 		if (GetAsyncKeyState('Q') & 1) { shortChoice = true; menuChoice = 0; }
-		if (GetAsyncKeyState('W') & 1) { shortChoice = true; menuChoice = 1; }
+		if (GetAsyncKeyState('E') & 1) { shortChoice = true; menuChoice = 1; }
 		if (GetAsyncKeyState('R') & 1) { shortChoice = true; menuChoice = 2; }
 
 		if ((GetAsyncKeyState(VK_SPACE) & 1) || shortChoice)
 		{
-			if ((menuChoice == 0) && (gameOver == false)) { shortChoice = false; nextEnemy = false; refreshMenu = true; attack(); }
-			if ((menuChoice == 1) && (nextEnemy)) { shortChoice = false; }
-			if ((menuChoice == 2) && (nextEnemy)) { shortChoice = false; refreshMenu = true; choiceEnemy(); }
+			if ((menuChoice == 0) && (gameOver == false)) { nextEnemy = false; playerStep(1, 0); enemyStep(1, 0); }
+			if ((menuChoice == 1) && (gameOver == false)) { nextEnemy = false; playerStep(0, 1); enemyStep(0, 1); }
+			if ((menuChoice == 2) && (nextEnemy)) { choiceEnemy(); }
+
+			shortChoice = false;
+			refreshMenu = true;
 		}
 
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { exitBattle(); menu(); break; }
 
 		if (gameOver) { refreshMenu = false; }
 		
@@ -603,12 +621,30 @@ void Game::battle()
 			refreshMenu = false;
 			setConsoleColor(purpleTextColor);
 
-			if (menuChoice == 0) { printBattle(1, 1, 0); setConsoleColor(purpleTextColor); coutCentered("> Атака <"); }
+			////////////////////////////////
+
+			if (menuChoice == 0) 
+			{ 
+				printBattle(1, 1, 0); 
+				setConsoleColor(purpleTextColor); 
+				coutCentered("> Атака <"); 
+			}
 			else { coutCentered("Атака"); }
 			coutCentered(menuSeparator);
 
-			if (menuChoice == 1) { coutCentered("> Лечение <"); }
+			////////////////////////////////
+
+			if (menuChoice == 1) 
+			{ 
+				printBattle(1, 0, 0, 1, 0); 
+				setConsoleColor(purpleTextColor); 
+				coutCentered("Атака");
+				coutCentered(menuSeparator);
+				coutCentered("> Лечение <"); 
+			}
 			else { coutCentered("Лечение"); }
+
+			////////////////////////////////
 
 			if (nextEnemy) 
 			{
@@ -622,34 +658,55 @@ void Game::battle()
 	}
 }
 
-void Game::attack()
+void Game::playerStep(bool attack = false, bool healing = false)
 {
-	// 1 - Я атакую
-	// 0 - Атакует соперник
-	bool whoAttack = 1;
-
 	Hero playerHero = Hero();
 	playerHero = player.getPlayerHero();
 
 	Hero enemyHero = Hero();
 	enemyHero = enemy.getPlayerHero();
 
-	if (whoAttack == 1) {
-
+	if (attack)
+	{
 		enemyHero.setHealth(enemyHero.getHealth() - playerHero.getDamage());
 		enemy.setPlayerHero(enemyHero);
 
 		if (enemyHero.getHealth() <= 0) { gameWin(); }
-		else { whoAttack = 0; }
+		else { printBattle(1, 1, 0); Sleep(1000); whoAttack = 0; gameOver = false; }
 	}
 
-	if (whoAttack == 0) {
+	if (healing)
+	{
+		playerHero.setHealth(playerHero.getHealth() + 5);
+		player.setPlayerHero(playerHero);
 
+		printBattle(1, 0, 0, 1, 0); Sleep(1000); whoAttack = 0; gameOver = false;
+	}
+}
+
+void Game::enemyStep(bool attack = false, bool healing = false)
+{
+	Hero playerHero = Hero();
+	playerHero = player.getPlayerHero();
+
+	Hero enemyHero = Hero();
+	enemyHero = enemy.getPlayerHero();
+
+	if (attack)
+	{
 		playerHero.setHealth(playerHero.getHealth() - enemyHero.getDamage());
 		player.setPlayerHero(playerHero);
 
 		if (playerHero.getHealth() <= 0) { gameLose(); }
-		else { printBattle(1, 0, 1); Sleep(1000); gameOver = false; }
+		else { printBattle(1, 0, 1); Sleep(1000); whoAttack = 1; gameOver = false; }
+	}
+
+	if (healing)
+	{
+		enemyHero.setHealth(enemyHero.getHealth() + 5);
+		enemy.setPlayerHero(enemyHero);
+
+		printBattle(1, 0, 0, 0, 1); Sleep(1000); whoAttack = 1; gameOver = false;
 	}
 }
 
@@ -659,6 +716,7 @@ void Game::gameWin()
 
 	player.setLevel(player.getLevel() + 1);
 	player.setStars(player.getStars() + 10);
+	setPlayer(player);
 	player.savePlayer();
 
 	printGameWin(); 
@@ -673,6 +731,7 @@ void Game::gameLose()
 
 	player.setLevel(player.getLevel() - 1);
 	player.setStars(player.getStars() - 10);
+	setPlayer(player);
 	player.savePlayer();
 
 	printGameLose(); 
@@ -697,6 +756,18 @@ void Game::endBattle()
 {
 	player.setPlayerHero(player.getHeroId());
 	enemy.setPlayerHero(enemy.getHeroId());
+}
+
+void Game::exitBattle()
+{
+	gameOver = true;
+
+	player.setLevel(player.getLevel() - 1);
+	player.setStars(player.getStars() - 10);
+	setPlayer(player);
+	player.savePlayer();
+
+	endBattle();
 }
 
 ////////////////// END BATTLE //////////////////
