@@ -59,6 +59,8 @@ private:
 	inline void printGameSettings();
 	inline void printGameProfile();
 
+	inline void printMenuSeparator();
+
 public:
 	Game();
 	~Game();

@@ -26,6 +26,17 @@ namespace constants {
 	const int playerFrameColor = pinkTextColor;
 	const int enemyFrameColor = deppYellowTextColor;
 
+	////////////////// RESERVED COLORS //////////////////
+
+	const int menuSeparatorColor = purpleTextColor;
+	const int menuColor = pinkTextColor;
+
+	const int logoColor = redTextColor;
+	const int gameLoseColor = redTextColor;
+	const int gameWinColor = greenTextColor;
+
+	////////////////// END RESERVED COLORS //////////////////
+
 	////////////////// END COLORS //////////////////
 
 	////////////////// SEPARATOR //////////////////
@@ -42,7 +53,7 @@ namespace constants {
 	const int windowHeight = 800;
 
 	const int consoleWidth = 69;
-	const int consoleHeight = 46;
+	const int consoleHeight = 45;
 
 	////////////////// END WINDOW //////////////////
 

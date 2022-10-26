@@ -18,8 +18,6 @@ void Game::startMenu()
 	cout.fill(' ');
 	showConsoleCursor(false);
 
-	string menuSeparator = "-----------";
-
 	bool isMenu = true;
 	bool refreshMenu = true;
 
@@ -58,11 +56,11 @@ void Game::startMenu()
 			refreshMenu = false;
 			system("cls");
 			printGameLogo();
-			setConsoleColor(purpleTextColor);
+			setConsoleColor(menuColor);
 
 			if (menuChoice == 0) { coutCentered("> Старт <"); }
 			else { coutCentered("Старт"); }
-			coutCentered(menuSeparator);
+			printMenuSeparator();
 
 			if (menuChoice == 1) { coutCentered("> Загрузить <"); }
 			else { coutCentered("Загрузить"); }
@@ -185,8 +183,6 @@ void Game::menu() {
 	cout.fill(' ');
 	showConsoleCursor(false);
 
-	string menuSeparator = "-----------";
-
 	bool isMenu = true;
 	bool refreshMenu = true;
 
@@ -228,23 +224,23 @@ void Game::menu() {
 			refreshMenu = false;
 			system("cls");
 			printGameLogo();
-			setConsoleColor(purpleTextColor);
+			setConsoleColor(menuColor);
 
 			if (menuChoice == 0) { coutCentered("> Старт <"); }
 			else { coutCentered("Старт"); }
-			coutCentered(menuSeparator);
+			printMenuSeparator();
 
 			if (menuChoice == 1) { coutCentered("> Профиль <"); }
 			else { coutCentered("Профиль"); }
-			coutCentered(menuSeparator);
+			printMenuSeparator();
 
 			if (menuChoice == 2) { coutCentered("> Магазин <"); }
 			else { coutCentered("Магазин"); }
-			coutCentered(menuSeparator);
+			printMenuSeparator();
 
 			if (menuChoice == 3) { coutCentered("> Настройки <"); }
 			else { coutCentered("Настройки"); }
-			coutCentered(menuSeparator);
+			printMenuSeparator();
 
 			if (menuChoice == 4) { coutCentered("> Выход <"); }
 			else { coutCentered("Выход"); }
@@ -627,8 +623,6 @@ void Game::battle()
 	Hero enemyHero = Hero();
 	enemyHero = enemy.getPlayerHero();
 
-	string menuSeparator = "-----------";
-
 	bool refreshMenu = true;
 	bool shortChoice = false;
 
@@ -680,7 +674,7 @@ void Game::battle()
 		if (refreshMenu)
 		{
 			refreshMenu = false;
-			setConsoleColor(purpleTextColor);
+			setConsoleColor(menuColor);
 
 			////////////////////////////////
 
@@ -689,7 +683,7 @@ void Game::battle()
 				printHealth(1, 0, 0, 0);
 				setCursorPosition(19, 0);
 
-				setConsoleColor(purpleTextColor); 
+				setConsoleColor(menuColor); 
 				coutCentered("  > Атака <  "); 
 			}
 			else 
@@ -698,7 +692,7 @@ void Game::battle()
 				coutCentered("  Атака  "); 
 			}
 
-			coutCentered(menuSeparator);
+			printMenuSeparator();
 
 			////////////////////////////////
 
@@ -706,9 +700,9 @@ void Game::battle()
 			{ 
 				printHealth(0, 0, 1, 0);
 				setCursorPosition(19, 0);
-				setConsoleColor(purpleTextColor); 
+				setConsoleColor(menuColor); 
 				coutCentered("  Атака  ");
-				coutCentered(menuSeparator);
+				printMenuSeparator();
 				coutCentered("  > Лечение <  "); 
 			}
 			else 
@@ -722,13 +716,12 @@ void Game::battle()
 			if (nextEnemy) 
 			{
 				setCursorPosition(22, 0);
-				coutCentered(menuSeparator);
+				printMenuSeparator();
 				if (menuChoice == 2) 
 				{ 
 					printHealth(0, 0, 0, 0);
-					setConsoleColor(purpleTextColor);
 					setCursorPosition(22, 0);
-					coutCentered(menuSeparator);
+					printMenuSeparator();
 					coutCentered("  > Следующий <  "); 
 				}
 				else { coutCentered("  Следующий  "); }
@@ -758,7 +751,7 @@ void Game::playerStep(bool attack = false, bool healing = false)
 		enemyHero.setHealth(enemyHero.getHealth() - playerHero.getDamage());
 		enemy.setPlayerHero(enemyHero);
 
-		if (enemyHero.getHealth() <= 0) { gameWin(); }
+		if (enemyHero.getHealth() <= 0) { gameOver = true; gameWin(); }
 		else { printHealth(1, 0, 0, 0); Sleep(1000); whoAttack = 0; gameOver = false; }
 	}
 
@@ -784,7 +777,7 @@ void Game::enemyStep(bool attack = false, bool healing = false)
 		playerHero.setHealth(playerHero.getHealth() - enemyHero.getDamage());
 		player.setPlayerHero(playerHero);
 
-		if (playerHero.getHealth() <= 0) { gameLose(); }
+		if (playerHero.getHealth() <= 0) { gameOver = true; gameLose(); }
 		else { printHealth(0, 1, 0, 0); Sleep(1000); whoAttack = 1; gameOver = false; }
 	}
 
@@ -799,8 +792,6 @@ void Game::enemyStep(bool attack = false, bool healing = false)
 
 void Game::gameWin()
 {
-	gameOver = true;
-
 	player.setLevel(player.getLevel() + 1);
 	player.setStars(player.getStars() + 10);
 	setPlayer(player);
@@ -814,8 +805,6 @@ void Game::gameWin()
 
 void Game::gameLose()
 {
-	gameOver = true;
-
 	player.setLevel(player.getLevel() - 1);
 	player.setStars(player.getStars() - 10);
 	setPlayer(player);
@@ -863,7 +852,7 @@ void Game::exitBattle()
 
 inline void Game::printGameLogo()
 {
-	setConsoleColor(redTextColor);
+	setConsoleColor(logoColor);
 
 	cout << R"(
 	      ________                                  
@@ -877,7 +866,7 @@ inline void Game::printGameLogo()
 
 inline void Game::printGameBattle()
 {
-	setConsoleColor(redTextColor);
+	setConsoleColor(logoColor);
 
 	cout << R"(
 	      __________         __    __  .__          
@@ -891,7 +880,7 @@ inline void Game::printGameBattle()
 
 inline void Game::printGameShop()
 {
-	setConsoleColor(redTextColor);
+	setConsoleColor(logoColor);
 
 	cout << R"(
 		     _________.__                   
@@ -905,7 +894,7 @@ inline void Game::printGameShop()
 
 inline void Game::printGameSettings()
 {
-	setConsoleColor(redTextColor);
+	setConsoleColor(logoColor);
 
 	cout << R"(
 	  _________       __    __  .__                      
@@ -919,7 +908,7 @@ inline void Game::printGameSettings()
 
 inline void Game::printGameProfile()
 {
-	setConsoleColor(redTextColor);
+	setConsoleColor(logoColor);
 	    
 	cout << R"(
 	  __________                _____.__.__          
@@ -933,7 +922,7 @@ inline void Game::printGameProfile()
 
 inline void Game::printGameWin()
 {
-	setConsoleColor(redTextColor);
+	setConsoleColor(gameWinColor);
 	system("cls");
 
 	cout << R"(
@@ -948,7 +937,7 @@ inline void Game::printGameWin()
 
 inline void Game::printGameLose()
 {
-	setConsoleColor(redTextColor);
+	setConsoleColor(gameLoseColor);
 	system("cls");
 
 	cout << R"(
@@ -962,6 +951,14 @@ inline void Game::printGameLose()
 }
 
 ////////////////// END PRINT HEAD //////////////////
+
+inline void Game::printMenuSeparator()
+{
+	string menuSeparator = "-----------";
+	setConsoleColor(menuSeparatorColor);
+	coutCentered(menuSeparator);
+	setConsoleColor(menuColor);
+}
 
 void Game::printTwoHero(Hero hero1, Hero hero2)
 {
