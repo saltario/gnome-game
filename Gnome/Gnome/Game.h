@@ -40,6 +40,13 @@ private:
 		bool isHeroAttack, bool isEnemyAttack,
 		bool isHeroHealing, bool isEnemyHealing);
 
+	void printPlayer();
+	void printName();
+	void printDamage();
+	void printHealth(
+		bool isHeroAttack, bool isEnemyAttack,
+		bool isHeroHealing, bool isEnemyHealing);
+
 	void gameWin();
 	void gameLose();
 

@@ -260,10 +260,23 @@ void Game::menu() {
 
 ////////////////// BATTLE //////////////////
 
-void Game::printBattle(
-	bool showLogo, 
+void Game::printBattle(bool showLogo, 
 	bool isHeroAttack = false, bool isEnemyAttack = false, 
 	bool isHeroHealing = false, bool isEnemyHealing = false)
+{
+	if (showLogo) { setCursorPosition(0, 0); printGameBattle(); }
+
+	////////////////////////////////
+	printPlayer();
+	printName();
+	printHealth(isHeroAttack, isEnemyAttack, isHeroHealing, isEnemyHealing);
+	printDamage();
+	////////////////////////////////
+
+	if (!showLogo) { showHelp("Нажмите ESC, чтобы продолжить"); }
+}
+
+void Game::printPlayer()
 {
 	string strOpen = "| ";
 	string strClose = " |";
@@ -274,13 +287,9 @@ void Game::printBattle(
 	string strPres;
 	string strValue;
 
-	int strColor;
-
-	if (showLogo) { setCursorPosition(0, 0); printGameBattle(); }
+	setCursorPosition(9, 0);
 
 	printSeparatorForBattle();
-
-	////////////////////////////////
 
 	strPres = "Игрок: ";
 	strValue = player.getName();
@@ -397,9 +406,21 @@ void Game::printBattle(
 	cout.width(strCloseLenght);
 	cout << strClose << endl;
 
-	////////////////////////////////
 	printSeparatorForBattle();
-	////////////////////////////////
+}
+
+void Game::printName()
+{
+	string strOpen = "| ";
+	string strClose = " |";
+
+	int strOpenLenght = strOpen.length();
+	int strCloseLenght = strClose.length();
+
+	string strPres;
+	string strValue;
+
+	setCursorPosition(14, 0);
 
 	strPres = "Имя: ";
 	strValue = player.getPlayerHero().getName();
@@ -439,6 +460,22 @@ void Game::printBattle(
 	cout << strClose << endl;
 
 	////////////////////////////////
+}
+
+void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing, bool isEnemyHealing)
+{
+	string strOpen = "| ";
+	string strClose = " |";
+
+	int strOpenLenght = strOpen.length();
+	int strCloseLenght = strClose.length();
+
+	string strPres;
+	string strValue;
+
+	int strColor;
+
+	setCursorPosition(15, 0);
 
 	strPres = "Здоровье: ";
 
@@ -509,8 +546,20 @@ void Game::printBattle(
 	setConsoleColor(enemyFrameColor);
 	cout.width(strCloseLenght);
 	cout << strClose << endl;
+}
 
-	////////////////////////////////
+void Game::printDamage()
+{
+	string strOpen = "| ";
+	string strClose = " |";
+
+	int strOpenLenght = strOpen.length();
+	int strCloseLenght = strClose.length();
+
+	string strPres;
+	string strValue;
+
+	setCursorPosition(16, 0);
 
 	strPres = "Урон: ";
 	strValue = to_string(player.getPlayerHero().getDamage());
@@ -550,8 +599,6 @@ void Game::printBattle(
 	cout << strClose << endl;
 
 	printSeparatorForBattle();
-
-	if (!showLogo) { showHelp("Нажмите ESC, чтобы продолжить"); }
 }
 
 void Game::battle()
@@ -616,8 +663,6 @@ void Game::battle()
 		
 		if (refreshMenu)
 		{
-			system("cls");
-			printBattle(true);
 			refreshMenu = false;
 			setConsoleColor(purpleTextColor);
 
@@ -625,32 +670,51 @@ void Game::battle()
 
 			if (menuChoice == 0) 
 			{ 
-				printBattle(1, 1, 0); 
+				printHealth(1, 0, 0, 0);
+				setCursorPosition(19, 0);
+
 				setConsoleColor(purpleTextColor); 
-				coutCentered("> Атака <"); 
+				coutCentered("  > Атака <  "); 
 			}
-			else { coutCentered("Атака"); }
+			else 
+			{ 
+				setCursorPosition(19, 0);
+				coutCentered("  Атака  "); 
+			}
+
 			coutCentered(menuSeparator);
 
 			////////////////////////////////
 
 			if (menuChoice == 1) 
 			{ 
-				printBattle(1, 0, 0, 1, 0); 
+				printHealth(0, 0, 1, 0);
+				setCursorPosition(19, 0);
 				setConsoleColor(purpleTextColor); 
-				coutCentered("Атака");
+				coutCentered("  Атака  ");
 				coutCentered(menuSeparator);
-				coutCentered("> Лечение <"); 
+				coutCentered("  > Лечение <  "); 
 			}
-			else { coutCentered("Лечение"); }
+			else 
+			{ 
+				setCursorPosition(21, 0);
+				coutCentered("  Лечение  "); 
+			}
 
 			////////////////////////////////
 
 			if (nextEnemy) 
 			{
+				setCursorPosition(22, 0);
 				coutCentered(menuSeparator);
-				if (menuChoice == 2) { coutCentered("> Следующий <"); }
-				else { coutCentered("Следующий"); }
+				if (menuChoice == 2) { coutCentered("  > Следующий <  "); }
+				else { coutCentered("  Следующий  "); }
+			}
+			else
+			{
+				setCursorPosition(22, 0);
+				coutCentered("           ");
+				coutCentered("             ");
 			}
 
 			showHelp("Нажмите пробел для выбора");
@@ -672,7 +736,7 @@ void Game::playerStep(bool attack = false, bool healing = false)
 		enemy.setPlayerHero(enemyHero);
 
 		if (enemyHero.getHealth() <= 0) { gameWin(); }
-		else { printBattle(1, 1, 0); Sleep(1000); whoAttack = 0; gameOver = false; }
+		else { printHealth(1, 0, 0, 0); Sleep(1000); whoAttack = 0; gameOver = false; }
 	}
 
 	if (healing)
@@ -680,7 +744,7 @@ void Game::playerStep(bool attack = false, bool healing = false)
 		playerHero.setHealth(playerHero.getHealth() + 5);
 		player.setPlayerHero(playerHero);
 
-		printBattle(1, 0, 0, 1, 0); Sleep(1000); whoAttack = 0; gameOver = false;
+		printHealth(0, 0, 1, 0); Sleep(1000); whoAttack = 0; gameOver = false;
 	}
 }
 
@@ -698,7 +762,7 @@ void Game::enemyStep(bool attack = false, bool healing = false)
 		player.setPlayerHero(playerHero);
 
 		if (playerHero.getHealth() <= 0) { gameLose(); }
-		else { printBattle(1, 0, 1); Sleep(1000); whoAttack = 1; gameOver = false; }
+		else { printHealth(0, 1, 0, 0); Sleep(1000); whoAttack = 1; gameOver = false; }
 	}
 
 	if (healing)
@@ -706,7 +770,7 @@ void Game::enemyStep(bool attack = false, bool healing = false)
 		enemyHero.setHealth(enemyHero.getHealth() + 5);
 		enemy.setPlayerHero(enemyHero);
 
-		printBattle(1, 0, 0, 0, 1); Sleep(1000); whoAttack = 1; gameOver = false;
+		printHealth(0, 0, 0, 1); Sleep(1000); whoAttack = 1; gameOver = false;
 	}
 }
 
