@@ -24,7 +24,7 @@ Hero::Hero(int heroId)
 		// цена макс 200
 
 	case 1:
-		this->Damage = 7;
+		this->Damage = 70;
 		this->Health = 100;
 		this->Name = "Азагхал";
 		this->Price = 10;

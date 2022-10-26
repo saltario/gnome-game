@@ -40,6 +40,13 @@ private:
 		bool isHeroAttack, bool isEnemyAttack,
 		bool isHeroHealing, bool isEnemyHealing);
 
+	void printPlayer();
+	void printName();
+	void printDamage();
+	void printHealth(
+		bool isHeroAttack, bool isEnemyAttack,
+		bool isHeroHealing, bool isEnemyHealing);
+
 	void gameWin();
 	void gameLose();
 
@@ -51,6 +58,8 @@ private:
 	inline void printGameShop();
 	inline void printGameSettings();
 	inline void printGameProfile();
+
+	inline void printMenuSeparator();
 
 public:
 	Game();
