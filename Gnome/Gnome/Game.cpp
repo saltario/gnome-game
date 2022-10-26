@@ -494,7 +494,14 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 	else
 	{
 		strColor = heroColor;
-		strValue = to_string(player.getPlayerHero().getHealth());
+		if (player.getPlayerHero().getHealth() <= 0)
+		{
+			strValue = to_string(0);
+		}
+		else
+		{
+			strValue = to_string(player.getPlayerHero().getHealth());
+		}
 	}
 
 	setConsoleColor(playerFrameColor);
@@ -529,7 +536,14 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 	else
 	{
 		strColor = heroColor;
-		strValue = to_string(enemy.getPlayerHero().getHealth());
+		if (enemy.getPlayerHero().getHealth() <= 0)
+		{
+			strValue = to_string(0);
+		}
+		else
+		{
+			strValue = to_string(enemy.getPlayerHero().getHealth());
+		}
 	}
 
 	setConsoleColor(enemyFrameColor);
@@ -621,6 +635,8 @@ void Game::battle()
 	int menuIndex = 0;
 	int menuChoice = 0;
 
+	int maxCountMenu = 2;
+
 	choiceEnemy();
 
 	while (true)
@@ -639,7 +655,7 @@ void Game::battle()
 			refreshMenu = true;
 
 			// Самый нижний элемент меню
-			if (menuIndex == 2) { menuChoice = menuIndex; }
+			if (menuIndex == maxCountMenu) { menuChoice = menuIndex; }
 			else { menuIndex += 1; menuChoice = menuIndex; }
 		}
 
@@ -649,8 +665,8 @@ void Game::battle()
 
 		if ((GetAsyncKeyState(VK_SPACE) & 1) || shortChoice)
 		{
-			if ((menuChoice == 0) && (gameOver == false)) { nextEnemy = false; playerStep(1, 0); enemyStep(1, 0); }
-			if ((menuChoice == 1) && (gameOver == false)) { nextEnemy = false; playerStep(0, 1); enemyStep(0, 1); }
+			if ((menuChoice == 0) && (gameOver == false)) { nextEnemy = false; maxCountMenu = 1; playerStep(1, 0); enemyStep(1, 0); }
+			if ((menuChoice == 1) && (gameOver == false)) { nextEnemy = false; maxCountMenu = 1; playerStep(0, 1); enemyStep(0, 1); }
 			if ((menuChoice == 2) && (nextEnemy)) { choiceEnemy(); }
 
 			shortChoice = false;
@@ -707,7 +723,14 @@ void Game::battle()
 			{
 				setCursorPosition(22, 0);
 				coutCentered(menuSeparator);
-				if (menuChoice == 2) { coutCentered("  > Следующий <  "); }
+				if (menuChoice == 2) 
+				{ 
+					printHealth(0, 0, 0, 0);
+					setConsoleColor(purpleTextColor);
+					setCursorPosition(22, 0);
+					coutCentered(menuSeparator);
+					coutCentered("  > Следующий <  "); 
+				}
 				else { coutCentered("  Следующий  "); }
 			}
 			else
