@@ -16,5 +16,5 @@ int main()
 	game.menu();
 
 	_getch();
-	return 0;
+	return EXIT_SUCCESS;
 }

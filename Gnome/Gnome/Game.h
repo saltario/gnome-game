@@ -29,23 +29,20 @@ private:
 	void exit();
 
 	void battle();
-	void enemyStep(bool attack, bool healing);
-	void playerStep(bool attack, bool healing);
+	void enemyStep(bool attack = false, bool healing = false);
+	void playerStep(bool attack = false, bool healing = false);
 
 	void choiceEnemy();
 	void endBattle();
 	void exitBattle();
-	void printBattle(
-		bool showLogo,
-		bool isHeroAttack, bool isEnemyAttack,
-		bool isHeroHealing, bool isEnemyHealing);
+	void printBattle(bool showLogo = true);
 
 	void printPlayer();
 	void printName();
 	void printDamage();
 	void printHealth(
-		bool isHeroAttack, bool isEnemyAttack,
-		bool isHeroHealing, bool isEnemyHealing);
+		bool isHeroAttack = false, bool isEnemyAttack = false,
+		bool isHeroHealing = false, bool isEnemyHealing = false);
 
 	void gameWin();
 	void gameLose();
@@ -60,6 +57,8 @@ private:
 	inline void printGameProfile();
 
 	inline void printMenuSeparator();
+
+	void showHelp(string helpText);
 
 public:
 	Game();

@@ -35,6 +35,8 @@ namespace constants {
 	const int gameLoseColor = redTextColor;
 	const int gameWinColor = greenTextColor;
 
+	const int helpColor = yellowTextColor;
+
 	////////////////// END RESERVED COLORS //////////////////
 
 	////////////////// END COLORS //////////////////

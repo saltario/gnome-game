@@ -1,5 +1,29 @@
 #include "Game.h"
 
+#define LOGO_POS 0
+#define AFTER_LOGO_POS 9
+#define PLAYER_POS 9
+
+#define MENU_START_POS 10
+#define MENU_PROFILE_POS 12
+#define MENU_SHOP_POS 14
+#define MENU_SETTINGS_POS 16
+#define MENU_EXIT_POS 18
+
+#define HERO_NAME_POS 14
+#define HERO_HEALTH_POS 15
+#define HERO_DAMAGE_POS 16
+
+#define BTL_MENU_ATTACK_POS 19
+#define BTL_MENU_HEALING_POS 21
+#define BTL_MENU_NEXT_ENEMY_POS 22
+
+#define STR_OPEN "| "
+#define STR_CLOSE " |"
+#define STR_OPEN_CLOSE_LNG 2
+
+#define PRINT_STR_CLOSE() {  }
+
 Game::Game() {}
 Game::~Game() {}
 
@@ -178,18 +202,17 @@ void Game::exit()
 
 }
 
-void Game::menu() {
+void Game::menu() 
+{
+	system("cls");
+	printGameLogo();
 
-	cout.fill(' ');
-	showConsoleCursor(false);
-
-	bool isMenu = true;
 	bool refreshMenu = true;
 
 	int menuIndex = 0;
 	int menuChoice = 0;
 
-	while (isMenu)
+	while (true)
 	{
 		if ((GetAsyncKeyState(VK_UP) & 1) || (GetAsyncKeyState('W') & 1))
 		{
@@ -222,28 +245,26 @@ void Game::menu() {
 		if (refreshMenu)
 		{
 			refreshMenu = false;
-			system("cls");
-			printGameLogo();
 			setConsoleColor(menuColor);
 
-			if (menuChoice == 0) { coutCentered("> Старт <"); }
-			else { coutCentered("Старт"); }
+			if (menuChoice == 0) { setCursorPosition(MENU_START_POS); coutCentered("  > Старт <  "); }
+			else { setCursorPosition(MENU_START_POS); coutCentered("  Старт  "); }
 			printMenuSeparator();
 
-			if (menuChoice == 1) { coutCentered("> Профиль <"); }
-			else { coutCentered("Профиль"); }
+			if (menuChoice == 1) { setCursorPosition(MENU_PROFILE_POS); coutCentered("  > Профиль <  "); }
+			else { setCursorPosition(MENU_PROFILE_POS); coutCentered("  Профиль  "); }
 			printMenuSeparator();
 
-			if (menuChoice == 2) { coutCentered("> Магазин <"); }
-			else { coutCentered("Магазин"); }
+			if (menuChoice == 2) { setCursorPosition(MENU_SHOP_POS); coutCentered("  > Магазин <  "); }
+			else { setCursorPosition(MENU_SHOP_POS); coutCentered("  Магазин  "); }
 			printMenuSeparator();
 
-			if (menuChoice == 3) { coutCentered("> Настройки <"); }
-			else { coutCentered("Настройки"); }
+			if (menuChoice == 3) { setCursorPosition(MENU_SETTINGS_POS); coutCentered("  > Настройки <  "); }
+			else { setCursorPosition(MENU_SETTINGS_POS); coutCentered("  Настройки  "); }
 			printMenuSeparator();
 
-			if (menuChoice == 4) { coutCentered("> Выход <"); }
-			else { coutCentered("Выход"); }
+			if (menuChoice == 4) { setCursorPosition(MENU_EXIT_POS); coutCentered("  > Выход <  "); }
+			else { setCursorPosition(MENU_EXIT_POS); coutCentered("  Выход  "); }
 			
 			showHelp("Нажмите пробел для выбора");
 		}
@@ -256,16 +277,14 @@ void Game::menu() {
 
 ////////////////// BATTLE //////////////////
 
-void Game::printBattle(bool showLogo, 
-	bool isHeroAttack = false, bool isEnemyAttack = false, 
-	bool isHeroHealing = false, bool isEnemyHealing = false)
+void Game::printBattle(bool showLogo)
 {
-	if (showLogo) { setCursorPosition(0, 0); printGameBattle(); }
+	if (showLogo) { setCursorPosition(); printGameBattle(); }
 
 	////////////////////////////////
 	printPlayer();
 	printName();
-	printHealth(isHeroAttack, isEnemyAttack, isHeroHealing, isEnemyHealing);
+	printHealth();
 	printDamage();
 	////////////////////////////////
 
@@ -274,16 +293,10 @@ void Game::printBattle(bool showLogo,
 
 void Game::printPlayer()
 {
-	string strOpen = "| ";
-	string strClose = " |";
-
-	int strOpenLenght = strOpen.length();
-	int strCloseLenght = strClose.length();
-
 	string strPres;
 	string strValue;
 
-	setCursorPosition(9, 0);
+	setCursorPosition(PLAYER_POS);
 
 	printSeparatorForBattle();
 
@@ -291,38 +304,38 @@ void Game::printPlayer()
 	strValue = player.getName();
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(heroColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE;
 
 	printEmptySeparator();
 
 	strValue = enemy.getName();
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(playerColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose << endl;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE << endl;
 
 	////////////////////////////////
 
@@ -330,38 +343,38 @@ void Game::printPlayer()
 	strValue = to_string(player.getLevel());
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(heroColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE;
 
 	printEmptySeparator();
 
 	strValue = to_string(enemy.getLevel());
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(playerColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose << endl;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE << endl;
 
 	////////////////////////////////
 
@@ -369,111 +382,92 @@ void Game::printPlayer()
 	strValue = to_string(player.getStars());
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(heroColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE;
 
 	printEmptySeparator();
 
 	strValue = to_string(enemy.getStars());
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(playerColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose << endl;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE << endl;
 
 	printSeparatorForBattle();
 }
 
 void Game::printName()
 {
-	string strOpen = "| ";
-	string strClose = " |";
+	string strPres = "Имя: ";
+	string strValue = player.getPlayerHero().getName();
 
-	int strOpenLenght = strOpen.length();
-	int strCloseLenght = strClose.length();
-
-	string strPres;
-	string strValue;
-
-	setCursorPosition(14, 0);
-
-	strPres = "Имя: ";
-	strValue = player.getPlayerHero().getName();
+	setCursorPosition(HERO_NAME_POS);
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(heroColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose;
+	cout.width(STR_OPEN_CLOSE_LNG); 
+	cout << STR_CLOSE;
 
 	printEmptySeparator();
 
 	strValue = enemy.getPlayerHero().getName();
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(playerColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose << endl;
-
-	////////////////////////////////
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE << endl;
 }
 
 void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing, bool isEnemyHealing)
 {
-	string strOpen = "| ";
-	string strClose = " |";
-
-	int strOpenLenght = strOpen.length();
-	int strCloseLenght = strClose.length();
-
-	string strPres;
+	string strPres = "Здоровье: ";
 	string strValue;
 
 	int strColor;
 
-	setCursorPosition(15, 0);
-
-	strPres = "Здоровье: ";
+	setCursorPosition(HERO_HEALTH_POS);
 
 	if (isEnemyAttack)
 	{
@@ -501,19 +495,19 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 	}
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(strColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE;
 
 	printEmptySeparator();
 
@@ -543,70 +537,61 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 	}
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(strColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose << endl;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE << endl;
 }
 
 void Game::printDamage()
 {
-	string strOpen = "| ";
-	string strClose = " |";
+	string strPres = "Урон: ";
+	string strValue = to_string(player.getPlayerHero().getDamage());
 
-	int strOpenLenght = strOpen.length();
-	int strCloseLenght = strClose.length();
-
-	string strPres;
-	string strValue;
-
-	setCursorPosition(16, 0);
-
-	strPres = "Урон: ";
-	strValue = to_string(player.getPlayerHero().getDamage());
+	setCursorPosition(HERO_DAMAGE_POS);
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(heroColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(playerFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE;
 
 	printEmptySeparator();
 
 	strValue = to_string(enemy.getPlayerHero().getDamage());
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strOpenLenght);
-	cout << strOpen;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
 	setConsoleColor(playerColor);
-	cout.width(heroTextWidth - strOpenLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
-	cout.width(heroTextWidth - strCloseLenght);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
 	setConsoleColor(enemyFrameColor);
-	cout.width(strCloseLenght);
-	cout << strClose << endl;
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE << endl;
 
 	printSeparatorForBattle();
 }
@@ -659,15 +644,35 @@ void Game::battle()
 
 		if ((GetAsyncKeyState(VK_SPACE) & 1) || shortChoice)
 		{
-			if ((menuChoice == 0) && (gameOver == false)) { nextEnemy = false; maxCountMenu = 1; playerStep(1, 0); enemyStep(1, 0); }
-			if ((menuChoice == 1) && (gameOver == false)) { nextEnemy = false; maxCountMenu = 1; playerStep(0, 1); enemyStep(0, 1); }
+			if ((menuChoice == 0) && (gameOver == false)) 
+			{ 
+				nextEnemy = false; 
+				maxCountMenu = 1; 
+
+				if (gameOver == false) { playerStep(1, 0); }
+				if (gameOver == false) { enemyStep(1, 0); }
+			}
+			if ((menuChoice == 1) && (gameOver == false)) 
+			{ 
+				nextEnemy = false; 
+				maxCountMenu = 1; 
+
+				if (gameOver == false) { playerStep(0, 1); }
+				if (gameOver == false) { enemyStep(0, 1); }
+			}
+
 			if ((menuChoice == 2) && (nextEnemy)) { choiceEnemy(); }
 
 			shortChoice = false;
 			refreshMenu = true;
 		}
 
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { exitBattle(); menu(); break; }
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) 
+		{ 
+			if (gameOver == false) { exitBattle(); }
+			menu(); 
+			break; 
+		}
 
 		if (gameOver) { refreshMenu = false; }
 		
@@ -681,14 +686,14 @@ void Game::battle()
 			if (menuChoice == 0) 
 			{ 
 				printHealth(1, 0, 0, 0);
-				setCursorPosition(19, 0);
+				setCursorPosition(BTL_MENU_ATTACK_POS);
 
 				setConsoleColor(menuColor); 
 				coutCentered("  > Атака <  "); 
 			}
 			else 
 			{ 
-				setCursorPosition(19, 0);
+				setCursorPosition(BTL_MENU_ATTACK_POS);
 				coutCentered("  Атака  "); 
 			}
 
@@ -699,7 +704,7 @@ void Game::battle()
 			if (menuChoice == 1) 
 			{ 
 				printHealth(0, 0, 1, 0);
-				setCursorPosition(19, 0);
+				setCursorPosition(BTL_MENU_ATTACK_POS);
 				setConsoleColor(menuColor); 
 				coutCentered("  Атака  ");
 				printMenuSeparator();
@@ -707,7 +712,7 @@ void Game::battle()
 			}
 			else 
 			{ 
-				setCursorPosition(21, 0);
+				setCursorPosition(BTL_MENU_HEALING_POS);
 				coutCentered("  Лечение  "); 
 			}
 
@@ -715,12 +720,13 @@ void Game::battle()
 
 			if (nextEnemy) 
 			{
-				setCursorPosition(22, 0);
+				setCursorPosition(BTL_MENU_NEXT_ENEMY_POS);
 				printMenuSeparator();
+
 				if (menuChoice == 2) 
 				{ 
 					printHealth(0, 0, 0, 0);
-					setCursorPosition(22, 0);
+					setCursorPosition(BTL_MENU_NEXT_ENEMY_POS);
 					printMenuSeparator();
 					coutCentered("  > Следующий <  "); 
 				}
@@ -728,7 +734,7 @@ void Game::battle()
 			}
 			else
 			{
-				setCursorPosition(22, 0);
+				setCursorPosition(BTL_MENU_NEXT_ENEMY_POS);
 				coutCentered("           ");
 				coutCentered("             ");
 			}
@@ -738,7 +744,7 @@ void Game::battle()
 	}
 }
 
-void Game::playerStep(bool attack = false, bool healing = false)
+void Game::playerStep(bool attack, bool healing)
 {
 	Hero playerHero = Hero();
 	playerHero = player.getPlayerHero();
@@ -764,7 +770,7 @@ void Game::playerStep(bool attack = false, bool healing = false)
 	}
 }
 
-void Game::enemyStep(bool attack = false, bool healing = false)
+void Game::enemyStep(bool attack, bool healing)
 {
 	Hero playerHero = Hero();
 	playerHero = player.getPlayerHero();
@@ -825,7 +831,7 @@ void Game::choiceEnemy()
 	enemy.setPlayerHero(random);
 
 	setEnemy(enemy);
-	printBattle(1, 0, 0);
+	printBattle();
 }
 
 void Game::endBattle()
@@ -847,110 +853,6 @@ void Game::exitBattle()
 }
 
 ////////////////// END BATTLE //////////////////
-
-////////////////// PRINT HEAD //////////////////
-
-inline void Game::printGameLogo()
-{
-	setConsoleColor(logoColor);
-
-	cout << R"(
-	      ________                                  
-	     /  _____/   ____    ____    _____    ____  
-	    /   \  ___  /    \  /  _ \  /     \ _/ __ \ 
-	    \    \_\  \|   |  \(  <_> )|  Y Y  \\  ___/ 
-	     \______  /|___|  / \____/ |__|_|  / \___  >
-	            \/      \/               \/      \/ 
-)" << '\n';
-}
-
-inline void Game::printGameBattle()
-{
-	setConsoleColor(logoColor);
-
-	cout << R"(
-	      __________         __    __  .__          
-	      \______   \_____ _/  |__/  |_|  |   ____  
-	       |    |  _/\__  \\   __\   __\  | _/ __ \ 
-	       |    |   \ / __ \|  |  |  | |  |_\  ___/ 
-	       |______  /(____  /__|  |__| |____/\___  >
-	              \/      \/                     \/ 
-)" << '\n';
-}
-
-inline void Game::printGameShop()
-{
-	setConsoleColor(logoColor);
-
-	cout << R"(
-		     _________.__                   
-		    /   _____/|  |__   ____ ______  
-		    \_____  \ |  |  \ /  _ \\____ \ 
-		    /        \|   Y  (  <_> )  |_> >
-		   /_______  /|___|  /\____/|   __/ 
-		           \/      \/       |__|    
-)" << '\n';
-}
-
-inline void Game::printGameSettings()
-{
-	setConsoleColor(logoColor);
-
-	cout << R"(
-	  _________       __    __  .__                      
-	 /   _____/ _____/  |__/  |_|__| ____    ____  ______
-	 \_____  \_/ __ \   __\   __\  |/    \  / ___\/  ___/
-	 /        \  ___/|  |  |  | |  |   |  \/ /_/  >___ \ 
-	/_______  /\___  >__|  |__| |__|___|  /\___  /____  >
-	        \/     \/                   \//_____/     \/   
-)" << '\n';
-}
-
-inline void Game::printGameProfile()
-{
-	setConsoleColor(logoColor);
-	    
-	cout << R"(
-	  __________                _____.__.__          
-	  \______   \_______  _____/ ____\__|  |   ____  
-	  |     ___/\_  __ \/  _ \   __\|  |  | _/ __ \ 
-	  |    |     |  | \(  <_> )  |  |  |  |_\  ___/ 
-	  |____|     |__|   \____/|__|  |__|____/\___  >
-	                                              \/   
-)" << '\n';
-}
-
-inline void Game::printGameWin()
-{
-	setConsoleColor(gameWinColor);
-	system("cls");
-
-	cout << R"(
-			 __      __.__      ._.
-			/  \    /  \__| ____| |
-			\   \/\/   /  |/    \ |
-			 \        /|  |   |  \|
-			  \__/\  / |__|___|  /_
-			       \/          \/\/
-)" << '\n';
-}
-
-inline void Game::printGameLose()
-{
-	setConsoleColor(gameLoseColor);
-	system("cls");
-
-	cout << R"(
-		.____                      ._.
-		|    |    ____  ______ ____| |
-		|    |   /  _ \/  ___// __ \ |
-		|    |__(  <_> )___ \\  ___/\|
-		|_______ \____/____  >\___  >_
-		        \/         \/     \/\/
-)" << '\n';
-}
-
-////////////////// END PRINT HEAD //////////////////
 
 inline void Game::printMenuSeparator()
 {
@@ -1043,3 +945,114 @@ void Game::printTwoHero(Hero hero1, Hero hero2)
 
 	printSeparatorForShop();
 }
+
+void Game::showHelp(string helpText)
+{
+	setConsoleColor(helpColor);
+	setCursorPosition(consoleHeight);
+	coutCentered(helpText, 0);
+}
+
+////////////////// PRINT HEAD //////////////////
+
+inline void Game::printGameLogo()
+{
+	setConsoleColor(logoColor);
+
+	cout << R"(
+	      ________                                  
+	     /  _____/   ____    ____    _____    ____  
+	    /   \  ___  /    \  /  _ \  /     \ _/ __ \ 
+	    \    \_\  \|   |  \(  <_> )|  Y Y  \\  ___/ 
+	     \______  /|___|  / \____/ |__|_|  / \___  >
+	            \/      \/               \/      \/ 
+)" << '\n';
+}
+
+inline void Game::printGameBattle()
+{
+	setConsoleColor(logoColor);
+
+	cout << R"(
+	      __________         __    __  .__          
+	      \______   \_____ _/  |__/  |_|  |   ____  
+	       |    |  _/\__  \\   __\   __\  | _/ __ \ 
+	       |    |   \ / __ \|  |  |  | |  |_\  ___/ 
+	       |______  /(____  /__|  |__| |____/\___  >
+	              \/      \/                     \/ 
+)" << '\n';
+}
+
+inline void Game::printGameShop()
+{
+	setConsoleColor(logoColor);
+
+	cout << R"(
+		     _________.__                   
+		    /   _____/|  |__   ____ ______  
+		    \_____  \ |  |  \ /  _ \\____ \ 
+		    /        \|   Y  (  <_> )  |_> >
+		   /_______  /|___|  /\____/|   __/ 
+		           \/      \/       |__|    
+)" << '\n';
+}
+
+inline void Game::printGameSettings()
+{
+	setConsoleColor(logoColor);
+
+	cout << R"(
+	  _________       __    __  .__                      
+	 /   _____/ _____/  |__/  |_|__| ____    ____  ______
+	 \_____  \_/ __ \   __\   __\  |/    \  / ___\/  ___/
+	 /        \  ___/|  |  |  | |  |   |  \/ /_/  >___ \ 
+	/_______  /\___  >__|  |__| |__|___|  /\___  /____  >
+	        \/     \/                   \//_____/     \/   
+)" << '\n';
+}
+
+inline void Game::printGameProfile()
+{
+	setConsoleColor(logoColor);
+
+	cout << R"(
+	  __________                _____.__.__          
+	  \______   \_______  _____/ ____\__|  |   ____  
+	  |     ___/\_  __ \/  _ \   __\|  |  | _/ __ \ 
+	  |    |     |  | \(  <_> )  |  |  |  |_\  ___/ 
+	  |____|     |__|   \____/|__|  |__|____/\___  >
+	                                              \/   
+)" << '\n';
+}
+
+inline void Game::printGameWin()
+{
+	setConsoleColor(gameWinColor);
+	system("cls");
+
+	cout << R"(
+			 __      __.__      ._.
+			/  \    /  \__| ____| |
+			\   \/\/   /  |/    \ |
+			 \        /|  |   |  \|
+			  \__/\  / |__|___|  /_
+			       \/          \/\/
+)" << '\n';
+}
+
+inline void Game::printGameLose()
+{
+	setConsoleColor(gameLoseColor);
+	system("cls");
+
+	cout << R"(
+		.____                      ._.
+		|    |    ____  ______ ____| |
+		|    |   /  _ \/  ___// __ \ |
+		|    |__(  <_> )___ \\  ___/\|
+		|_______ \____/____  >\___  >_
+		        \/         \/     \/\/
+)" << '\n';
+}
+
+////////////////// END PRINT HEAD //////////////////

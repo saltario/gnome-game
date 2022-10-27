@@ -143,9 +143,4 @@ int cursorY()
 	return csbi.dwCursorPosition.Y;
 }
 
-void showHelp(string helpText)
-{
-	setConsoleColor(yellowTextColor);
-	setCursorPosition(consoleHeight, 0);
-	coutCentered(helpText, 0);
-}
+

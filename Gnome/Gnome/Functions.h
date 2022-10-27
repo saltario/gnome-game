@@ -18,11 +18,9 @@ void coutCentered(string text, bool isNewLine = true);
 void showConsoleCursor(bool showFlag);
 void setWindowAttribute();
 void setConsoleColor(int textColor);
-void setCursorPosition(int line, int column);
+void setCursorPosition(int line = 0, int column = 0);
 
 int cursorX();
 int cursorY();
-
-void showHelp(string helpText);
 
 
