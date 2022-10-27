@@ -1,75 +1,36 @@
 #include "Functions.h"
 
-////////////////// SEPARATORS //////////////////
-
-void printSeparator() {
-
-	SetConsoleTextAttribute(hConsole, blueTextColor);
-
-	cout.setf(ios::left);
-	cout.width(separatorTextWidth);
-	cout.fill('=');
-	cout << "=" << endl;
-}
-
-void printMenuSeparator() {
-
-	cout.setf(ios::left);
-	cout.width(SeparatorMenuWidth);
-	cout.fill('-');
-	cout << "-" << endl;
-}
-
-void printEmptySeparator()
+void prepareWindow()
 {
-	cout.setf(ios::left);
-	cout.width(SeparatorWidth);
-	cout.fill(' ');
-	cout << " ";
+	setWindowAttribute();
+	setConsoleAttribute();
+	setTitle();
 }
 
-void printSeparatorForBattle() {
+void setWindowAttribute()
+{
+	HWND consoleWindow = GetConsoleWindow();
+	RECT rect;
 
-	setConsoleColor(playerFrameColor);
-
-	cout.setf(ios::left);
-	cout.width(separatorTextWidth);
-	cout.fill('=');
-	cout << "=";
-
-	printEmptySeparator();
-
-	setConsoleColor(enemyFrameColor);
-
-	cout.setf(ios::left);
-	cout.width(separatorTextWidth);
-	cout.fill('=');
-	cout << "=" << endl;
-
-	cout.fill(' ');
+	GetWindowRect(consoleWindow, &rect);
+	MoveWindow(consoleWindow, rect.left, rect.top, windowWidth, windowHeight, TRUE);
 }
 
-void printSeparatorForShop() {
-
-	SetConsoleTextAttribute(hConsole, blueTextColor);
-
-	cout.setf(ios::left);
-	cout.width(separatorTextWidth);
-	cout.fill('=');
-	cout << "=";
-
-	printEmptySeparator();
-
-	cout.setf(ios::left);
-	cout.width(separatorTextWidth);
-	cout.fill('=');
-	cout << "=" << endl;
+void setConsoleAttribute()
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SMALL_RECT rect = { 0, 0, consoleWidth, consoleHeight };
+	SetConsoleWindowInfo(hConsole, TRUE, &rect);
 }
 
-////////////////// END SEPARATORS //////////////////
+void setTitle()
+{
+	SetConsoleTitleW(L"Gnome Game");
+}
 
 void coutCentered(string text, bool isNewLine)
 {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	PCONSOLE_SCREEN_BUFFER_INFO lpScreenInfo = new CONSOLE_SCREEN_BUFFER_INFO();
 	GetConsoleScreenBufferInfo(hConsole, lpScreenInfo);
 	COORD NewSBSize = lpScreenInfo->dwSize;
@@ -85,6 +46,7 @@ void coutCentered(string text, bool isNewLine)
 
 void showConsoleCursor(bool showFlag)
 {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO     cursorInfo;
 
 	GetConsoleCursorInfo(hConsole, &cursorInfo);
@@ -92,23 +54,9 @@ void showConsoleCursor(bool showFlag)
 	SetConsoleCursorInfo(hConsole, &cursorInfo);
 }
 
-void setWindowAttribute() {
-
-	HWND consoleWindow = GetConsoleWindow();
-	RECT rect1;
-
-	GetWindowRect(consoleWindow, &rect1);
-	MoveWindow(consoleWindow, rect1.left, rect1.top, windowWidth, windowHeight, TRUE);
-
+void setConsoleColor(int textColor) 
+{
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SMALL_RECT rect2 = { 0, 0, consoleWidth, consoleHeight };
-	SetConsoleWindowInfo(hConsole, TRUE, &rect2);
-
-	SetConsoleTitleW(L"Gnome Game");
-}
-
-void setConsoleColor(int textColor) {
-
 	SetConsoleTextAttribute(hConsole, textColor);
 }
 
@@ -123,7 +71,7 @@ void setCursorPosition(int line, int column)
 	SetConsoleCursorPosition(hConsole, coord);
 }
 
-int cursorX()
+int getCursorPositionX()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -133,7 +81,7 @@ int cursorX()
 	return csbi.dwCursorPosition.X;
 }
 
-int cursorY()
+int getCursorPositionY()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO csbi;

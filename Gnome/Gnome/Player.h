@@ -4,13 +4,11 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <ctime>
 
 #include "Hero.h"
-#include "Functions.h"
-#include "Constants.h"
 
 using namespace std;
-using namespace constants;
 
 class Player
 {
@@ -41,9 +39,6 @@ public:
 	Hero getPlayerHero();
 	void setPlayerHero(int heroId);
 	void setPlayerHero(Hero hero);
-
-	void printPlayer();
-	void printProfile();
 
 	void savePlayer();
 	void loadPlayer();

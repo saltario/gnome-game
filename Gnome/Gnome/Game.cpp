@@ -127,7 +127,7 @@ void Game::initPlayer() {
 
 	coutCentered("Введите имя:      ", false);
 	x = 39;
-	y = cursorY();
+	y = getCursorPositionY();
 
 	setCursorPosition(y, x);
 	cin >> playerName;
@@ -177,9 +177,6 @@ void Game::shop()
 void Game::profile()
 {
 	printGameProfile();
-
-	player.printProfile();
-	player.getPlayerHero().printHero();
 
 	while (true)
 	{
@@ -307,7 +304,7 @@ void Game::printPlayer()
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
-	setConsoleColor(heroColor);
+	setConsoleColor(heroTextColor);
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
@@ -326,7 +323,7 @@ void Game::printPlayer()
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
-	setConsoleColor(playerColor);
+	setConsoleColor(playerTextColor);
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
@@ -346,7 +343,7 @@ void Game::printPlayer()
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
-	setConsoleColor(heroColor);
+	setConsoleColor(heroTextColor);
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
@@ -365,7 +362,7 @@ void Game::printPlayer()
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
-	setConsoleColor(playerColor);
+	setConsoleColor(playerTextColor);
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
@@ -385,7 +382,7 @@ void Game::printPlayer()
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
-	setConsoleColor(heroColor);
+	setConsoleColor(heroTextColor);
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
@@ -404,7 +401,7 @@ void Game::printPlayer()
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
-	setConsoleColor(playerColor);
+	setConsoleColor(playerTextColor);
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
@@ -429,7 +426,7 @@ void Game::printName()
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
-	setConsoleColor(heroColor);
+	setConsoleColor(heroTextColor);
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
@@ -448,7 +445,7 @@ void Game::printName()
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
-	setConsoleColor(playerColor);
+	setConsoleColor(playerTextColor);
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
@@ -483,7 +480,7 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 
 	else
 	{
-		strColor = heroColor;
+		strColor = heroTextColor;
 		if (player.getPlayerHero().getHealth() <= 0)
 		{
 			strValue = to_string(0);
@@ -525,7 +522,7 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 
 	else
 	{
-		strColor = heroColor;
+		strColor = heroTextColor;
 		if (enemy.getPlayerHero().getHealth() <= 0)
 		{
 			strValue = to_string(0);
@@ -563,7 +560,7 @@ void Game::printDamage()
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
-	setConsoleColor(heroColor);
+	setConsoleColor(heroTextColor);
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
@@ -582,7 +579,7 @@ void Game::printDamage()
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
-	setConsoleColor(playerColor);
+	setConsoleColor(playerTextColor);
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strPres;
 
@@ -825,7 +822,7 @@ void Game::gameLose()
 void Game::choiceEnemy()
 {
 	srand(time(0));
-	int random = 1 + rand() % 6;
+	unsigned int random = 1 + rand() % 6;
 
 	enemy.setEnemy();
 	enemy.setPlayerHero(random);
@@ -864,13 +861,13 @@ inline void Game::printMenuSeparator()
 
 void Game::printTwoHero(Hero hero1, Hero hero2)
 {
-	printSeparatorForShop();
+	printSeparatorForBattle();
 
 	string str1;
 	string str2 = " |";
 
 	cout.fill(' ');
-	SetConsoleTextAttribute(hConsole, lightGreenTextColor);
+	setConsoleColor(lightGreenTextColor);
 
 	////////////////////////////////
 	str1 = "| Имя: ";
@@ -943,7 +940,7 @@ void Game::printTwoHero(Hero hero1, Hero hero2)
 	cout.width(str2.length());
 	cout << str2 << endl;
 
-	printSeparatorForShop();
+	printSeparatorForBattle();
 }
 
 void Game::showHelp(string helpText)
@@ -1056,3 +1053,35 @@ inline void Game::printGameLose()
 }
 
 ////////////////// END PRINT HEAD //////////////////
+
+////////////////// SEPARATORS //////////////////
+
+void Game::printEmptySeparator()
+{
+	cout.width(SeparatorWidth);
+	cout.fill(' ');
+	cout << " ";
+}
+
+void Game::printSeparatorForBattle() {
+
+	setConsoleColor(playerFrameColor);
+
+	cout.setf(ios::left);
+	cout.width(separatorTextWidth);
+	cout.fill('=');
+	cout << "=";
+
+	printEmptySeparator();
+
+	setConsoleColor(enemyFrameColor);
+
+	cout.setf(ios::left);
+	cout.width(separatorTextWidth);
+	cout.fill('=');
+	cout << "=" << endl;
+
+	cout.fill(' ');
+}
+
+////////////////// END SEPARATORS //////////////////

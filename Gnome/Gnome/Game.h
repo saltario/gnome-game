@@ -1,22 +1,27 @@
 #pragma once
 
+#include <ctime>
+
 #include "Hero.h"
 #include "Player.h"
-#include "Constants.h"
 
-#include <ctime>
+#include "Functions.h"
+#include "Constants.h"
+#include "Colors.h"
 
 using namespace std;
 using namespace constants;
+using namespace colors;
 
 class Game
 {
 private:
-	bool gameOver;
-	bool whoAttack = 1;
 	Player player;
 	Player enemy;
 
+	bool gameOver;
+	bool whoAttack = 1;
+	
 	void newGame();
 	void loadGame();
 
@@ -28,13 +33,9 @@ private:
 	void settings();
 	void exit();
 
-	void battle();
-	void enemyStep(bool attack = false, bool healing = false);
-	void playerStep(bool attack = false, bool healing = false);
+	inline void printMenuSeparator();
 
-	void choiceEnemy();
-	void endBattle();
-	void exitBattle();
+	void battle();
 	void printBattle(bool showLogo = true);
 
 	void printPlayer();
@@ -44,11 +45,18 @@ private:
 		bool isHeroAttack = false, bool isEnemyAttack = false,
 		bool isHeroHealing = false, bool isEnemyHealing = false);
 
+	void enemyStep(bool attack = false, bool healing = false);
+	void playerStep(bool attack = false, bool healing = false);
+
 	void gameWin();
 	void gameLose();
 
 	inline void printGameWin();
 	inline void printGameLose();
+
+	void choiceEnemy();
+	void endBattle();
+	void exitBattle();
 
 	inline void printGameLogo();
 	inline void printGameBattle();
@@ -56,9 +64,11 @@ private:
 	inline void printGameSettings();
 	inline void printGameProfile();
 
-	inline void printMenuSeparator();
+	void printEmptySeparator();
+	void printSeparatorForBattle();
 
 	void showHelp(string helpText);
+	void printTwoHero(Hero hero1, Hero hero2);
 
 public:
 	Game();
@@ -73,6 +83,5 @@ public:
 	void startMenu();
 	void menu();
 
-	void printTwoHero(Hero hero1, Hero hero2);
 };
 

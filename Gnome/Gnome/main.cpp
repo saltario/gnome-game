@@ -8,7 +8,7 @@ int main()
 {
 	setlocale(LC_ALL, "Rus");
 
-	setWindowAttribute();
+	prepareWindow();
 
 	Game game = Game();
 
@@ -16,5 +16,6 @@ int main()
 	game.menu();
 
 	_getch();
+
 	return EXIT_SUCCESS;
 }
