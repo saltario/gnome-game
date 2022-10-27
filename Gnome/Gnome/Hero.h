@@ -2,11 +2,8 @@
 
 #include <string>
 #include <iostream>
-#include "Functions.h"
-#include "Constants.h"
 
 using namespace std;
-using namespace constants;
 
 class Hero
 {
@@ -17,14 +14,12 @@ private:
 	int Price;
 
 public:
-
 	Hero();
 	Hero(int Health, int Damage, string Name, int Price);
 	Hero(int heroId);
 	~Hero();
 
 	Hero getHeroById(int heroId);
-	void printHero();
 
 	int getHealth();
 	void setHealth(int Health);

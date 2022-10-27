@@ -25,78 +25,6 @@ Hero Player::getPlayerHero() { return hero; }
 void Player::setPlayerHero(int heroId) { this->hero = Hero(heroId); this->heroId = heroId; }
 void Player::setPlayerHero(Hero hero) { this->hero = hero; }
 
-void Player::printPlayer()
-{
-	string str1 = "| Игрок: ";
-	string str2 = " |";
-
-	printSeparator();
-
-	setConsoleColor(yellowTextColor);
-	cout.fill(' ');
-
-	cout.width(heroTextWidth);
-	cout << str1;
-
-	cout.width(heroTextWidth - str2.length());
-	cout << getName();
-
-	cout.width(str2.length());
-	cout << str2 << endl;
-}
-
-void Player::printProfile()
-{
-	string str1;
-	string str2 = " |";
-
-	printSeparator();
-
-	setConsoleColor(yellowTextColor);
-	cout.fill(' ');
-
-	////////////////////////////////
-
-	str1 = "| Игрок: ";
-	cout.width(heroTextWidth);
-	cout << str1;
-
-	cout.width(heroTextWidth - str2.length());
-	cout << getName();
-
-	cout.width(str2.length());
-	cout << str2 << endl;
-
-	////////////////////////////////
-
-	str1 = "| Уровень: ";
-	cout.width(heroTextWidth);
-	cout << str1;
-
-	cout.width(heroTextWidth - str2.length());
-	cout << getLevel();
-
-	cout.width(str2.length());
-	cout << str2 << endl;
-
-	////////////////////////////////
-
-	str1 = "| Звезды: ";
-	cout.width(heroTextWidth);
-	cout << str1;
-
-	cout.width(heroTextWidth - str2.length());
-	cout << getStars();
-
-	cout.width(str2.length());
-	cout << str2 << endl;
-
-	printSeparator();
-
-	////////////////////////////////
-
-}
-
 void Player::savePlayer()
 {
 	ofstream fin;
@@ -120,7 +48,7 @@ void Player::loadPlayer()
 void Player::setEnemy()
 {
 	srand(time(0));
-	int nameId = 1 + rand() % 6;
+	unsigned int nameId = 1 + rand() % 6;
 
 	switch (nameId)
 	{
