@@ -1,28 +1,35 @@
 #include "Game.h"
 
-#define LOGO_POS 0
-#define AFTER_LOGO_POS 9
-#define PLAYER_POS 9
+#define LOGO_POS				 0
+#define AFTER_LOGO_POS			 9
+#define PLAYER_POS				 9
 
-#define MENU_START_POS 10
-#define MENU_PROFILE_POS 12
-#define MENU_SHOP_POS 14
-#define MENU_SETTINGS_POS 16
-#define MENU_EXIT_POS 18
+#define SHOP_DIV				 4
 
-#define HERO_NAME_POS 14
-#define HERO_HEALTH_POS 15
-#define HERO_DAMAGE_POS 16
+#define SET_PLAYER_NAME_POS_X	 39
+#define SET_PLAYER_NAME_POS_Y	 8
 
-#define BTL_MENU_ATTACK_POS 19
-#define BTL_MENU_HEALING_POS 21
-#define BTL_MENU_NEXT_ENEMY_POS 22
+#define START_MENU_START_POS	 10
+#define START_MENU_LOAD_POS		 12
 
-#define STR_OPEN "| "
-#define STR_CLOSE " |"
-#define STR_OPEN_CLOSE_LNG 2
+#define MENU_START_POS			 10
+#define MENU_PROFILE_POS		 12
+#define MENU_SHOP_POS			 14
+#define MENU_SETTINGS_POS		 16
+#define MENU_EXIT_POS			 18
 
-#define PRINT_STR_CLOSE() {  }
+#define HERO_NAME_POS			 14
+#define HERO_HEALTH_POS			 15
+#define HERO_DAMAGE_POS			 16
+#define HERO_PRICE_POS			 17
+
+#define BTL_MENU_ATTACK_POS		 19
+#define BTL_MENU_HEALING_POS	 21
+#define BTL_MENU_NEXT_ENEMY_POS	 22
+
+#define STR_OPEN_CLOSE_LNG		 2
+#define STR_OPEN				 "| "
+#define STR_CLOSE				 " |"
 
 Game::Game() {}
 Game::~Game() {}
@@ -42,13 +49,12 @@ void Game::startMenu()
 	cout.fill(' ');
 	showConsoleCursor(false);
 
-	bool isMenu = true;
 	bool refreshMenu = true;
 
 	int menuIndex = 0;
 	int menuChoice = 0;
 
-	while (isMenu)
+	while (true)
 	{
 		if ((GetAsyncKeyState(VK_UP) & 1) || (GetAsyncKeyState('W') & 1))
 		{
@@ -78,16 +84,14 @@ void Game::startMenu()
 		if (refreshMenu)
 		{
 			refreshMenu = false;
-			system("cls");
-			printGameLogo();
 			setConsoleColor(menuColor);
 
-			if (menuChoice == 0) { coutCentered("> Старт <"); }
-			else { coutCentered("Старт"); }
+			if (menuChoice == 0) { setCursorPosition(START_MENU_START_POS); coutCentered("  > Старт <  "); }
+			else { setCursorPosition(START_MENU_START_POS); coutCentered("  Старт  "); }
 			printMenuSeparator();
 
-			if (menuChoice == 1) { coutCentered("> Загрузить <"); }
-			else { coutCentered("Загрузить"); }
+			if (menuChoice == 1) { setCursorPosition(START_MENU_LOAD_POS); coutCentered("  > Загрузить <  "); }
+			else { setCursorPosition(START_MENU_LOAD_POS); coutCentered("  Загрузить  "); }
 
 			showHelp("Нажмите пробел для выбора");
 		}
@@ -98,7 +102,7 @@ void Game::startMenu()
 
 void Game::newGame()
 {
-	printGameLogo();
+	printGameStart();
 
 	initPlayer();
 	initPlayerHero();
@@ -120,16 +124,14 @@ void Game::loadGame()
 void Game::initPlayer() {
 
 	showConsoleCursor(true);
+	setConsoleColor(textColor);
+
 	string playerName = "player";
 	string separator = "			  ";
 
-	int x, y;
-
 	coutCentered("Введите имя:      ", false);
-	x = 39;
-	y = getCursorPositionY();
 
-	setCursorPosition(y, x);
+	setCursorPosition(SET_PLAYER_NAME_POS_Y, SET_PLAYER_NAME_POS_X);
 	cin >> playerName;
 
 	player.setName(playerName);
@@ -145,9 +147,9 @@ void Game::initPlayerHero()
 
 	Player player = getPlayer();
 
-	printTwoHero(tmp1, tmp2);
+	printTwoHero(1, 5);
 
-	setConsoleColor(redTextColor);
+	setConsoleColor(textColor);
 	showConsoleCursor(false);
 	coutCentered("Выберите героя");
 
@@ -300,7 +302,7 @@ void Game::printPlayer()
 	strPres = "Игрок: ";
 	strValue = player.getName();
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -311,7 +313,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE;
 
@@ -319,7 +321,7 @@ void Game::printPlayer()
 
 	strValue = enemy.getName();
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -330,7 +332,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 
@@ -339,7 +341,7 @@ void Game::printPlayer()
 	strPres = "Уровень: ";
 	strValue = to_string(player.getLevel());
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -350,7 +352,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE;
 
@@ -358,7 +360,7 @@ void Game::printPlayer()
 
 	strValue = to_string(enemy.getLevel());
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -369,7 +371,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 
@@ -378,7 +380,7 @@ void Game::printPlayer()
 	strPres = "Звезды: ";
 	strValue = to_string(player.getStars());
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -389,7 +391,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE;
 
@@ -397,7 +399,7 @@ void Game::printPlayer()
 
 	strValue = to_string(enemy.getStars());
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -408,7 +410,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 
@@ -422,7 +424,7 @@ void Game::printName()
 
 	setCursorPosition(HERO_NAME_POS);
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -433,7 +435,7 @@ void Game::printName()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG); 
 	cout << STR_CLOSE;
 
@@ -441,7 +443,7 @@ void Game::printName()
 
 	strValue = enemy.getPlayerHero().getName();
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -452,7 +454,7 @@ void Game::printName()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 }
@@ -468,13 +470,13 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 
 	if (isEnemyAttack)
 	{
-		strColor = redTextColor;
+		strColor = COLORS_RED;
 		strValue = to_string(player.getPlayerHero().getHealth()) + " - (" + to_string(enemy.getPlayerHero().getDamage()) + ")";
 	}
 
 	else if (isHeroHealing)
 	{
-		strColor = greenTextColor;
+		strColor = COLORS_GREEN;
 		strValue = to_string(player.getPlayerHero().getHealth()) + " + (" + to_string(5) + ")";
 	}
 
@@ -491,7 +493,7 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 		}
 	}
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -502,7 +504,7 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE;
 
@@ -510,13 +512,13 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 
 	if (isHeroAttack)
 	{
-		strColor = redTextColor;
+		strColor = COLORS_RED;
 		strValue = to_string(enemy.getPlayerHero().getHealth()) + " - (" + to_string(player.getPlayerHero().getDamage()) + ")";
 	}
 
 	else if (isEnemyHealing)
 	{
-		strColor = greenTextColor;
+		strColor = COLORS_GREEN;
 		strValue = to_string(enemy.getPlayerHero().getHealth()) + " + (" + to_string(5) + ")";
 	}
 
@@ -533,7 +535,7 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 		}
 	}
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -544,7 +546,7 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 }
@@ -556,7 +558,7 @@ void Game::printDamage()
 
 	setCursorPosition(HERO_DAMAGE_POS);
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -567,7 +569,7 @@ void Game::printDamage()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE;
 
@@ -575,7 +577,7 @@ void Game::printDamage()
 
 	strValue = to_string(enemy.getPlayerHero().getDamage());
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -586,7 +588,7 @@ void Game::printDamage()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 
@@ -859,89 +861,232 @@ inline void Game::printMenuSeparator()
 	setConsoleColor(menuColor);
 }
 
-void Game::printTwoHero(Hero hero1, Hero hero2)
+void Game::printTwoHero(int heroID_1, int heroID_2)
 {
-	printSeparatorForBattle();
+	printSeparatorForShop(heroID_1, heroID_2);
+	printShopName(heroID_1, heroID_2);
+	printShopHealth(heroID_1, heroID_2);
+	printShopDamage(heroID_1, heroID_2);
+	printShopPrice(heroID_1, heroID_2);
+	printSeparatorForShop(heroID_1, heroID_2);
+}
 
-	string str1;
-	string str2 = " |";
+void Game::printShopName(int heroID_1, int heroID_2)
+{
+	Player player_1 = Player();
+	Player player_2 = Player();
 
-	cout.fill(' ');
-	setConsoleColor(lightGreenTextColor);
+	Hero hero_1 = Hero();
+	hero_1 = hero_1.getHeroById(heroID_1);
+	player_1.setPlayerHero(hero_1);
 
-	////////////////////////////////
-	str1 = "| Имя: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	Hero hero_2 = Hero();
+	hero_2 = hero_2.getHeroById(heroID_2);
+	player_2.setPlayerHero(hero_2);
 
-	cout.width(heroTextWidth - str2.length());
-	cout << hero1.getName();
+	string strPres = "Имя: ";
+	string strValue = player_1.getPlayerHero().getName();
 
-	cout.width(str2.length());
-	cout << str2;
+	setCursorPosition(HERO_NAME_POS - SHOP_DIV);
 
-	printEmptySeparator();
+	setConsoleColor(player_1.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
-	str1 = "| Имя: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	setConsoleColor(heroTextColor);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strPres;
 
-	cout.width(heroTextWidth - str2.length());
-	cout << hero2.getName();
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strValue;
 
-	cout.width(str2.length());
-	cout << str2 << endl;
-
-	////////////////////////////////
-
-	str1 = "| Здоровье: ";
-	cout.width(heroTextWidth);
-	cout << str1;
-
-	cout.width(heroTextWidth - str2.length());
-	cout << to_string(hero1.getHealth());
-
-	cout.width(str2.length());
-	cout << str2;
+	setConsoleColor(player_1.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE;
 
 	printEmptySeparator();
 
-	str1 = "| Здоровье: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	strValue = player_2.getPlayerHero().getName();
 
-	cout.width(heroTextWidth - str2.length());
-	cout << to_string(hero2.getHealth());
+	setConsoleColor(player_2.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
-	cout.width(str2.length());
-	cout << str2 << endl;
+	setConsoleColor(playerTextColor);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strPres;
 
-	////////////////////////////////
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strValue;
 
-	str1 = "| Урон: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	setConsoleColor(player_2.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE << endl;
+}
 
-	cout.width(heroTextWidth - str2.length());
-	cout << to_string(hero1.getDamage());
+void Game::printShopHealth(int heroID_1, int heroID_2)
+{
+	Player player_1 = Player();
+	Player player_2 = Player();
 
-	cout.width(str2.length());
-	cout << str2;
+	Hero hero_1 = Hero();
+	hero_1 = hero_1.getHeroById(heroID_1);
+	player_1.setPlayerHero(hero_1);
+
+	Hero hero_2 = Hero();
+	hero_2 = hero_2.getHeroById(heroID_2);
+	player_2.setPlayerHero(hero_2);
+
+	string strPres = "Здоровье: ";
+	string strValue;
+
+	setCursorPosition(HERO_HEALTH_POS - SHOP_DIV);
+	strValue = to_string(player_1.getPlayerHero().getHealth());
+
+	setConsoleColor(player_1.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
+
+	setConsoleColor(heroTextColor);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strPres;
+
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strValue;
+
+	setConsoleColor(player_1.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE;
+
+	printEmptySeparator();
+	strValue = to_string(player_2.getPlayerHero().getHealth());
+	
+	setConsoleColor(player_2.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
+
+	setConsoleColor(heroTextColor);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strPres;
+
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strValue;
+
+	setConsoleColor(player_2.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE << endl;
+}
+
+void Game::printShopDamage(int heroID_1, int heroID_2)
+{
+	Player player_1 = Player();
+	Player player_2 = Player();
+
+	Hero hero_1 = Hero();
+	hero_1 = hero_1.getHeroById(heroID_1);
+	player_1.setPlayerHero(hero_1);
+
+	Hero hero_2 = Hero();
+	hero_2 = hero_2.getHeroById(heroID_2);
+	player_2.setPlayerHero(hero_2);
+
+	string strPres = "Урон: ";
+	string strValue = to_string(player_1.getPlayerHero().getDamage());
+
+	setCursorPosition(HERO_DAMAGE_POS - SHOP_DIV);
+
+	setConsoleColor(player_1.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
+
+	setConsoleColor(heroTextColor);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strPres;
+
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strValue;
+
+	setConsoleColor(player_1.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE;
 
 	printEmptySeparator();
 
-	str1 = "| Урон: ";
-	cout.width(heroTextWidth);
-	cout << str1;
+	strValue = to_string(player_2.getPlayerHero().getDamage());
 
-	cout.width(heroTextWidth - str2.length());
-	cout << to_string(hero2.getDamage());
+	setConsoleColor(player_2.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
 
-	cout.width(str2.length());
-	cout << str2 << endl;
+	setConsoleColor(playerTextColor);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strPres;
+
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strValue;
+
+	setConsoleColor(player_2.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE << endl;
 
 	printSeparatorForBattle();
 }
+
+void Game::printShopPrice(int heroID_1, int heroID_2)
+{
+	Player player_1 = Player();
+	Player player_2 = Player();
+
+	Hero hero_1 = Hero();
+	hero_1 = hero_1.getHeroById(heroID_1);
+	player_1.setPlayerHero(hero_1);
+
+	Hero hero_2 = Hero();
+	hero_2 = hero_2.getHeroById(heroID_2);
+	player_2.setPlayerHero(hero_2);
+
+	string strPres = "Цена: ";
+	string strValue = to_string(player_1.getPlayerHero().getPrice());
+
+	setCursorPosition(HERO_PRICE_POS - SHOP_DIV);
+
+	setConsoleColor(player_1.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
+
+	setConsoleColor(heroTextColor);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strPres;
+
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strValue;
+
+	setConsoleColor(player_1.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE;
+
+	printEmptySeparator();
+
+	strValue = to_string(player_2.getPlayerHero().getPrice());
+
+	setConsoleColor(player_2.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_OPEN;
+
+	setConsoleColor(playerTextColor);
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strPres;
+
+	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
+	cout << strValue;
+
+	setConsoleColor(player_2.getFrameColor());
+	cout.width(STR_OPEN_CLOSE_LNG);
+	cout << STR_CLOSE << endl;
+
+	
+}
+
 
 void Game::showHelp(string helpText)
 {
@@ -977,6 +1122,20 @@ inline void Game::printGameBattle()
 	       |    |   \ / __ \|  |  |  | |  |_\  ___/ 
 	       |______  /(____  /__|  |__| |____/\___  >
 	              \/      \/                     \/ 
+)" << '\n';
+}
+
+inline void Game::printGameStart()
+{
+	setConsoleColor(logoColor);
+
+	cout << R"(
+		  _________ __                 __   
+		 /   _____//  |______ ________/  |_ 
+		 \_____  \\   __\__  \\_  __ \   __\
+		 /        \|  |  / __ \|  | \/|  |  
+		/_______  /|__| (____  /__|   |__|  
+		        \/           \/             
 )" << '\n';
 }
 
@@ -1065,7 +1224,7 @@ void Game::printEmptySeparator()
 
 void Game::printSeparatorForBattle() {
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 
 	cout.setf(ios::left);
 	cout.width(separatorTextWidth);
@@ -1074,7 +1233,39 @@ void Game::printSeparatorForBattle() {
 
 	printEmptySeparator();
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
+
+	cout.setf(ios::left);
+	cout.width(separatorTextWidth);
+	cout.fill('=');
+	cout << "=" << endl;
+
+	cout.fill(' ');
+}
+
+void Game::printSeparatorForShop(int heroID_1, int heroID_2) {
+
+	Player player_1 = Player();
+	Player player_2 = Player();
+
+	Hero hero_1 = Hero();
+	hero_1 = hero_1.getHeroById(heroID_1);
+	player_1.setPlayerHero(hero_1);
+
+	Hero hero_2 = Hero();
+	hero_2 = hero_2.getHeroById(heroID_2);
+	player_2.setPlayerHero(hero_2);
+
+	setConsoleColor(player_1.getFrameColor());
+
+	cout.setf(ios::left);
+	cout.width(separatorTextWidth);
+	cout.fill('=');
+	cout << "=";
+
+	printEmptySeparator();
+
+	setConsoleColor(player_2.getFrameColor());
 
 	cout.setf(ios::left);
 	cout.width(separatorTextWidth);

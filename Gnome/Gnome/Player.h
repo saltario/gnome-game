@@ -7,8 +7,10 @@
 #include <ctime>
 
 #include "Hero.h"
+#include "Colors.h"
 
 using namespace std;
+using namespace colors;
 
 class Player
 {
@@ -18,6 +20,7 @@ private:
 	int heroId;
 	string Name;
 	Hero hero;
+	int frameColor;
 
 public:
 
@@ -36,6 +39,9 @@ public:
 	string getName();
 	void setName(string Name);
 
+	int getFrameColor();
+	void setFrameColor(int frameColor);
+
 	Hero getPlayerHero();
 	void setPlayerHero(int heroId);
 	void setPlayerHero(Hero hero);
@@ -44,5 +50,4 @@ public:
 	void loadPlayer();
 
 	void setEnemy();
-
 };

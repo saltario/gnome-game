@@ -33,6 +33,11 @@ private:
 	void settings();
 	void exit();
 
+	void printShopName(int heroID_1, int heroID_2);
+	void printShopHealth(int heroID_1, int heroID_2);
+	void printShopDamage(int heroID_1, int heroID_2);
+	void printShopPrice(int heroID_1, int heroID_2);
+
 	inline void printMenuSeparator();
 
 	void battle();
@@ -59,6 +64,7 @@ private:
 	void exitBattle();
 
 	inline void printGameLogo();
+	inline void printGameStart();
 	inline void printGameBattle();
 	inline void printGameShop();
 	inline void printGameSettings();
@@ -66,9 +72,10 @@ private:
 
 	void printEmptySeparator();
 	void printSeparatorForBattle();
+	void printSeparatorForShop(int heroID_1, int heroID_2);
 
 	void showHelp(string helpText);
-	void printTwoHero(Hero hero1, Hero hero2);
+	void printTwoHero(int heroID_1, int heroID_2);
 
 public:
 	Game();
