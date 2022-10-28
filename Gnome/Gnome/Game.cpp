@@ -300,7 +300,7 @@ void Game::printPlayer()
 	strPres = "Игрок: ";
 	strValue = player.getName();
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -311,7 +311,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE;
 
@@ -319,7 +319,7 @@ void Game::printPlayer()
 
 	strValue = enemy.getName();
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -330,7 +330,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 
@@ -339,7 +339,7 @@ void Game::printPlayer()
 	strPres = "Уровень: ";
 	strValue = to_string(player.getLevel());
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -350,7 +350,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE;
 
@@ -358,7 +358,7 @@ void Game::printPlayer()
 
 	strValue = to_string(enemy.getLevel());
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -369,7 +369,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 
@@ -378,7 +378,7 @@ void Game::printPlayer()
 	strPres = "Звезды: ";
 	strValue = to_string(player.getStars());
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -389,7 +389,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE;
 
@@ -397,7 +397,7 @@ void Game::printPlayer()
 
 	strValue = to_string(enemy.getStars());
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -408,7 +408,7 @@ void Game::printPlayer()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 
@@ -422,7 +422,7 @@ void Game::printName()
 
 	setCursorPosition(HERO_NAME_POS);
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -433,7 +433,7 @@ void Game::printName()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG); 
 	cout << STR_CLOSE;
 
@@ -441,7 +441,7 @@ void Game::printName()
 
 	strValue = enemy.getPlayerHero().getName();
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -452,7 +452,7 @@ void Game::printName()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 }
@@ -491,7 +491,7 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 		}
 	}
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -502,7 +502,7 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE;
 
@@ -533,7 +533,7 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 		}
 	}
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -544,7 +544,7 @@ void Game::printHealth(bool isHeroAttack, bool isEnemyAttack, bool isHeroHealing
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 }
@@ -556,7 +556,7 @@ void Game::printDamage()
 
 	setCursorPosition(HERO_DAMAGE_POS);
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -567,7 +567,7 @@ void Game::printDamage()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE;
 
@@ -575,7 +575,7 @@ void Game::printDamage()
 
 	strValue = to_string(enemy.getPlayerHero().getDamage());
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_OPEN;
 
@@ -586,7 +586,7 @@ void Game::printDamage()
 	cout.width(heroTextWidth - STR_OPEN_CLOSE_LNG);
 	cout << strValue;
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
 	cout << STR_CLOSE << endl;
 
@@ -1065,7 +1065,7 @@ void Game::printEmptySeparator()
 
 void Game::printSeparatorForBattle() {
 
-	setConsoleColor(playerFrameColor);
+	setConsoleColor(player.getFrameColor());
 
 	cout.setf(ios::left);
 	cout.width(separatorTextWidth);
@@ -1074,7 +1074,7 @@ void Game::printSeparatorForBattle() {
 
 	printEmptySeparator();
 
-	setConsoleColor(enemyFrameColor);
+	setConsoleColor(enemy.getFrameColor());
 
 	cout.setf(ios::left);
 	cout.width(separatorTextWidth);

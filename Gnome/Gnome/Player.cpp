@@ -5,6 +5,7 @@ Player::Player()
 	this->Name = "Player";
 	this->Level = 0;
 	this->Stars = 0;
+	this->frameColor = 0;
 }
 Player::~Player() {}
 
@@ -19,6 +20,33 @@ void Player::setStars(int Stars) { this->Stars = Stars; }
 
 string Player::getName() { return Name; }
 void Player::setName(string Name) { this->Name = Name; }
+
+int Player::getFrameColor() 
+{ 
+	switch (hero.getClass())
+	{
+	case 1:
+		return simpleHeroClass;
+		break;
+
+	case 2:
+		return rareHeroClass;
+		break;
+
+	case 3:
+		return legendaryHeroClass;
+		break;
+
+	case 4:
+		return epicHeroClass;
+		break;
+
+	default:
+		return simpleHeroClass;
+		break;
+	}
+}
+void Player::setFrameColor(int frameColor) { this->frameColor = frameColor; }
 
 Hero Player::getPlayerHero() { return hero; }
 

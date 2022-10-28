@@ -12,10 +12,11 @@ private:
 	int Damage;
 	string Name;
 	int Price;
+	int Class;
 
 public:
 	Hero();
-	Hero(int Health, int Damage, string Name, int Price);
+	Hero(int Health, int Damage, string Name, int Price, int Class);
 	Hero(int heroId);
 	~Hero();
 
@@ -32,5 +33,8 @@ public:
 
 	int getPrice();
 	void setPrice(int Price);
+
+	int getClass();
+	void setClass(int Class);
 
 };

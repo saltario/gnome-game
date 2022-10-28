@@ -18,9 +18,6 @@ namespace colors {
 	const int yellowTextColor = 14;
 	const int lightWhiteTextColor = 10;
 
-	const int playerFrameColor = pinkTextColor;
-	const int enemyFrameColor = deppYellowTextColor;
-
 	////////////////// RESERVED COLORS //////////////////
 
 	const int playerTextColor = yellowTextColor;
@@ -34,6 +31,11 @@ namespace colors {
 	const int gameWinColor = greenTextColor;
 
 	const int helpColor = yellowTextColor;
+
+	const int simpleHeroClass = lightGreenTextColor;
+	const int rareHeroClass = cyanTextColor;
+	const int legendaryHeroClass = pinkTextColor;
+	const int epicHeroClass = deppYellowTextColor;
 
 	////////////////// END RESERVED COLORS //////////////////
 
