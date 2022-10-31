@@ -4,7 +4,7 @@
 <h3 align="center">Репозиторий создан в дополнение к курсу</h3>
  
 <!-- BLOG-POST-LIST:START --><table> <tr> <td> <a href="https://www.youtube.com/watch?v=zpwRfN2n40s"><img width="140px" src="https://i.ytimg.com/vi/zpwRfN2n40s/mqdefault.jpg"></a> </td> 
- <td> <a href="https://www.youtube.com/watch?v=zpwRfN2n40s">ЕВРОХИТ ТОП 40 ЛУЧШЕЕ ЗА НЕДЕЛЮ ОТ 31 ИЮЛЯ 2021 ГОДА | ЕВРОПА ПЛЮС</a> <br/>Sep 3, 2021</td> </tr> </table> 
+ <td> <a href="https://www.youtube.com/watch?v=7_NESVFjk_o">ntvfxcghfchfdgh</a> <br/>Sep 3, 2021</td> </tr> </table> 
 <table> <tr> <td> <a href="https://www.youtube.com/watch?v=vnAghc-yEHI"><img width="140px" src="https://i.ytimg.com/vi/vnAghc-yEHI/mqdefault.jpg"></a> </td> 
  <td> <a href="https://www.youtube.com/watch?v=vnAghc-yEHI">ЕВРОХИТ ТОП 40 ЛУЧШЕЕ ЗА НЕДЕЛЮ ОТ 24 ИЮЛЯ 2021 ГОДА | ЕВРОПА ПЛЮС</a> <br/>Jul 24, 2021</td> </tr> </table> 
 <table> <tr> <td> <a href="https://www.youtube.com/watch?v=sr7XwJpV0g4"><img width="140px" src="https://i.ytimg.com/vi/sr7XwJpV0g4/mqdefault.jpg"></a> </td> 
