@@ -50,8 +50,8 @@ private:
 		bool isHeroAttack = false, bool isEnemyAttack = false,
 		bool isHeroHealing = false, bool isEnemyHealing = false);
 
-	void enemyStep(bool attack = false, bool healing = false);
-	void playerStep(bool attack = false, bool healing = false);
+	void enemyStep(int state);
+	void playerStep(int state);
 
 	void gameWin();
 	void gameLose();
@@ -60,6 +60,7 @@ private:
 	inline void printGameLose();
 
 	void choiceEnemy();
+	int getEnemyState();
 	void endBattle();
 	void exitBattle();
 

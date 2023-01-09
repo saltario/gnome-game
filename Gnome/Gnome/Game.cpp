@@ -10,18 +10,18 @@
 #define SET_PLAYER_NAME_POS_Y	 8
 
 #define START_MENU_START_POS	 10
-#define START_MENU_LOAD_POS		 12
+#define START_MENU_LOAD_POS		 START_MENU_START_POS + 2
 
 #define MENU_START_POS			 10
-#define MENU_PROFILE_POS		 12
-#define MENU_SHOP_POS			 14
-#define MENU_SETTINGS_POS		 16
-#define MENU_EXIT_POS			 18
+#define MENU_PROFILE_POS		 MENU_START_POS + 2
+#define MENU_SHOP_POS			 MENU_PROFILE_POS + 2
+#define MENU_SETTINGS_POS		 MENU_SHOP_POS + 2
+#define MENU_EXIT_POS			 MENU_SETTINGS_POS + 2
 
 #define HERO_NAME_POS			 14
-#define HERO_HEALTH_POS			 15
-#define HERO_DAMAGE_POS			 16
-#define HERO_PRICE_POS			 17
+#define HERO_HEALTH_POS			 HERO_NAME_POS + 1
+#define HERO_DAMAGE_POS			 HERO_HEALTH_POS + 1
+#define HERO_PRICE_POS			 HERO_DAMAGE_POS + 1
 
 #define BTL_MENU_ATTACK_POS		 19
 #define BTL_MENU_HEALING_POS	 21
@@ -30,6 +30,10 @@
 #define STR_OPEN_CLOSE_LNG		 2
 #define STR_OPEN				 "| "
 #define STR_CLOSE				 " |"
+
+#define STATE_COUNT				2
+#define STATE_ATTACK			0
+#define STATE_HEALING			1
 
 Game::Game() {}
 Game::~Game() {}
@@ -648,16 +652,16 @@ void Game::battle()
 				nextEnemy = false; 
 				maxCountMenu = 1; 
 
-				if (gameOver == false) { playerStep(1, 0); }
-				if (gameOver == false) { enemyStep(1, 0); }
+				if (gameOver == false) { playerStep(STATE_ATTACK); }
+				if (gameOver == false) { enemyStep(getEnemyState()); }
 			}
 			if ((menuChoice == 1) && (gameOver == false)) 
 			{ 
 				nextEnemy = false; 
 				maxCountMenu = 1; 
 
-				if (gameOver == false) { playerStep(0, 1); }
-				if (gameOver == false) { enemyStep(0, 1); }
+				if (gameOver == false) { playerStep(STATE_HEALING); }
+				if (gameOver == false) { enemyStep(getEnemyState()); }
 			}
 
 			if ((menuChoice == 2) && (nextEnemy)) { choiceEnemy(); }
@@ -743,7 +747,7 @@ void Game::battle()
 	}
 }
 
-void Game::playerStep(bool attack, bool healing)
+void Game::playerStep(int state)
 {
 	Hero playerHero = Hero();
 	playerHero = player.getPlayerHero();
@@ -751,7 +755,7 @@ void Game::playerStep(bool attack, bool healing)
 	Hero enemyHero = Hero();
 	enemyHero = enemy.getPlayerHero();
 
-	if (attack)
+	if (state == STATE_ATTACK)
 	{
 		enemyHero.setHealth(enemyHero.getHealth() - playerHero.getDamage());
 		enemy.setPlayerHero(enemyHero);
@@ -760,7 +764,7 @@ void Game::playerStep(bool attack, bool healing)
 		else { printHealth(1, 0, 0, 0); Sleep(1000); whoAttack = 0; gameOver = false; }
 	}
 
-	if (healing)
+	if (state == STATE_HEALING)
 	{
 		playerHero.setHealth(playerHero.getHealth() + 5);
 		player.setPlayerHero(playerHero);
@@ -769,7 +773,7 @@ void Game::playerStep(bool attack, bool healing)
 	}
 }
 
-void Game::enemyStep(bool attack, bool healing)
+void Game::enemyStep(int state)
 {
 	Hero playerHero = Hero();
 	playerHero = player.getPlayerHero();
@@ -777,7 +781,7 @@ void Game::enemyStep(bool attack, bool healing)
 	Hero enemyHero = Hero();
 	enemyHero = enemy.getPlayerHero();
 
-	if (attack)
+	if (state == STATE_ATTACK)
 	{
 		playerHero.setHealth(playerHero.getHealth() - enemyHero.getDamage());
 		player.setPlayerHero(playerHero);
@@ -786,7 +790,7 @@ void Game::enemyStep(bool attack, bool healing)
 		else { printHealth(0, 1, 0, 0); Sleep(1000); whoAttack = 1; gameOver = false; }
 	}
 
-	if (healing)
+	if (state == STATE_HEALING)
 	{
 		enemyHero.setHealth(enemyHero.getHealth() + 5);
 		enemy.setPlayerHero(enemyHero);
@@ -831,6 +835,12 @@ void Game::choiceEnemy()
 
 	setEnemy(enemy);
 	printBattle();
+}
+
+int Game::getEnemyState()
+{
+	srand(time(0));
+	return rand() % STATE_COUNT;
 }
 
 void Game::endBattle()
