@@ -12,8 +12,7 @@ int main()
 
 	Game game = Game();
 
-	game.startMenu();
-	game.menu();
+	game.start();
 
 	_getch();
 

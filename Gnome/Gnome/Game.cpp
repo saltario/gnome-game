@@ -24,8 +24,8 @@
 #define HERO_PRICE_POS			 HERO_DAMAGE_POS + 1
 
 #define BTL_MENU_ATTACK_POS		 19
-#define BTL_MENU_HEALING_POS	 21
-#define BTL_MENU_NEXT_ENEMY_POS	 22
+#define BTL_MENU_HEALING_POS	 BTL_MENU_ATTACK_POS + 2
+#define BTL_MENU_NEXT_ENEMY_POS	 BTL_MENU_HEALING_POS + 1
 
 #define STR_OPEN_CLOSE_LNG		 2
 #define STR_OPEN				 "| "
@@ -44,9 +44,18 @@ void Game::setPlayer(Player player) { this->player = player; }
 Player Game::getEnemy() { return enemy; }
 void Game::setEnemy(Player enemy) { this->enemy = enemy; }
 
+#pragma region START
 ////////////////// START //////////////////
 
-void Game::startMenu()
+void Game::start()
+{
+	// Запускаем стартовое окно
+	startScreen();
+	// Основное меню игры
+	menuScreen();
+}
+
+void Game::startScreen()
 {
 	printGameLogo();
 
@@ -81,7 +90,9 @@ void Game::startMenu()
 		if (GetAsyncKeyState(VK_SPACE) & 1)
 		{
 			system("cls");
+			// Новая игра
 			if (menuChoice == 0) { newGame(); break; }
+			// Загрузка прошлой игры
 			if (menuChoice == 1) { loadGame(); break; }
 		}
 
@@ -100,32 +111,13 @@ void Game::startMenu()
 			showHelp("Нажмите пробел для выбора");
 		}
 
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { exit(); break; }
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { gameExit(); break; }
 	}
 }
 
 void Game::newGame()
 {
 	printGameStart();
-
-	initPlayer();
-	initPlayerHero();
-
-	player.savePlayer();
-}
-
-void Game::loadGame()
-{
-	player.loadPlayer();
-	player.setPlayerHero(player.getHeroId());
-	setPlayer(player);
-}
-
-////////////////// END START //////////////////
-
-////////////////// INIT //////////////////
-
-void Game::initPlayer() {
 
 	showConsoleCursor(true);
 	setConsoleColor(textColor);
@@ -138,11 +130,9 @@ void Game::initPlayer() {
 	setCursorPosition(SET_PLAYER_NAME_POS_Y, SET_PLAYER_NAME_POS_X);
 	cin >> playerName;
 
+	// Новое имя игрока
 	player.setName(playerName);
-}
 
-void Game::initPlayerHero() 
-{
 	Hero tmp1 = Hero();
 	tmp1 = tmp1.getHeroById(1);
 
@@ -157,55 +147,35 @@ void Game::initPlayerHero()
 	showConsoleCursor(false);
 	coutCentered("Выберите героя");
 
+	showHelp("Нажмите 1 или 2 для выбора героя");
+
+	// Новый герой из предложенных
 	while (true)
 	{
 		if (GetAsyncKeyState(VK_NUMPAD1) & 1) { player.setPlayerHero(1); break; }
 		if (GetAsyncKeyState(VK_NUMPAD2) & 1) { player.setPlayerHero(5); break; }
 	}
 
+	// Записываем игрока
+	setPlayer(player);
+	// Сохраняем игрока
+	player.savePlayer();
+}
+
+void Game::loadGame()
+{
+	player.loadPlayer();
+	player.setPlayerHero(player.getHeroId());
 	setPlayer(player);
 }
 
-////////////////// END INIT //////////////////
+////////////////// END START //////////////////
+#pragma endregion START
 
+#pragma region MENU
 ////////////////// MENU //////////////////
 
-void Game::shop()
-{
-	printGameShop();
-
-	while (true)
-	{
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
-	}
-}
-
-void Game::profile()
-{
-	printGameProfile();
-
-	while (true)
-	{
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
-	}
-}
-
-void Game::settings()
-{
-	printGameSettings();
-
-	while (true)
-	{
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menu(); break; }
-	}
-}
-
-void Game::exit()
-{
-
-}
-
-void Game::menu() 
+void Game::menuScreen()
 {
 	system("cls");
 	printGameLogo();
@@ -239,10 +209,10 @@ void Game::menu()
 		{
 			system("cls");
 			if (menuChoice == 0) { battle(); }
-			if (menuChoice == 1) { profile(); }
-			if (menuChoice == 2) { shop(); }
-			if (menuChoice == 3) { settings(); }
-			if (menuChoice == 4) { exit(); }
+			if (menuChoice == 1) { profileScreen(); }
+			if (menuChoice == 2) { shopScreen(); }
+			if (menuChoice == 3) { settingsScreen(); }
+			if (menuChoice == 4) { gameExit(); }
 		}
 
 		if (refreshMenu)
@@ -268,17 +238,62 @@ void Game::menu()
 
 			if (menuChoice == 4) { setCursorPosition(MENU_EXIT_POS); coutCentered("  > Выход <  "); }
 			else { setCursorPosition(MENU_EXIT_POS); coutCentered("  Выход  "); }
-			
+
 			showHelp("Нажмите пробел для выбора");
 		}
 
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { exit(); break; }
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { gameExit(); break; }
 	}
 }
 
-////////////////// END MENU //////////////////
+void Game::shopScreen()
+{
+	printGameShop();
 
-////////////////// BATTLE //////////////////
+	while (true)
+	{
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menuScreen(); break; }
+	}
+}
+
+void Game::profileScreen()
+{
+	printGameProfile();
+
+	while (true)
+	{
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menuScreen(); break; }
+	}
+}
+
+void Game::settingsScreen()
+{
+	printGameSettings();
+
+	while (true)
+	{
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menuScreen(); break; }
+	}
+}
+
+void Game::gameExit()
+{
+
+}
+
+inline void Game::printMenuSeparator()
+{
+	string menuSeparator = "-----------";
+	setConsoleColor(menuSeparatorColor);
+	coutCentered(menuSeparator);
+	setConsoleColor(menuColor);
+}
+
+////////////////// END MENU //////////////////
+#pragma endregion MENU
+
+#pragma region PRINT BATTLE
+////////////////// PRINT BATTLE //////////////////
 
 void Game::printBattle(bool showLogo)
 {
@@ -599,6 +614,33 @@ void Game::printDamage()
 	printSeparatorForBattle();
 }
 
+void Game::printSeparatorForBattle() {
+
+	setConsoleColor(player.getFrameColor());
+
+	cout.setf(ios::left);
+	cout.width(separatorTextWidth);
+	cout.fill('=');
+	cout << "=";
+
+	printEmptySeparator();
+
+	setConsoleColor(enemy.getFrameColor());
+
+	cout.setf(ios::left);
+	cout.width(separatorTextWidth);
+	cout.fill('=');
+	cout << "=" << endl;
+
+	cout.fill(' ');
+}
+
+////////////////// END PRINT BATTLE //////////////////
+#pragma endregion PRINT BATTLE
+
+#pragma region BATTLE
+////////////////// BATTLE //////////////////
+
 void Game::battle()
 {
 	gameOver = false;
@@ -673,7 +715,7 @@ void Game::battle()
 		if (GetAsyncKeyState(VK_ESCAPE) & 1) 
 		{ 
 			if (gameOver == false) { exitBattle(); }
-			menu(); 
+			menuScreen();
 			break; 
 		}
 
@@ -862,14 +904,10 @@ void Game::exitBattle()
 }
 
 ////////////////// END BATTLE //////////////////
+#pragma endregion BATTLE
 
-inline void Game::printMenuSeparator()
-{
-	string menuSeparator = "-----------";
-	setConsoleColor(menuSeparatorColor);
-	coutCentered(menuSeparator);
-	setConsoleColor(menuColor);
-}
+#pragma region SHOP
+////////////////// SHOP //////////////////
 
 void Game::printTwoHero(int heroID_1, int heroID_2)
 {
@@ -1097,14 +1135,42 @@ void Game::printShopPrice(int heroID_1, int heroID_2)
 	
 }
 
+void Game::printSeparatorForShop(int heroID_1, int heroID_2) {
 
-void Game::showHelp(string helpText)
-{
-	setConsoleColor(helpColor);
-	setCursorPosition(consoleHeight);
-	coutCentered(helpText, 0);
+	Player player_1 = Player();
+	Player player_2 = Player();
+
+	Hero hero_1 = Hero();
+	hero_1 = hero_1.getHeroById(heroID_1);
+	player_1.setPlayerHero(hero_1);
+
+	Hero hero_2 = Hero();
+	hero_2 = hero_2.getHeroById(heroID_2);
+	player_2.setPlayerHero(hero_2);
+
+	setConsoleColor(player_1.getFrameColor());
+
+	cout.setf(ios::left);
+	cout.width(separatorTextWidth);
+	cout.fill('=');
+	cout << "=";
+
+	printEmptySeparator();
+
+	setConsoleColor(player_2.getFrameColor());
+
+	cout.setf(ios::left);
+	cout.width(separatorTextWidth);
+	cout.fill('=');
+	cout << "=" << endl;
+
+	cout.fill(' ');
 }
 
+////////////////// END SHOP //////////////////
+#pragma endregion SHOP
+
+#pragma region PRINT HEAD
 ////////////////// PRINT HEAD //////////////////
 
 inline void Game::printGameLogo()
@@ -1222,8 +1288,10 @@ inline void Game::printGameLose()
 }
 
 ////////////////// END PRINT HEAD //////////////////
+#pragma endregion PRINT HEAD
 
-////////////////// SEPARATORS //////////////////
+#pragma region UTILS
+////////////////// UTILS //////////////////
 
 void Game::printEmptySeparator()
 {
@@ -1232,57 +1300,12 @@ void Game::printEmptySeparator()
 	cout << " ";
 }
 
-void Game::printSeparatorForBattle() {
-
-	setConsoleColor(player.getFrameColor());
-
-	cout.setf(ios::left);
-	cout.width(separatorTextWidth);
-	cout.fill('=');
-	cout << "=";
-
-	printEmptySeparator();
-
-	setConsoleColor(enemy.getFrameColor());
-
-	cout.setf(ios::left);
-	cout.width(separatorTextWidth);
-	cout.fill('=');
-	cout << "=" << endl;
-
-	cout.fill(' ');
+void Game::showHelp(string helpText)
+{
+	setConsoleColor(helpColor);
+	setCursorPosition(consoleHeight);
+	coutCentered(helpText, 0);
 }
 
-void Game::printSeparatorForShop(int heroID_1, int heroID_2) {
-
-	Player player_1 = Player();
-	Player player_2 = Player();
-
-	Hero hero_1 = Hero();
-	hero_1 = hero_1.getHeroById(heroID_1);
-	player_1.setPlayerHero(hero_1);
-
-	Hero hero_2 = Hero();
-	hero_2 = hero_2.getHeroById(heroID_2);
-	player_2.setPlayerHero(hero_2);
-
-	setConsoleColor(player_1.getFrameColor());
-
-	cout.setf(ios::left);
-	cout.width(separatorTextWidth);
-	cout.fill('=');
-	cout << "=";
-
-	printEmptySeparator();
-
-	setConsoleColor(player_2.getFrameColor());
-
-	cout.setf(ios::left);
-	cout.width(separatorTextWidth);
-	cout.fill('=');
-	cout << "=" << endl;
-
-	cout.fill(' ');
-}
-
-////////////////// END SEPARATORS //////////////////
+////////////////// END UTILS //////////////////
+#pragma endregion UTILS
