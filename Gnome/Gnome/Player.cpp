@@ -56,8 +56,13 @@ void Player::setPlayerHero(Hero hero) { this->hero = hero; }
 void Player::savePlayer()
 {
 	ofstream fin;
-	string path = "../Resources/data.txt";
 
+#ifdef _DEBUG
+	string path = "../Resources/data.txt";
+#else
+	string path = "./Resources/data.txt";
+#endif
+	
 	fin.open(path, ios::out);
 	fin << this->Name << endl;
 	fin << this->Level << endl;
@@ -68,7 +73,11 @@ void Player::savePlayer()
 
 void Player::loadPlayer()
 {
+#ifdef _DEBUG
 	ifstream file("../Resources/data.txt");
+#else
+	ifstream file("./Resources/data.txt");
+#endif
 
 	while (file >> this->Name >> this->Level >> this->Stars >> this->heroId);
 }

@@ -25,7 +25,7 @@ void setConsoleAttribute()
 
 void setTitle()
 {
-	SetConsoleTitleW(L"Gnome Game");
+	SetConsoleTitleW(L"√ном: Ѕитва двух королевств");
 }
 
 void coutCentered(string text, bool isNewLine)

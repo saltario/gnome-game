@@ -1,16 +1,20 @@
-<h1 align="center">Gnome Game</h1>
+<h1 align="center">Гном: Битва двух королевств</h1>
 <h2 align="center">Изучение языка программирования C++ на создании игры</h2>
 
-<h3 align="center">Репозиторий создан в дополнение к курсу</h3>
+<h3 align="center">Репозиторий создан в дополнение к 
+    <a href="https://www.youtube.com/playlist?list=PLNBPdIRF0N_gqt2hg8PSVWq9iuX0ka8h0" target="_blank">курсу</a>
+</h3>
+
+<h3 align="center">Простая текстовая игра, написанная на языке С++, демонстрирует основные принципы разработки текстовых игр в консоли с частично интерактивным интерфейсом</h3>
+<h3 align="center">Разработка ведется с сентября 2022 года по сей день</h3>
+<h3 align="center">Текущее состояние: Прототип</h3><br>
  
-<!-- BLOG-POST-LIST:START --><table> <tr> <td> <a href="https://www.youtube.com/watch?v=7_NESVFjk_o"><img width="140px" src="https://i.ytimg.com/vi/7_NESVFjk_o/mqdefault.jpg"></a> </td> 
- <td> <a href="https://www.youtube.com/watch?v=7_NESVFjk_o">Gnome Game #1 - Архитектура будущей игры</a> <br/>Oct 31, 2022</td> </tr> </table> 
-<table> <tr> <td> <a href="https://www.youtube.com/watch?v=F1cCzSXFKCY"><img width="140px" src="https://i.ytimg.com/vi/F1cCzSXFKCY/mqdefault.jpg"></a> </td> 
- <td> <a href="https://www.youtube.com/watch?v=F1cCzSXFKCY">Gnome Game #5 - Доработка меню &lpar;часть 2&rpar;</a> <br/>Oct 31, 2022</td> </tr> </table> 
-<table> <tr> <td> <a href="https://www.youtube.com/watch?v=G05KUVujL6A"><img width="140px" src="https://i.ytimg.com/vi/G05KUVujL6A/mqdefault.jpg"></a> </td> 
- <td> <a href="https://www.youtube.com/watch?v=G05KUVujL6A">Gnome Game #9 - Оптимизация меню и рефактор</a> <br/>Oct 31, 2022</td> </tr> </table> 
-<table> <tr> <td> <a href="https://www.youtube.com/watch?v=qRo8MH9-Ym0"><img width="140px" src="https://i.ytimg.com/vi/qRo8MH9-Ym0/mqdefault.jpg"></a> </td> 
- <td> <a href="https://www.youtube.com/watch?v=qRo8MH9-Ym0">Gnome Game #15 - Исправление пути к иконке</a> <br/>Oct 31, 2022</td> </tr> </table> 
-<table> <tr> <td> <a href="https://www.youtube.com/watch?v=qqu0H19JW7Q"><img width="140px" src="https://i.ytimg.com/vi/qqu0H19JW7Q/mqdefault.jpg"></a> </td> 
- <td> <a href="https://www.youtube.com/watch?v=qqu0H19JW7Q">Gnome Game #2 - Реализация архитектуры &lpar;Часть 1&rpar;</a> <br/>Oct 31, 2022</td> </tr> </table> 
-<!-- BLOG-POST-LIST:END -->
+ <h3 align="center">
+    <img src="http://saltario.ru/wp-content/uploads/2023/01/gnome-2.png" height="600"alt="Гном: Битва двух королевств">
+    <img src="http://saltario.ru/wp-content/uploads/2023/01/gnome-1.png" height="600"alt="Гном: Битва двух королевств"> 
+    </a>
+</h3>
+
+<h3 align="center">Разработка и поддержка Вадим Шаульский (
+    <a href="anarant.75@gmail.com" target="_blank">anarant.75@gmail.com</a> )
+</h3>
