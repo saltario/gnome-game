@@ -45,10 +45,13 @@ private:
 	void settingsScreen();
 	void gameExit();
 
-	void printShopName(int heroID_1, int heroID_2);
-	void printShopHealth(int heroID_1, int heroID_2);
-	void printShopDamage(int heroID_1, int heroID_2);
-	void printShopPrice(int heroID_1, int heroID_2);
+	void printTwoHero(int heroID_1, int heroID_2, int nextLineOfHerosDiv = 0);
+	void printSeparatorForShop(int heroID_1, int heroID_2, int nextLineOfHerosDiv = 0);
+
+	void printShopName(int heroID_1, int heroID_2, int nextLineOfHerosDiv = 0);
+	void printShopHealth(int heroID_1, int heroID_2, int nextLineOfHerosDiv = 0);
+	void printShopDamage(int heroID_1, int heroID_2, int nextLineOfHerosDiv = 0);
+	void printShopPrice(int heroID_1, int heroID_2, int nextLineOfHerosDiv = 0);
 
 	inline void printMenuSeparator();
 
@@ -85,9 +88,7 @@ private:
 
 	void printEmptySeparator();
 	void printSeparatorForBattle();
-	void printSeparatorForShop(int heroID_1, int heroID_2);
 
 	void showHelp(string helpText);
-	void printTwoHero(int heroID_1, int heroID_2);
 };
 

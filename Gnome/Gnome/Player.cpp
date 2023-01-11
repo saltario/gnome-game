@@ -79,7 +79,11 @@ void Player::loadPlayer()
 	ifstream file("./Resources/data.txt");
 #endif
 
-	while (file >> this->Name >> this->Level >> this->Stars >> this->heroId);
+	if (file.is_open())
+	{
+		while (file >> this->Name >> this->Level >> this->Stars >> this->heroId);
+	}
+	else cout << "Отсутствует файл сохранения";
 }
 
 void Player::setEnemy()

@@ -5,6 +5,11 @@
 #define PLAYER_POS				 9
 
 #define SHOP_DIV				 4
+// Новая линия с героями в магазине
+// От первой линии отсупаем вниз 5 строк и печатаем новую
+#define SHOP_SECOND_LINE_HEROS	  5		
+// Первая линия с героями, немного нужно сместить
+#define SHOP_FIRST_LINE_HEROS	 -1
 
 #define SET_PLAYER_NAME_POS_X	 39
 #define SET_PLAYER_NAME_POS_Y	 8
@@ -250,10 +255,98 @@ void Game::shopScreen()
 {
 	printGameShop();
 
+	int hero_1, hero_2, hero_3, hero_4;
+
+	hero_1 = rand() % 6;
+	hero_2 = rand() % 6;
+	hero_3 = rand() % 6;
+	hero_4 = rand() % 6;
+
+	srand(time(0));
+
+	Hero tmp1 = Hero();
+	tmp1 = tmp1.getHeroById(hero_1);
+
+	Hero tmp2 = Hero();
+	tmp2 = tmp2.getHeroById(hero_2);
+
+	Hero tmp3 = Hero();
+	tmp3 = tmp3.getHeroById(hero_3);
+
+	Hero tmp4 = Hero();
+	tmp4 = tmp4.getHeroById(hero_4);
+
+	Player player = getPlayer();
+
+	printTwoHero(hero_1, hero_2, SHOP_FIRST_LINE_HEROS);
+	printTwoHero(hero_3, hero_4, SHOP_SECOND_LINE_HEROS);
+
+	setConsoleColor(textColor);
+	showConsoleCursor(false);
+
+	string playerStars = "У вас " + to_string(player.getStars()) + " звезд";
+
+	coutCentered(playerStars);
+	coutCentered("Выберите героя");
+
+	showHelp("Нажмите 1, 2, 3, 4 для выбора героя");
+
+	// Новый герой из предложенных
 	while (true)
 	{
+		if (GetAsyncKeyState(VK_NUMPAD1) & 1) 
+		{ 
+			if (player.getStars() >= tmp1.getPrice())
+			{
+				player.setPlayerHero(hero_1);
+				player.setStars(player.getStars() - tmp1.getPrice());
+				break;
+			}
+			else showHelp("Недостаточно звезд для совершения покупки");	 
+		}
+
+		if (GetAsyncKeyState(VK_NUMPAD2) & 1)
+		{
+			if (player.getStars() >= tmp2.getPrice())
+			{
+				player.setPlayerHero(hero_2);
+				player.setStars(player.getStars() - tmp2.getPrice());
+				break;
+			}
+			else showHelp("Недостаточно звезд для совершения покупки");
+		}
+
+		if (GetAsyncKeyState(VK_NUMPAD3) & 1)
+		{
+			if (player.getStars() >= tmp3.getPrice())
+			{
+				player.setPlayerHero(hero_3);
+				player.setStars(player.getStars() - tmp3.getPrice());
+				break;
+			}
+			else showHelp("Недостаточно звезд для совершения покупки");
+		}
+
+		if (GetAsyncKeyState(VK_NUMPAD4) & 1)
+		{
+			if (player.getStars() >= tmp4.getPrice())
+			{
+				player.setPlayerHero(hero_4);
+				player.setStars(player.getStars() - tmp4.getPrice());
+				break;
+			}
+			else showHelp("Недостаточно звезд для совершения покупки");
+		}
+
 		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menuScreen(); break; }
 	}
+
+	// Записываем игрока
+	setPlayer(player);
+	// Сохраняем игрока
+	player.savePlayer();
+
+	menuScreen();
 }
 
 void Game::profileScreen()
@@ -870,7 +963,7 @@ void Game::gameLose()
 void Game::choiceEnemy()
 {
 	srand(time(0));
-	unsigned int random = 1 + rand() % 6;
+	unsigned int random = rand() % 6;
 
 	enemy.setEnemy();
 	enemy.setPlayerHero(random);
@@ -909,17 +1002,17 @@ void Game::exitBattle()
 #pragma region SHOP
 ////////////////// SHOP //////////////////
 
-void Game::printTwoHero(int heroID_1, int heroID_2)
+void Game::printTwoHero(int heroID_1, int heroID_2, int nextLineOfHerosDiv)
 {
 	printSeparatorForShop(heroID_1, heroID_2);
-	printShopName(heroID_1, heroID_2);
-	printShopHealth(heroID_1, heroID_2);
-	printShopDamage(heroID_1, heroID_2);
-	printShopPrice(heroID_1, heroID_2);
+	printShopName(heroID_1, heroID_2, nextLineOfHerosDiv);
+	printShopHealth(heroID_1, heroID_2, nextLineOfHerosDiv);
+	printShopDamage(heroID_1, heroID_2, nextLineOfHerosDiv);
+	printShopPrice(heroID_1, heroID_2, nextLineOfHerosDiv);
 	printSeparatorForShop(heroID_1, heroID_2);
 }
 
-void Game::printShopName(int heroID_1, int heroID_2)
+void Game::printShopName(int heroID_1, int heroID_2, int nextLineOfHerosDiv)
 {
 	Player player_1 = Player();
 	Player player_2 = Player();
@@ -935,7 +1028,7 @@ void Game::printShopName(int heroID_1, int heroID_2)
 	string strPres = "Имя: ";
 	string strValue = player_1.getPlayerHero().getName();
 
-	setCursorPosition(HERO_NAME_POS - SHOP_DIV);
+	setCursorPosition(HERO_NAME_POS - SHOP_DIV + nextLineOfHerosDiv);
 
 	setConsoleColor(player_1.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
@@ -972,7 +1065,7 @@ void Game::printShopName(int heroID_1, int heroID_2)
 	cout << STR_CLOSE << endl;
 }
 
-void Game::printShopHealth(int heroID_1, int heroID_2)
+void Game::printShopHealth(int heroID_1, int heroID_2, int nextLineOfHerosDiv)
 {
 	Player player_1 = Player();
 	Player player_2 = Player();
@@ -988,7 +1081,7 @@ void Game::printShopHealth(int heroID_1, int heroID_2)
 	string strPres = "Здоровье: ";
 	string strValue;
 
-	setCursorPosition(HERO_HEALTH_POS - SHOP_DIV);
+	setCursorPosition(HERO_HEALTH_POS - SHOP_DIV + nextLineOfHerosDiv);
 	strValue = to_string(player_1.getPlayerHero().getHealth());
 
 	setConsoleColor(player_1.getFrameColor());
@@ -1025,7 +1118,7 @@ void Game::printShopHealth(int heroID_1, int heroID_2)
 	cout << STR_CLOSE << endl;
 }
 
-void Game::printShopDamage(int heroID_1, int heroID_2)
+void Game::printShopDamage(int heroID_1, int heroID_2, int nextLineOfHerosDiv)
 {
 	Player player_1 = Player();
 	Player player_2 = Player();
@@ -1041,7 +1134,7 @@ void Game::printShopDamage(int heroID_1, int heroID_2)
 	string strPres = "Урон: ";
 	string strValue = to_string(player_1.getPlayerHero().getDamage());
 
-	setCursorPosition(HERO_DAMAGE_POS - SHOP_DIV);
+	setCursorPosition(HERO_DAMAGE_POS - SHOP_DIV + nextLineOfHerosDiv);
 
 	setConsoleColor(player_1.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
@@ -1080,7 +1173,7 @@ void Game::printShopDamage(int heroID_1, int heroID_2)
 	printSeparatorForBattle();
 }
 
-void Game::printShopPrice(int heroID_1, int heroID_2)
+void Game::printShopPrice(int heroID_1, int heroID_2, int nextLineOfHerosDiv)
 {
 	Player player_1 = Player();
 	Player player_2 = Player();
@@ -1096,7 +1189,7 @@ void Game::printShopPrice(int heroID_1, int heroID_2)
 	string strPres = "Цена: ";
 	string strValue = to_string(player_1.getPlayerHero().getPrice());
 
-	setCursorPosition(HERO_PRICE_POS - SHOP_DIV);
+	setCursorPosition(HERO_PRICE_POS - SHOP_DIV + nextLineOfHerosDiv);
 
 	setConsoleColor(player_1.getFrameColor());
 	cout.width(STR_OPEN_CLOSE_LNG);
@@ -1135,7 +1228,7 @@ void Game::printShopPrice(int heroID_1, int heroID_2)
 	
 }
 
-void Game::printSeparatorForShop(int heroID_1, int heroID_2) {
+void Game::printSeparatorForShop(int heroID_1, int heroID_2, int nextLineOfHerosDiv) {
 
 	Player player_1 = Player();
 	Player player_2 = Player();
