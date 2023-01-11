@@ -353,8 +353,56 @@ void Game::profileScreen()
 {
 	printGameProfile();
 
+	cout.fill(' ');
+	showConsoleCursor(false);
+
+	bool refreshMenu = true;
+
+	int menuIndex = 0;
+	int menuChoice = 0;
+
 	while (true)
 	{
+		if ((GetAsyncKeyState(VK_UP) & 1) || (GetAsyncKeyState('W') & 1))
+		{
+			refreshMenu = true;
+
+			// Самый верхний элемент меню
+			if (menuIndex == 0) { menuChoice = menuIndex; }
+			else { menuIndex -= 1; menuChoice = menuIndex; }
+		}
+
+		if ((GetAsyncKeyState(VK_DOWN) & 1) || (GetAsyncKeyState('S') & 1))
+		{
+			refreshMenu = true;
+
+			// Самый нижний элемент меню
+			if (menuIndex == 1) { menuChoice = menuIndex; }
+			else { menuIndex += 1; menuChoice = menuIndex; }
+		}
+
+		if (GetAsyncKeyState(VK_SPACE) & 1)
+		{
+			system("cls");
+			if (menuChoice == 0) { playerChangeName(); }
+			if (menuChoice == 1) { menuScreen(); break; }
+		}
+
+		if (refreshMenu)
+		{
+			refreshMenu = false;
+			setConsoleColor(menuColor);
+
+			if (menuChoice == 0) { setCursorPosition(START_MENU_START_POS); coutCentered("  > Изменить имя <  "); }
+			else { setCursorPosition(START_MENU_START_POS); coutCentered("  Изменить имя  "); }
+			printMenuSeparator();
+
+			if (menuChoice == 1) { setCursorPosition(START_MENU_LOAD_POS); coutCentered("  > Мой герой <  "); }
+			else { setCursorPosition(START_MENU_LOAD_POS); coutCentered("  Мой герой  "); }
+
+			showHelp("Нажмите пробел для выбора");
+		}
+
 		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menuScreen(); break; }
 	}
 }
@@ -371,7 +419,7 @@ void Game::settingsScreen()
 
 void Game::gameExit()
 {
-
+	exit(EXIT_SUCCESS);
 }
 
 inline void Game::printMenuSeparator()
@@ -1398,6 +1446,29 @@ void Game::showHelp(string helpText)
 	setConsoleColor(helpColor);
 	setCursorPosition(consoleHeight);
 	coutCentered(helpText, 0);
+}
+
+void Game::playerChangeName()
+{
+	system("cls");
+	printGameProfile();
+
+	showConsoleCursor(true);
+	setConsoleColor(textColor);
+
+	string playerName = "player";
+	string separator = "			  ";
+
+	coutCentered("Введите имя:      ", false);
+
+	setCursorPosition(SET_PLAYER_NAME_POS_Y, SET_PLAYER_NAME_POS_X);
+	cin >> playerName;
+
+	showConsoleCursor(false);
+
+	// Новое имя игрока
+	player.setName(playerName);
+	menuScreen();
 }
 
 ////////////////// END UTILS //////////////////

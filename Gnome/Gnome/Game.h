@@ -90,5 +90,6 @@ private:
 	void printSeparatorForBattle();
 
 	void showHelp(string helpText);
+	void playerChangeName();
 };
 
