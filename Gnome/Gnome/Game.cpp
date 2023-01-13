@@ -40,15 +40,15 @@
 #define STATE_ATTACK			0
 #define STATE_HEALING			1
 
-// —колько процентов добавл€етс€ к здоровью геро€ за уровень игрока в битве
-#define PERCENT_UP_HP			2
-// —колько процентов добавл€етс€ к урону геро€ за уровень игрока в битве
-#define PERCENT_UP_DP			2
+// —колько процентов добавл€етс€ к здоровью геро€ за 10 уровеней игрока в битве
+#define PERCENT_UP_HP			10
+// —колько процентов добавл€етс€ к урону геро€ за 10 уровеней игрока в битве
+#define PERCENT_UP_DP			10
 
-// —колько процентов отнимаетс€ от здоровь€ геро€ за отрицательный уровень игрока в битве
-#define PERCENT_DOWN_HP			3
-// —колько процентов отнимаетс€ от урона геро€ за отрицательный уровень игрока в битве
-#define PERCENT_DOWN_DP			3
+// —колько процентов отнимаетс€ от здоровь€ геро€ за 10 отрицательный уровень игрока в битве
+#define PERCENT_DOWN_HP			15
+// —колько процентов отнимаетс€ от урона геро€ за 10 отрицательный уровень игрока в битве
+#define PERCENT_DOWN_DP			15
 
 Game::Game() {}
 Game::~Game() {}
@@ -387,6 +387,8 @@ void Game::aboutScreen()
 
 	coutCentered("¬ битве к здоровью геро€ начисл€етс€ " + to_string(PERCENT_UP_HP) + "% за каждый уровень");
 	coutCentered("≈сли уровень отрицательный, то отнимаетс€ " + to_string(PERCENT_DOWN_HP) + "% за каждый уровень");
+	setConsoleColor(COLORS_LIGHT_RED);
+	coutCentered("¬се проценты суммируютс€ и вступают в силу с каждым 10 уровнем");
 
 	setConsoleColor(COLORS_GREY);
 	coutCentered("------------------------------------------------------------");
@@ -394,6 +396,15 @@ void Game::aboutScreen()
 
 	coutCentered("¬ битве к урону геро€ начисл€етс€ " + to_string(PERCENT_UP_DP) + "% за каждый уровень");
 	coutCentered("≈сли уровень отрицательный, то отнимаетс€ " + to_string(PERCENT_DOWN_DP) + "% за каждый уровень");
+	setConsoleColor(COLORS_LIGHT_RED);
+	coutCentered("¬се проценты суммируютс€ и вступают в силу с каждым 10 уровнем");
+
+	setConsoleColor(COLORS_GREY);
+	coutCentered("------------------------------------------------------------");
+	setConsoleColor(COLORS_LIGHT_RED);
+
+	coutCentered("ѕри достижении 0 здоровь€ у геро€ при старте");
+	coutCentered("»гра считаетс€ проигранной");
 
 	setConsoleColor(COLORS_GREY);
 	coutCentered("------------------------------------------------------------");
@@ -832,35 +843,54 @@ void Game::printSeparatorForBattle() {
 #pragma region BATTLE
 ////////////////// BATTLE //////////////////
 
-void Game::setHeroAttributes()
+void Game::setPlayerHeroAttributes()
 {
 	Hero playerHero = Hero();
 	playerHero = player.getPlayerHero();
 
-	Hero enemyHero = Hero();
-	enemyHero = enemy.getPlayerHero();
-
 	int playerLevel = player.getLevel();
-	int heroHP = playerHero.getHealth();
-	int heroDP = playerHero.getDamage();
-
-	int heroHP1 = (1 - ((PERCENT_UP_HP * playerLevel) / 100));
+	int playerHeroHP = playerHero.getHealth();
+	int playerHeroDP = playerHero.getDamage();
 
 	if (playerLevel > 0)
 	{
-		playerHero.setHealth(heroHP * (1 + ((PERCENT_UP_HP * playerLevel) / 100)));
-		playerHero.setDamage(heroDP * (1 + ((PERCENT_UP_DP * playerLevel) / 100)));
+		playerHero.setHealth(playerHeroHP * (1 + ((PERCENT_UP_HP * abs(playerLevel)) / 100)));
+		playerHero.setDamage(playerHeroDP * (1 + ((PERCENT_UP_DP * abs(playerLevel)) / 100)));
 	}
 
 	if (playerLevel < 0)
 	{
-		playerHero.setHealth(heroHP * (1 - ((PERCENT_UP_HP * playerLevel) / 100)));
-		playerHero.setDamage(heroDP * (1 - ((PERCENT_UP_DP * playerLevel) / 100)));
+		playerHero.setHealth(playerHeroHP * (1 - ((PERCENT_UP_HP * abs(playerLevel)) / 100)));
+		playerHero.setDamage(playerHeroDP * (1 - ((PERCENT_UP_DP * abs(playerLevel)) / 100)));
 	}
 
 	player.setPlayerHero(playerHero);
 	setPlayer(player);
-	
+}
+
+void Game::setEnemyHeroAttributes()
+{
+	Hero enemyHero = Hero();
+	enemyHero = enemy.getPlayerHero();
+
+	int enemyLevel = enemy.getLevel();
+	int enemyHeroHP = enemyHero.getHealth();
+	int enemyHeroDP = enemyHero.getDamage();
+
+	if (enemyLevel > 0)
+	{
+		enemyHero.setHealth(enemyHeroHP * (1 + ((PERCENT_UP_HP * abs(enemyLevel)) / 100)));
+		enemyHero.setDamage(enemyHeroDP * (1 + ((PERCENT_UP_DP * abs(enemyLevel)) / 100)));
+	}
+
+	if (enemyLevel < 0)
+	{
+		enemyHero.setHealth(enemyHeroHP * (1 - ((PERCENT_UP_HP * abs(enemyLevel)) / 100)));
+		enemyHero.setDamage(enemyHeroDP * (1 - ((PERCENT_UP_DP * abs(enemyLevel)) / 100)));
+	}
+
+	enemy.setPlayerHero(enemyHero);
+	setEnemy(enemy);
 }
 
 void Game::battle()
@@ -869,7 +899,7 @@ void Game::battle()
 	whoAttack = 1;
 	bool nextEnemy = true;
 
-	setHeroAttributes();
+	setPlayerHeroAttributes();
 
 	Hero playerHero = Hero();
 	playerHero = player.getPlayerHero();
@@ -1094,12 +1124,14 @@ void Game::gameLose()
 void Game::choiceEnemy()
 {
 	srand(time(0));
-	unsigned int random = rand() % 6;
+	unsigned int random = 1 + rand() % 6;
 
 	enemy.setEnemy();
 	enemy.setPlayerHero(random);
 
 	setEnemy(enemy);
+	setEnemyHeroAttributes();
+
 	printBattle();
 }
 

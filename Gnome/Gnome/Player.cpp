@@ -119,7 +119,7 @@ void Player::setEnemy()
 
 	case 5:
 		this->Name = "’уелкин";
-		this->Level = 80;
+		this->Level = 30;
 		this->Stars = 1000;
 		break;
 

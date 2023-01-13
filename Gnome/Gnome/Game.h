@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ctime>
+#include <cmath>
 
 #include "Hero.h"
 #include "Player.h"
@@ -56,7 +57,8 @@ private:
 	inline void printMenuSeparator();
 
 	void battle();
-	void setHeroAttributes();
+	void setPlayerHeroAttributes();
+	void setEnemyHeroAttributes();
 	void printBattle(bool showLogo = true);
 
 	void printPlayer();
