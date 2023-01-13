@@ -56,6 +56,7 @@ private:
 	inline void printMenuSeparator();
 
 	void battle();
+	void setHeroAttributes();
 	void printBattle(bool showLogo = true);
 
 	void printPlayer();
