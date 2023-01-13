@@ -214,7 +214,7 @@ void Game::menuScreen()
 		{
 			system("cls");
 			if (menuChoice == 0) { battle(); }
-			if (menuChoice == 1) { profileScreen(); }
+			if (menuChoice == 1) { aboutScreen(); }
 			if (menuChoice == 2) { shopScreen(); }
 			if (menuChoice == 3) { settingsScreen(); }
 			if (menuChoice == 4) { gameExit(); }
@@ -229,8 +229,8 @@ void Game::menuScreen()
 			else { setCursorPosition(MENU_START_POS); coutCentered("  Старт  "); }
 			printMenuSeparator();
 
-			if (menuChoice == 1) { setCursorPosition(MENU_PROFILE_POS); coutCentered("  > Профиль <  "); }
-			else { setCursorPosition(MENU_PROFILE_POS); coutCentered("  Профиль  "); }
+			if (menuChoice == 1) { setCursorPosition(MENU_PROFILE_POS); coutCentered("  > Об игре <  "); }
+			else { setCursorPosition(MENU_PROFILE_POS); coutCentered("  Об игре  "); }
 			printMenuSeparator();
 
 			if (menuChoice == 2) { setCursorPosition(MENU_SHOP_POS); coutCentered("  > Магазин <  "); }
@@ -349,9 +349,59 @@ void Game::shopScreen()
 	menuScreen();
 }
 
-void Game::profileScreen()
+void Game::aboutScreen()
 {
-	printGameProfile();
+	printGameAbout();
+
+	cout.fill(' ');
+	showConsoleCursor(false);
+
+	setConsoleColor(COLORS_GREY);
+	coutCentered("Правила игры:");
+	coutCentered(" ");
+	setConsoleColor(textColor);
+
+	coutCentered("За каждую выигранную битву вам начисляется:");
+	coutCentered("1 уровень и 10 звезд");
+
+	setConsoleColor(COLORS_GREY);
+	coutCentered("------------------------------");
+	setConsoleColor(textColor);
+
+	coutCentered("За каждую проигранную битву у вас снимается:");
+	coutCentered("1 уровень и 10 звезд за лечение");
+
+	setConsoleColor(COLORS_GREY);
+	coutCentered("------------------------------");
+	setConsoleColor(textColor);
+
+	coutCentered("В битве к здоровью героя начисляется 10% за каждый уровень");
+	coutCentered("Если уровень отрицательный, то отнимается 10% за каждый уровень");
+
+	setConsoleColor(COLORS_GREY);
+	coutCentered("------------------------------------------------------------");
+	setConsoleColor(textColor);
+
+	coutCentered("В битве к урону героя начисляется 5% за каждый уровень");
+	coutCentered("Если уровень отрицательный, то отнимается 15% за каждый уровень");
+
+	setConsoleColor(COLORS_GREY);
+	coutCentered("------------------------------------------------------------");
+	setConsoleColor(COLORS_DEEP_BLUE);
+
+	showHelp("Игра разработана в поддержку курса", consoleHeight - 2, COLORS_DEEP_BLUE);
+	showHelp("Gnome Game - Изучаем С++ на создании игры", consoleHeight - 1,COLORS_DEEP_BLUE);
+	showHelp("Автор: Вадим Шаульский", consoleHeight, COLORS_DEEP_BLUE);
+
+	while (true)
+	{
+		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menuScreen(); break; }
+	}
+}
+
+void Game::settingsScreen()
+{
+	printGameSettings();
 
 	cout.fill(' ');
 	showConsoleCursor(false);
@@ -397,22 +447,12 @@ void Game::profileScreen()
 			else { setCursorPosition(START_MENU_START_POS); coutCentered("  Изменить имя  "); }
 			printMenuSeparator();
 
-			if (menuChoice == 1) { setCursorPosition(START_MENU_LOAD_POS); coutCentered("  > Мой герой <  "); }
-			else { setCursorPosition(START_MENU_LOAD_POS); coutCentered("  Мой герой  "); }
+			if (menuChoice == 1) { setCursorPosition(START_MENU_LOAD_POS); coutCentered("  > Другое <  "); }
+			else { setCursorPosition(START_MENU_LOAD_POS); coutCentered("  Другое  "); }
 
 			showHelp("Нажмите пробел для выбора");
 		}
 
-		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menuScreen(); break; }
-	}
-}
-
-void Game::settingsScreen()
-{
-	printGameSettings();
-
-	while (true)
-	{
 		if (GetAsyncKeyState(VK_ESCAPE) & 1) { menuScreen(); break; }
 	}
 }
@@ -1384,17 +1424,17 @@ inline void Game::printGameSettings()
 )" << '\n';
 }
 
-inline void Game::printGameProfile()
+inline void Game::printGameAbout()
 {
 	setConsoleColor(logoColor);
 
 	cout << R"(
-	  __________                _____.__.__          
-	  \______   \_______  _____/ ____\__|  |   ____  
-	  |     ___/\_  __ \/  _ \   __\|  |  | _/ __ \ 
-	  |    |     |  | \(  <_> )  |  |  |  |_\  ___/ 
-	  |____|     |__|   \____/|__|  |__|____/\___  >
-	                                              \/   
+		    _____ ___.                  __   
+		   /  _  \\_ |__   ____  __ ___/  |_ 
+		  /  /_\  \| __ \ /  _ \|  |  \   __\
+		 /    |    \ \_\ (  <_> )  |  /|  |  
+		 \____|__  /___  /\____/|____/ |__|  
+		         \/    \/                    
 )" << '\n';
 }
 
@@ -1441,17 +1481,17 @@ void Game::printEmptySeparator()
 	cout << " ";
 }
 
-void Game::showHelp(string helpText)
+void Game::showHelp(string helpText, int postion, int textColor)
 {
-	setConsoleColor(helpColor);
-	setCursorPosition(consoleHeight);
+	setConsoleColor(textColor);
+	setCursorPosition(postion);
 	coutCentered(helpText, 0);
 }
 
 void Game::playerChangeName()
 {
 	system("cls");
-	printGameProfile();
+	printGameAbout();
 
 	showConsoleCursor(true);
 	setConsoleColor(textColor);

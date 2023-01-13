@@ -40,7 +40,7 @@ private:
 	void newGame();
 	void loadGame();
 
-	void profileScreen();
+	void aboutScreen();
 	void shopScreen();
 	void settingsScreen();
 	void gameExit();
@@ -84,12 +84,12 @@ private:
 	inline void printGameBattle();
 	inline void printGameShop();
 	inline void printGameSettings();
-	inline void printGameProfile();
+	inline void printGameAbout();
 
 	void printEmptySeparator();
 	void printSeparatorForBattle();
 
-	void showHelp(string helpText);
+	void showHelp(string helpText, int postion = consoleHeight, int textColor = helpColor);
 	void playerChangeName();
 };
 
