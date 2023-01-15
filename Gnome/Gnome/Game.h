@@ -32,7 +32,7 @@ private:
 	Player getEnemy();
 	void setEnemy(Player enemy);
 
-	bool gameOver;
+	bool battleOver;
 	bool whoAttack = 1;
 	
 	void startScreen();
@@ -73,6 +73,7 @@ private:
 
 	void gameWin();
 	void gameLose();
+	void gameOver();
 
 	inline void printGameWin();
 	inline void printGameLose();
@@ -88,6 +89,7 @@ private:
 	inline void printGameShop();
 	inline void printGameSettings();
 	inline void printGameAbout();
+	inline void printGameOver();
 
 	void printEmptySeparator();
 	void printSeparatorForBattle();
