@@ -25,7 +25,7 @@ void setConsoleAttribute()
 
 void setTitle()
 {
-	SetConsoleTitleW(L"Гном: Битва двух королевств");
+	SetConsoleTitleW(L"Дуэль гномов");
 }
 
 void coutCentered(string text, bool isNewLine)
