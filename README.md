@@ -1,4 +1,4 @@
-<h1 align="center">Гном: Битва двух королевств</h1>
+<h1 align="center">Дуэль гномов</h1>
 <h2 align="center">Изучение языка программирования C++ на создании игры</h2>
 
 <h3 align="center">Репозиторий создан в дополнение к 
@@ -7,11 +7,11 @@
 
 <h3 align="center">Простая текстовая игра, написанная на языке С++, демонстрирует основные принципы разработки текстовых игр в консоли с частично интерактивным интерфейсом</h3>
 <h3 align="center">Разработка ведется с сентября 2022 года по сей день</h3>
-<h3 align="center">Текущее состояние: Прототип</h3><br>
+<h3 align="center">Текущее состояние: Альфа</h3><br>
  
  <h3 align="center">
-    <img src="http://saltario.ru/wp-content/uploads/2023/01/gnome-2.png" height="600"alt="Гном: Битва двух королевств">
-    <img src="http://saltario.ru/wp-content/uploads/2023/01/gnome-1.png" height="600"alt="Гном: Битва двух королевств"> 
+    <img src="http://saltario.ru/wp-content/uploads/2023/01/gnome-1-1.png" height="600"alt="Гном: Битва двух королевств">
+    <img src="http://saltario.ru/wp-content/uploads/2023/01/gnome-2-1.png" height="600"alt="Гном: Битва двух королевств"> 
     </a>
 </h3>
 
