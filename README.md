@@ -1,7 +1,7 @@
 <h1 align="center">Дуэль гномов</h1>
 <h2 align="center">Изучение языка программирования C++ на создании игры</h2>
 
-<h3 align="center">Репозиторий создан в дополнение к 
+<h3 align="center">Репозиторий создан в дополнение к записанному мною
     <a href="https://www.youtube.com/playlist?list=PLNBPdIRF0N_gqt2hg8PSVWq9iuX0ka8h0" target="_blank">курсу</a>
 </h3>
 
